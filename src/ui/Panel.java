@@ -14,10 +14,11 @@ public class Panel extends JPanel implements ActionListener{
 	
 	public static int WIN_WIDTH = 200;
 	public static int WIN_HEIGHT = 200;
-	public static int current = 0;
+	public static int current = 0, step = 1;
+	public static double _x, _y;
 	Timer timer;
 
-	Robot robot = new Robot(0, 0, Direction.North);
+	Robot robot = new Robot(50, 0, Direction.North);
 	
 	public static int SCALE = 4;
 	
@@ -46,25 +47,48 @@ public class Panel extends JPanel implements ActionListener{
 		
 		switch(current) {
 		case 0:
-			if(robot.moveStraight(0, 80)) {
+			if(robot.moveStraight(50, 40)) {
 				current++;
 			}
 			break;
 		case 1:
-			if(robot.moveStraight(100, 80)) {
+			step = robot.turnLeft(true, step);
+			if(step > 10) {
 				current++;
+				step = 1;
 			}
 			break;
 		case 2:
-			if(robot.moveStraight(70, 60)) {
+			step = robot.turnLeft(true, step);
+			if(step > 10) {
 				current++;
+				step = 1;
 			}
 			break;
 		case 3:
-			if(robot.moveStraight(160, 20)) {
+			step = robot.turnLeft(true, step);
+			if(step > 10) {
+				current++;
+				step = 1;
+			}
+			break;
+//		case 4:
+//			step = robot.turnLeft(true, step);
+//			if(step > 10) {
+//				current++;
+//				step = 1;
+//			}
+//			break;
+		case 4:
+			if(robot.moveStraight(180, 35)) {
 				current++;
 			}
 			break;
+//		case 3:
+//			if(robot.moveStraight(70, 60)) {
+//				current++;
+//			}
+//			break;
 		}									
 	}
 	
