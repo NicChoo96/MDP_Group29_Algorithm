@@ -96,24 +96,24 @@ public class Robot {
 	
 	public boolean moveStraight(double destX, double destY) {
 		
-		System.out.println(x0);
-		System.out.println(y0);
+//		System.out.println(x0);
+//		System.out.println(y0);
 		
 		if(velocityX == 0 && velocityY == 0)
 		{
 			velocityX = (destX - x0) / calculateDistance(destX, destY);
 			velocityY = (destY - y0) / calculateDistance(destX, destY);
 			
-			System.out.println(velocityX);
-			System.out.println(velocityY);
+//			System.out.println(velocityX);
+//			System.out.println(velocityY);
 			
 			
 		}
 		
 		if(calculateDistance(destX, destY) <= 1) {
 			
-			System.out.println((destX - x0) / calculateDistance(destX, destY));
-			System.out.println((destY - y0) / calculateDistance(destX, destY));
+//			System.out.println((destX - x0) / calculateDistance(destX, destY));
+//			System.out.println((destY - y0) / calculateDistance(destX, destY));
 			
 			x0 = destX;
 			y0 = destY;
@@ -137,8 +137,8 @@ public class Robot {
 			_y3 = y3;
 			_y3 = y3;
 			
-			System.out.println(x0);
-			System.out.println(y0);
+//			System.out.println(x0);
+//			System.out.println(y0);
 			
 			return true;
 		}

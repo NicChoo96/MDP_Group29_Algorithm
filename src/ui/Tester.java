@@ -1,5 +1,8 @@
 package ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -30,5 +33,31 @@ public class Tester {
 	
 	public static void main(String[] args) {
 		new Tester();
+		
+		List<Grid> path = new ArrayList<Grid>();
+		path.add(new Grid(10, 10, 0, false));
+		path.add(new Grid(20, 10, 0, false));
+		path.add(new Grid(30, 10, 0, false));
+		path.add(new Grid(40, 10, 0, false));
+		path.add(new Grid(40, 20, 0, false));
+		path.add(new Grid(40, 30, 0, false));
+		path.add(new Grid(30, 30, 0, false));
+		path.add(new Grid(20, 30, 0, false));
+		
+		List<List<Grid>> simplifiedPath = new ArrayList<List<Grid>>();
+		simplifiedPath = Pathing.Simplify_Path(path);
+		
+		for(List<Grid> subPath : simplifiedPath)
+		{
+			
+//			System.out.println(simplifiedPath.size());
+			System.out.println("----------");
+			
+			for(Grid grid : subPath)
+			{
+				System.out.println(grid.x + " " + grid.y);
+			}
+			
+		}
 	}
 }
