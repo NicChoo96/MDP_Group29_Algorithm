@@ -3,7 +3,11 @@ package ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import algo.Cell;
+import algo.Obstacle;
+import algo.Pathing;
 import algo.Robot;
+import algo.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.PathTransition;
@@ -36,27 +40,30 @@ public class UIRobot {
 	
 	private Rectangle robot = new Rectangle();
 	private double x, y, panelHeight, scaling, _x, _y;
-	private char direction = 'N';
-	private double duration = 4000;
-	private double arc = 160;
+	private char direction = 'W';
+	private double duration = 2000;
+	private double arc = 100;
+	public boolean finished = false;
 	
-	public UIRobot (Pane pane, double panelHeight, double scaling, double startX, double startY) {
+	public UIRobot (Pane pane, double panelHeight, double scaling, char direction, double startX, double startY) {
 		
 		this.panelHeight = panelHeight;
 		this.scaling = scaling;
 		    	
-    	robot.setX(5 * scaling);
-    	robot.setY((panelHeight - 20) * scaling);
+		this.direction = direction;
+		
+    	this.setX(startX * scaling);
+    	this.setY((panelHeight - startY) * scaling);
+    	
+    	robot.setX(startX * scaling);
+    	robot.setY((panelHeight - startY) * scaling);
     	robot.setWidth(20 * scaling);
-    	robot.setHeight(20 * scaling);
+    	robot.setHeight(20 * scaling);   	
     	
     	Stop[] stops = new Stop[] { new Stop(0, Color.BLACK), new Stop(1, Color.RED)};
         LinearGradient lg1 = new LinearGradient(1, 0, 0, 0, true, CycleMethod.NO_CYCLE, stops);
     	
         robot.setFill(lg1);
-        
-    	x = startX;
-    	y = startY;
     	
 		pane.getChildren().add(robot);
 	}
@@ -65,243 +72,22 @@ public class UIRobot {
 		return robot;
 	}
 	
-	public void executeCommand2(List<Command> commandList)
+	public SequentialTransition executeCommand(List<Command> commandList)
 	{
-		List<PathTransition> pathTransitionList = new ArrayList<PathTransition>();
-		Path path = new Path();
-		path.getElements().add(new MoveTo(60, 740));	
-		
-		for(int i = 0; i < commandList.size(); i++)
-		{
-			Command command = commandList.get(i);
-			
-			x = command.getDestX() * scaling;
-			y = (panelHeight - command.getDestY()) * scaling;
-			
-//			System.out.println(x + " , " + y);
-			
-			if(command.getForwardBack() == 1)
-			{							
-				if(command.getLeftRight() == 0)
-				{			
-					path.getElements().add(new LineTo(x, y));
-					
-					PathTransition pt = new PathTransition();
-					pt.setNode(robot);
-					pt.setDuration(Duration.millis(5000));
-					pt.setPath(path);
-					pt.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
-					pathTransitionList.add(pt);
-				}
-				else if(command.getLeftRight() == -1)
-				{	
-					ArcTo arcTo = new ArcTo();
-					arcTo.setRadiusX(arc);
-					arcTo.setRadiusY(arc);
-					
-					switch(this.direction)
-					{
-					case('N'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'W';
-						break;
-					case('S'):
-						arcTo.setX(x);
-					arcTo.setY(y);
-						direction = 'E';
-						break;
-					case('E'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'N';
-						break;
-					case('W'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'S';
-						break;
-					}
-					
-					path.getElements().add(arcTo);	
-					
-					PathTransition pt = new PathTransition();
-					pt.setNode(robot);
-					pt.setDuration(Duration.millis(5000));
-					pt.setPath(path);
-					pt.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
-					pathTransitionList.add(pt);
-					
-				}
-				else
-				{
-					ArcTo arcTo = new ArcTo();
-					arcTo.setRadiusX(arc);
-					arcTo.setRadiusY(arc);
-					arcTo.setSweepFlag(true);
-					
-					switch(this.direction)
-					{
-					case('N'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'E';
-						break;
-					case('S'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'W';
-						break;
-					case('E'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'S';
-						break;
-					case('W'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'N';
-						break;
-					}
-					
-					path.getElements().add(arcTo);	
-					
-					PathTransition pt = new PathTransition();
-					pt.setNode(robot);
-					pt.setDuration(Duration.millis(5000));
-					pt.setPath(path);
-					pt.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
-					pathTransitionList.add(pt);
-				}
-			}
-			else //Backwards
-			{
-				if(command.getLeftRight() == 0)
-				{			
-					path.getElements().add(new LineTo(x, y));
-					
-					PathTransition pt = new PathTransition();
-					pt.setNode(robot);
-					pt.setDuration(Duration.millis(5000));
-					pt.setPath(path);
-					pt.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
-					pt.setInterpolator(ReverseInterpolator.reverse(pt.getInterpolator()));
-					pathTransitionList.add(pt);
-				}
-				else if(command.getLeftRight() == -1)
-				{	
-					ArcTo arcTo = new ArcTo();
-					arcTo.setRadiusX(arc);
-					arcTo.setRadiusY(arc);
-					
-					switch(this.direction)
-					{
-					case('N'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'W';
-						break;
-					case('S'):
-						arcTo.setX(x);
-					arcTo.setY(y);
-						direction = 'E';
-						break;
-					case('E'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'N';
-						break;
-					case('W'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'S';
-						break;
-					}
-					
-					path.getElements().add(arcTo);		
-				}
-				else
-				{
-					ArcTo arcTo = new ArcTo();
-					arcTo.setRadiusX(arc);
-					arcTo.setRadiusY(arc);
-					arcTo.setSweepFlag(true);
-					
-					switch(this.direction)
-					{
-					case('N'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'E';
-						break;
-					case('S'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'W';
-						break;
-					case('E'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'S';
-						break;
-					case('W'):
-						arcTo.setX(x);
-						arcTo.setY(y);
-						direction = 'N';
-						break;
-					}
-					
-					path.getElements().add(arcTo);	
-				}
-			}
-		}
-		
-		SequentialTransition st = new SequentialTransition();
-//		PathTransition pathTransition = new PathTransition();
-//		pathTransition.setNode(robot);
-//		pathTransition.setDuration(Duration.millis(5000));
-//		pathTransition.setPath(path);
-//		pathTransition.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
-//		pathTransition.setCycleCount(999);
-//		pathTransition.setInterpolator(ReverseInterpolator.reverse(pathTransition.getInterpolator()));
-//		st.getChildren().add(pathTransition);
-		for(PathTransition pathT : pathTransitionList)
-		{
-			System.out.println("test");
-			st.getChildren().add(pathT);
-		}
-		st.setCycleCount(1);
-		st.play();
-	}
-	
-	public void executeCommand3(List<Command> commandList)
-	{
-		List<PathTransition> pathTransitionList = new ArrayList<PathTransition>();	
+		List<PathTransition> pathTransitionList = new ArrayList<PathTransition>();		
 		
 		for(int i = 0; i < commandList.size(); i++)
 		{
 			Command command = commandList.get(i);
 			Path path = new Path();
+			
+			if(command.getParameter() == 0)
+			{
+				continue;
+			}			
 
-			if(i == 0)
-			{
-				_x = x * scaling;
-				_y = (panelHeight - y) * scaling;
-				
-				x = command.getDestX() * scaling;
-				y = (panelHeight - command.getDestY()) * scaling;
-			}
-			else
-			{
-				_x = x;
-				_y = y;
-				x = command.getDestX() * scaling;
-				y = (panelHeight - command.getDestY()) * scaling;
-			}
-			
-			
-			
-//			System.out.println(x + " , " + y);
+			_x = x;
+			_y = y;
 			
 			if(command.getForwardBack() == 1)
 			{							
@@ -309,6 +95,23 @@ public class UIRobot {
 				{						
 					
 					path.getElements().add(new MoveTo(_x, _y));
+					
+					switch(direction)
+					{
+					case 'N':
+						y -= command.getParameter() * scaling;
+						break;
+					case 'S':
+						y += command.getParameter() * scaling;
+						break;
+					case 'E':
+						x += command.getParameter() * scaling;
+						break;
+					case 'W':
+						x -= command.getParameter() * scaling;
+						break;	
+					}
+
 					path.getElements().add(new LineTo(x, y));
 					
 					PathTransition pt = new PathTransition();
@@ -321,21 +124,29 @@ public class UIRobot {
 				else if(command.getLeftRight() == -1)
 				{	
 					ArcTo arcTo = new ArcTo();
-					arcTo.setRadiusX(arc);
-					arcTo.setRadiusY(arc);
+					arcTo.setRadiusX(command.getParameter()  * scaling);
+					arcTo.setRadiusY(command.getParameter()  * scaling);
 					
 					switch(this.direction)
 					{
 					case('N'):
+						x -= command.getParameter() * scaling;
+						y -= command.getParameter() * scaling;
 						direction = 'W';
 						break;
 					case('S'):
+						x += command.getParameter() * scaling;
+						y += command.getParameter() * scaling;
 						direction = 'E';
 						break;
 					case('E'):
+						x += command.getParameter() * scaling;
+						y -= command.getParameter() * scaling;
 						direction = 'N';
 						break;
 					case('W'):
+						x -= command.getParameter() * scaling;
+						y += command.getParameter() * scaling;
 						direction = 'S';
 						break;
 					}					
@@ -356,22 +167,30 @@ public class UIRobot {
 				else
 				{
 					ArcTo arcTo = new ArcTo();
-					arcTo.setRadiusX(arc);
-					arcTo.setRadiusY(arc);
+					arcTo.setRadiusX(command.getParameter()  * scaling);
+					arcTo.setRadiusY(command.getParameter()  * scaling);
 					arcTo.setSweepFlag(true);
 					
 					switch(this.direction)
 					{
 					case('N'):
+						x += command.getParameter() * scaling;
+						y -= command.getParameter() * scaling;
 						direction = 'E';
 						break;
 					case('S'):
+						x -= command.getParameter() * scaling;
+						y += command.getParameter() * scaling;
 						direction = 'W';
 						break;
 					case('E'):
+						x += command.getParameter() * scaling;
+						y += command.getParameter() * scaling;
 						direction = 'S';
 						break;
 					case('W'):
+						x -= command.getParameter() * scaling;
+						y -= command.getParameter() * scaling;
 						direction = 'N';
 						break;
 					}					
@@ -393,8 +212,25 @@ public class UIRobot {
 			else //Backwards
 			{
 				if(command.getLeftRight() == 0)
-				{								
-					path.getElements().add(new MoveTo(x, y));		
+				{				
+					switch(direction)
+					{
+					case 'N':
+						y += command.getParameter() * scaling;
+						break;
+					case 'S':
+						y -= command.getParameter() * scaling;
+						break;
+					case 'E':
+						x -= command.getParameter() * scaling;
+						break;
+					case 'W':
+						x += command.getParameter() * scaling;
+						break;	
+					}
+				
+					path.getElements().add(new MoveTo(x, y));								
+					
 					path.getElements().add(new LineTo(_x, _y));
 										
 					PathTransition pt = new PathTransition();
@@ -414,18 +250,26 @@ public class UIRobot {
 					switch(this.direction)
 					{
 					case('N'):
-						direction = 'W';
-						break;
-					case('S'):
+						x -= command.getParameter() * scaling;
+						y += command.getParameter() * scaling;
 						direction = 'E';
 						break;
-					case('E'):
-						direction = 'N';
+					case('S'):
+						x += command.getParameter() * scaling;
+						y -= command.getParameter() * scaling;
+						direction = 'W';
 						break;
-					case('W'):
+					case('E'):
+						x -= command.getParameter() * scaling;
+						y -= command.getParameter() * scaling;
 						direction = 'S';
 						break;
-					}				
+					case('W'):
+						x += command.getParameter() * scaling;
+						y += command.getParameter() * scaling;					
+						direction = 'N';
+						break;
+					}		
 					
 					arcTo.setX(_x);
 					arcTo.setY(_y);
@@ -451,16 +295,24 @@ public class UIRobot {
 					switch(this.direction)
 					{
 					case('N'):
-						direction = 'E';
-						break;
-					case('S'):
+						x += command.getParameter() * scaling;
+						y += command.getParameter() * scaling;
 						direction = 'W';
 						break;
+					case('S'):
+						x -= command.getParameter() * scaling;
+						y -= command.getParameter() * scaling;
+						direction = 'E';
+						break;
 					case('E'):
-						direction = 'S';
+						x -= command.getParameter() * scaling;
+						y += command.getParameter() * scaling;
+						direction = 'N';
 						break;
 					case('W'):
-						direction = 'N';
+						x += command.getParameter() * scaling;
+						y -= command.getParameter() * scaling;
+						direction = 'S';
 						break;
 					}					
 					
@@ -488,14 +340,23 @@ public class UIRobot {
 			st.getChildren().add(pathT);
 		}
 		st.setCycleCount(1);
-		st.play();
+		
+//		st.play();
+		
+		return st;
 	}
 	
-//	private static void movePivot(Node node, double x, double y){
-//        node.getTransforms().add(new Translate(-x,-y));
-//        node.setTranslateX(x); 
-//        node.setTranslateY(y);
-//    }
+	public void executeCommands(List<List<Cell>> aPath, Robot robot, Map map, List<Obstacle> obstacleList)
+	{		
+		SequentialTransition finalAnimation = new SequentialTransition();
+		
+		for(int i = 0; i < aPath.size(); i++)
+		{
+			finalAnimation.getChildren().add(executeCommand(Pathing.createPath(Pathing.Simplify_Path(aPath.get(i)), robot, map, obstacleList.get(i))));
+		}
+		
+		finalAnimation.play();
+	}
 	
 	public void setX(double x) {
 		this.x = x;
@@ -503,5 +364,15 @@ public class UIRobot {
 	
 	public void setY(double y) {
 		this.y = y;
+	}
+	
+	public double getX()
+	{
+		return x;
+	}
+	
+	public double getY()
+	{
+		return y;
 	}
 }

@@ -2,6 +2,8 @@ package algo;
 
 import java.util.*;
 
+import ui.Command;
+
 public class MapTester {
     public static void main(String[] args) {
         Map testMap = new Map();
@@ -69,42 +71,53 @@ public class MapTester {
                     nodeNumbers.get(sequence.get(i + 1)).getX(), nodeNumbers.get(sequence.get(i + 1)).getY());
         }
         
-        List<List<Cell>> simpliedPath = new ArrayList<List<Cell>>();
-        List<Cell> testPath = new ArrayList<Cell>();
-        
-        
-        testPath.add(new Cell(12, 6));
-        testPath.add(new Cell(13, 6));
-        testPath.add(new Cell(14, 6));
-        testPath.add(new Cell(15, 6));
-//        testPath.add(new Cell(15, 5));
-//        testPath.add(new Cell(15, 4));
-//        testPath.add(new Cell(15, 3));
-        testPath.add(new Cell(15, 7));
-//        testPath.add(new Cell(15, 8));
-//        testPath.add(new Cell(15, 9));	
-        
-        robot.setDirection('W');
-        
-        simpliedPath = Pathing.Simplify_Path(testPath);
-        for(List<Cell> subPath : simpliedPath)
-        {
-        	System.out.println("Subpath");
-        	for(Cell cell : subPath)
-        	{
-        		System.out.println(cell.getX() + "," + cell.getY());
-        	}
-        }        
-        
-        Pathing.createPath2(simpliedPath, robot, testMap);
-        List<int[]> pointList = Pathing.getPoints(simpliedPath);
-        
-        System.out.println();
-        
-        for(int[] point : pointList)
-        {
-        	System.out.println("Points to go to: " + point[0] + " , " + point[1]);
-        }
+//        List<List<Cell>> simpliedPath = new ArrayList<List<Cell>>();
+//        List<Cell> testPath = new ArrayList<Cell>();
+              
+//        testPath.add(new Cell(5, 3));
+//        testPath.add(new Cell(5, 4));
+//        testPath.add(new Cell(5, 5));
+//        testPath.add(new Cell(6, 5));
+//        testPath.add(new Cell(7, 5));
+//        testPath.add(new Cell(7, 6));
+//        testPath.add(new Cell(7, 7));
+//        testPath.add(new Cell(7, 8));
+//        testPath.add(new Cell(7, 9));
+//        testPath.add(new Cell(7, 10));
+//        testPath.add(new Cell(6, 10));
+//        testPath.add(new Cell(5, 10));
+//        testPath.add(new Cell(4, 10));
+//        testPath.add(new Cell(3, 10));
+//        testPath.add(new Cell(2, 10));
+//	
+//        
+//        robot.setDirection('N');
+//        
+//        simpliedPath = Pathing.Simplify_Path(testPath);
+//        for(List<Cell> subPath : simpliedPath)
+//        {
+//        	System.out.println("Subpath");
+//        	for(Cell cell : subPath)
+//        	{
+//        		System.out.println(cell.getX() + "," + cell.getY());
+//        	}
+//        }        
+//        
+//        List<Command> commands = Pathing.createPath(simpliedPath, robot, testMap, new Obstacle(14, 14, 'E'));
+//        
+//        for(Command command : commands)
+//        {
+//        	System.out.println(command.getForwardBack() + " , " + command.getLeftRight() + " , "  + command.getDestX() + " , " + command.getDestY());
+//        }
+//        
+//        List<int[]> pointList = Pathing.getPoints(simpliedPath);
+//        
+//        System.out.println();
+//        
+//        for(int[] point : pointList)
+//        {
+//        	System.out.println("Points to go to: " + point[0] + " , " + point[1]);
+//        }
         
     }
 

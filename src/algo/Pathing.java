@@ -50,129 +50,7 @@ public class Pathing {
 		simplifiedPath.add(subPath);
 		
 		return simplifiedPath;
-	}
-	
-//	public static void createPath(List<List<Cell>> simplifiedPath, Robot robot, Map map)
-//	{
-//		int directionX = 0;
-//		int directionY = 0;
-//		int offset = 1; //Offset to be used when turning
-//		
-//		Cell[][] grid = map.getGrid();
-//		
-//		List<int[]> directionList = new ArrayList<int[]>();
-//		
-//		for(int i = 0; i < simplifiedPath.size(); i++)
-//		{
-//			List<Cell> subPath = simplifiedPath.get(i);
-//			
-//			if(subPath.size() > 1)
-//			{
-//				directionX = subPath.get(subPath.size() - 1).getX() - subPath.get(0).getX();
-//				directionY = subPath.get(subPath.size() - 1).getY() - subPath.get(0).getY();
-//			}
-//			
-//			else
-//			{
-//				directionX = subPath.get(0).getX() - simplifiedPath.get(i - 1).get(simplifiedPath.get(i - 1).size() - 1).getX();
-//				directionY = subPath.get(0).getY() - simplifiedPath.get(i - 1).get(simplifiedPath.get(i - 1).size() - 1).getY();
-//			}
-//			
-//			if(directionX > 0 && directionY == 0)
-//			{
-//				directionList.add(new int[] {1, 0});
-//			}
-//			
-//			if(directionX < 0 && directionY == 0)
-//			{
-//				directionList.add(new int[] {-1, 0});
-//			}
-//			
-//			if(directionX == 0 && directionY > 0)
-//			{
-//				directionList.add(new int[] {0, 1});
-//			}
-//			
-//			if(directionX == 0 && directionY < 0)
-//			{
-//				directionList.add(new int[] {0, -1});
-//			}
-//			
-//			System.out.println("Directions: " + directionList.get(i)[0] + " , " + directionList.get(i)[1]);
-//		}
-//		
-//		for(int i = 0; i < simplifiedPath.size() - 1; i++)
-//		{
-//			List<Cell> subPath = simplifiedPath.get(i);
-//			Cell turningPoint = subPath.get(subPath.size() - 1); //Last cell in the subpath
-//			
-//			System.out.println("------------------------");
-//			System.out.println("Robot direction: " + robot.getDirectionX() + ", " + robot.getDirectionY());//Debugging
-//			System.out.println("Path direction: " + directionList.get(i)[0] + ", " + directionList.get(i)[1]);
-//			System.out.println("Turning point: " + turningPoint.getX() + "," + turningPoint.getY()); 
-//			
-//			if(oppositeDirection(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i)[0], directionList.get(i)[1])) //Robot direction opposite as path direction
-//			{
-//				System.out.println("Robot facing wrong way");
-//				
-//				if(checkEmptySpace(grid, turningPoint, directionList.get(i)[0], directionList.get(i)[1], offset) == true) //Check along current path, if there is space
-//				{	
-//					System.out.println("There is space along the current path to perform a move back and turn");
-//					if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i)[0], directionList.get(i)[1]) > 0) //Move beyond the path backwards and then turn left
-//					{
-//						moveBackTurnLeft(robot);
-//					}
-//					else //Move beyond the path backwards and then turn left
-//					{
-//						moveBackTurnRight(robot);
-//					}
-//				}
-//				else if(checkEmptySpace(grid, turningPoint, directionList.get(i + 1)[0], directionList.get(i + 1)[1], -offset) == true) //Check in the opposite direction of the next path, if there is space
-//				{	
-//					System.out.println("There is space along the next path to perform a backwards turn");
-//					if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) > 0) //Turn Right Backwards
-//					{
-//						turnRightBackwards(robot);
-//					}
-//					else //Turn Left Backwards
-//					{
-//						turnLeftBackwards(robot);
-//					}	
-//				}
-//				else //No space at all, keep moving backwards and try again when there is another turn
-//				{
-//					System.out.println("No space at all, check next turn");
-//					if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) < 0)
-//					{
-//						turnRightBackwards(robot);
-//					}
-//					else //Turn Left Backwards
-//					{
-//						turnLeftBackwards(robot);
-//					}	
-//				}
-//			}
-//			else	//Correct orientation
-//			{				
-//				if(i != simplifiedPath.size() - 1)
-//				{
-//					if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) > 0) //Turn Left
-//					{
-//						turnLeft(robot);
-//					}
-//					else //Turn Right
-//					{
-//						turnRight(robot);
-//					}
-//				}				
-//			}
-//		}
-//		
-//		if(robot.getDirectionX() != directionList.get(directionList.size() - 1)[0] && robot.getDirectionY() != directionList.get(directionList.size() - 1)[1])  //No more turns left but robot is still not in the correct direction
-//		{
-//			//Do emergency turning
-//		}
-//	}
+	}	
 	
 	public static boolean oppositeDirection(int directionX, int directionY, int _directionX, int _directionY)
 	{
@@ -252,9 +130,10 @@ public class Pathing {
 		int y = turningPoint[1];
 		
 		//Convert from point to cell
-		x = x/10;
-		y = y/10;	
 		
+		x = x/10;
+		y = y/10;
+	
 		if(offset == 0)
 		{
 			return grid[MapConstants.MAP_ROWS - y - 1 - directionY][x + directionX].isTraversable;
@@ -263,7 +142,7 @@ public class Pathing {
 		if(offset < 0)
 		{
 			for(int i = 1; i <= Math.abs(offset); i++)
-			{	
+			{		
 				if(grid[MapConstants.MAP_ROWS - y - 1 - (directionY * -i)][x + (directionX * -i)].isTraversable == false)
 				{
 					return false;
@@ -273,6 +152,42 @@ public class Pathing {
 		
 		for(int i = 1; i <= offset; i++)
 		{	
+			if(grid[MapConstants.MAP_ROWS - y - 1 - (directionY * i)][x + (directionX * i)].isTraversable == false)
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public static boolean checkEmptySpace3(Cell[][] grid, int[] turningPoint, int directionX, int directionY, int offset)
+	{
+		int x = turningPoint[0];
+		int y = turningPoint[1];
+		
+		//Convert from point to cell
+		
+		x = x/10;
+		y = y/10;		
+		
+		if(offset < 0)
+		{
+			offset = (-offset + 10)/10;
+			
+			for(int i = 1; i <= Math.abs(offset); i++)
+			{			
+				if(grid[MapConstants.MAP_ROWS - y - 1 - (directionY * -i)][x + (directionX * -i)].isTraversable == false)
+				{
+					return false;
+				}
+			}
+		}
+		
+		for(int i = 1; i <= offset; i++)
+		{	
+			offset = (offset + 10)/10;
+			
 			if(grid[MapConstants.MAP_ROWS - y - 1 - (directionY * i)][x + (directionX * i)].isTraversable == false)
 			{
 				return false;
@@ -300,37 +215,29 @@ public class Pathing {
 		}
 	}
 	
-	public static void moveForwards(Robot robot, int distance)	//Dummy function
+	public static Command moveForwards(Robot robot, int distance)
 	{
 		robot.centerX += robot.getDirectionX() * distance;
 		robot.centerY += robot.getDirectionY() * distance;
 		
 		System.out.println("Moving forward " + distance);
 		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY); 
+		
+		return new Command(1, 0, distance);
 	}
 	
-	public static void moveBackwards(Robot robot, int distance)	//Dummy function
+	public static Command moveBackwards(Robot robot, int distance)
 	{
 		robot.centerX -= robot.getDirectionX() * distance;
 		robot.centerY -= robot.getDirectionY() * distance;
 		
 		System.out.println("Moving backwards " + distance);
-		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY); 
+		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY);
+		
+		return new Command(-1, 0, distance);
 	}
-	
-	public static void moveBackTurnLeft(Robot robot, int distance, int turningRadius)
-	{
-		moveBackwards(robot, distance);
-		turnLeft(robot, turningRadius);
-	}
-	
-	public static void moveBackTurnRight(Robot robot, int distance, int turningRadius)
-	{
-		moveBackwards(robot, distance);
-		turnRight(robot, turningRadius);
-	}
-	
-	public static void turnLeft(Robot robot, int turningRadius)	//Dummy function
+			
+	public static Command turnLeft(Robot robot, int turningRadius)
 	{
 		int directionX = robot.getDirectionX();
 		int directionY = robot.getDirectionY();
@@ -367,10 +274,12 @@ public class Pathing {
 		robot.centerY = robot.centerY + (newDirectionY * turningRadius);
 		
 		System.out.println("Turning left");
-		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY); 
+		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY);
+		
+		return new Command(1, -1, turningRadius);
 	}
 	
-	public static void turnRight(Robot robot, int turningRadius)	//Dummy function
+	public static Command turnRight(Robot robot, int turningRadius)
 	{
 		int directionX = robot.getDirectionX();
 		int directionY = robot.getDirectionY();
@@ -407,15 +316,17 @@ public class Pathing {
 		robot.centerY = robot.centerY + (newDirectionY * turningRadius);
 		
 		System.out.println("Turning right");
-		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY); 
+		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY);
+		
+		return new Command(1, 1, turningRadius);
 	}
 	
-	public static void turnLeftBackwards(Robot robot, int turningRadius)	//Dummy function
+	public static Command turnLeftBackwards(Robot robot, int turningRadius)
 	{
 		int directionX = robot.getDirectionX();
 		int directionY = robot.getDirectionY();
 		int newDirectionX = robot.getDirectionX();
-		int newDirectionY = robot.getDirectionY();
+		int newDirectionY = robot.getDirectionY();		
 		
 		if(directionX == 0 && directionY == 1)
 		{
@@ -443,19 +354,21 @@ public class Pathing {
 		
 		robot.centerX = robot.centerX + (-directionX * turningRadius);
 		robot.centerY = robot.centerY + (-directionY * turningRadius);
-		robot.centerX = robot.centerX + (newDirectionX * turningRadius);
-		robot.centerY = robot.centerY + (newDirectionY * turningRadius);
+		robot.centerX = robot.centerX + (-newDirectionX * turningRadius);
+		robot.centerY = robot.centerY + (-newDirectionY * turningRadius);
 		
 		System.out.println("Turning left backwards");
 		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY); 
+		
+		return new Command(-1, -1, turningRadius);
 	}
 	
-	public static void turnRightBackwards(Robot robot, int turningRadius)	//Dummy function
+	public static Command turnRightBackwards(Robot robot, int turningRadius)
 	{
 		int directionX = robot.getDirectionX();
 		int directionY = robot.getDirectionY();
 		int newDirectionX = robot.getDirectionX();
-		int newDirectionY = robot.getDirectionY();
+		int newDirectionY = robot.getDirectionY();		
 		
 		if(directionX == 0 && directionY == 1)
 		{
@@ -483,11 +396,13 @@ public class Pathing {
 		
 		robot.centerX = robot.centerX + (-directionX * turningRadius);
 		robot.centerY = robot.centerY + (-directionY * turningRadius);
-		robot.centerX = robot.centerX + (newDirectionX * turningRadius);
-		robot.centerY = robot.centerY + (newDirectionY * turningRadius);
+		robot.centerX = robot.centerX + (-newDirectionX * turningRadius);
+		robot.centerY = robot.centerY + (-newDirectionY * turningRadius);
 		
 		System.out.println("Turning right backwards");
-		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY); 
+		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY);
+		
+		return new Command(-1, 1, turningRadius);
 	}	
 	
 	public static List<int[]> getPoints(List<List<Cell>> simplifiedPath)
@@ -517,7 +432,7 @@ public class Pathing {
 		return pointList;
 	}
 	
-	public static void createPath2(List<List<Cell>> simplifiedPath, Robot robot, Map map)
+	public static List<Command> createPath(List<List<Cell>> simplifiedPath, Robot robot, Map map, Obstacle obstacleDestination)
 	{
 		int directionX = 0;
 		int directionY = 0;
@@ -527,13 +442,28 @@ public class Pathing {
 		Cell[][] grid = map.getGrid();
 		
 		List<int[]> directionList = new ArrayList<int[]>();
-		List<int[]> pointList = getPoints(simplifiedPath);
 		List<Command> commandList = new ArrayList<Command>();
-		int[] robotPos = new int[2];
-		robot.centerX = pointList.get(0)[0];
-		robot.centerY = pointList.get(0)[1];
-		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY);
+		int[] robotPos = new int[2];			
 		
+		List<Cell> pathToStart = new ArrayList<Cell>();
+		
+//		System.out.println(robot.centerX + " robot pos " + robot.centerY);
+//		System.out.println((simplifiedPath.get(0).get(0).getX() * 10 + 5) + " first cell " + (simplifiedPath.get(0).get(0).getY() * 10 + 5));
+		
+		if(robot.centerX != (simplifiedPath.get(0).get(0).getX() * 10) + 5 || robot.centerY != (simplifiedPath.get(0).get(0).getY() * 10) + 5) //If robot is not at start position, get a path to the start position
+		{
+			pathToStart = createPathToStart(grid, robot, simplifiedPath);
+			simplifiedPath.add(0, pathToStart);
+		}
+			
+		//Add a final path to the obstacle itself
+		List<Cell> finalSubPath = simplifiedPath.get(simplifiedPath.size() - 1);
+		Cell finalCell = finalSubPath.get(finalSubPath.size() - 1);
+		
+		List<Cell> pathToDestination = createPathToDestination(grid, finalCell, obstacleDestination, 3);	//Warning setting distance from obstacle to be < 2 will cause it to break	
+		
+		simplifiedPath.add(pathToDestination);
+	
 		for(int i = 0; i < simplifiedPath.size(); i++)
 		{
 			List<Cell> subPath = simplifiedPath.get(i);
@@ -573,6 +503,69 @@ public class Pathing {
 			System.out.println("Directions: " + directionList.get(i)[0] + " , " + directionList.get(i)[1]);
 		}
 		
+//		Fuse first 2 subpath if they are the same direction
+		if(directionList.get(0)[0] == directionList.get(1)[0] && directionList.get(0)[1] == directionList.get(1)[1])
+		{
+			directionList.remove(0);
+			simplifiedPath.remove(0);
+			
+			for(int i = pathToStart.size() - 1; i >= 0; i--)
+			{
+				simplifiedPath.get(0).add(0, pathToStart.get(i));
+			}		
+		}
+		else
+		{
+			simplifiedPath.get(0).add(simplifiedPath.get(1).get(0));
+			simplifiedPath.get(1).remove(0);
+		}
+		
+		//Fuse the last 2 subpath if they are the same direction
+		if(directionList.get(directionList.size() - 1)[0] == directionList.get(directionList.size() - 2)[0] && directionList.get(directionList.size() - 1)[1] == directionList.get(directionList.size() - 2)[1])
+		{
+			directionList.remove(directionList.size() - 1);
+			simplifiedPath.remove(simplifiedPath.size() - 1);
+			
+			for(Cell cell : pathToDestination)
+			{
+				simplifiedPath.get(simplifiedPath.size() - 1).add(cell);
+			}
+		}				
+		
+		List<int[]> pointList = getPoints(simplifiedPath);
+		
+//		if(robot.centerX != pointList.get(0)[0] && robot.centerY != pointList.get(0)[1]) //If robot is not at start position, get a path to the start position
+//		{
+//			pathToStart = createPathToStart(grid, robot, simplifiedPath);
+//			directionX = (int)robot.centerX - pointList.get(0)[0];
+//			directionY = (int)robot.centerY - pointList.get(0)[1];
+//			
+//			if(directionY == 0)
+//			{
+//				directionX = directionX / Math.abs(directionX);
+//			}
+//			else
+//			{
+//				directionY = directionY / Math.abs(directionY);
+//			}
+//			
+//			if(directionX == directionList.get(0)[0] && directionY == directionList.get(0)[1]) //Both paths same direction
+//			{
+//				for(int i = pathToStart.size() - 1; i > 0; i--)
+//				{
+//					simplifiedPath.get(0).add(0, pathToStart.get(pathToStart.size() - 1));
+//				}
+//			}
+//			else
+//			{
+//				simplifiedPath.add(0, pathToStart);
+//			}
+//		}
+
+		robot.centerX = pointList.get(0)[0];
+		robot.centerY = pointList.get(0)[1];
+		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY);	
+		
 		for(int i = 0; i < simplifiedPath.size() - 1; i++)
 		{
 			List<Cell> subPath = simplifiedPath.get(i);
@@ -590,7 +583,8 @@ public class Pathing {
 			{
 				System.out.println("Robot facing wrong way");
 				
-				if(checkEmptySpace(grid, turningPoint, directionList.get(i)[0], directionList.get(i)[1], offset) == true) //Check along current path, if there is space
+//				if(checkEmptySpace(grid, turningPoint, directionList.get(i)[0], directionList.get(i)[1], offset) == true) //Check along current path, if there is space
+				if(checkEmptySpace3(grid, pointList.get(i + 1), directionList.get(i)[0], directionList.get(i)[1], turningRadius) == true) //Check along current path, if there is space
 				{	
 					System.out.println("There is space along the current path to perform a move back");
 					
@@ -598,228 +592,376 @@ public class Pathing {
 					{
 						System.out.println("There is space along the next path to turn");
 						
+						int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+						commandList.add(moveBackwards(robot, distanceToMove + turningRadius));
+						
 						if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) > 0) //Move beyond the path backwards and then turn left
 						{
 							System.out.println("Move back turn left");
-							int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
-							moveBackwards(robot, distanceToMove + turningRadius);
-							turnLeft(robot, turningRadius);						
+							commandList.add(turnLeft(robot, turningRadius));						
 						}
 						else //Move beyond the path backwards and then turn right
 						{
 							System.out.println("Move back turn right");
-							int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
-							moveBackwards(robot, distanceToMove + turningRadius);
-							turnRight(robot, turningRadius);
+							commandList.add(turnRight(robot, turningRadius));
 						}
 					}
 					else if(checkLength(pointList.get(i + 1), pointList.get(i + 2), true) < turningRadius) //Next path has no space
 					{
 						System.out.println("There is no space along the next path to turn");
-						if(checkEmptySpace2(grid, pointList.get(i + 2), directionList.get(i + 1)[0], directionList.get(i + 1)[1], offset)) //No obstacle blocking end of 2nd subpath, can overshoot
+						
+						int distanceToMove = turningRadius - checkLength(pointList.get(i + 1), pointList.get(i + 2), true); //Check the distance beyond the end of 2nd subpath robot needs to move
+						
+						if(checkEmptySpace3(grid, pointList.get(i + 2), directionList.get(i + 1)[0], directionList.get(i + 1)[1], distanceToMove)) //No obstacle blocking end of 2nd subpath, can overshoot
 						{
 							System.out.println("There is space to overshoot");
 							
+							distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+							commandList.add(moveBackwards(robot, distanceToMove + turningRadius));
+							
 							if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) > 0) //Move beyond the path backwards and then turn left
 							{
-								System.out.println("Move back turn left");
-								int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
-								moveBackwards(robot, distanceToMove + turningRadius);
-								turnLeft(robot, turningRadius);
-								System.out.println("Reversing the overshoot");
-								distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 2), true);
-								moveBackwards(robot, distanceToMove);
+								System.out.println("Move back turn left");								
+								commandList.add(turnRightBackwards(robot, turningRadius));							
 							}
 							else //Move beyond the path backwards and then turn right
 							{
-								System.out.println("Move back turn right");
-								int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
-								moveBackwards(robot, distanceToMove + turningRadius);
-								turnRight(robot, turningRadius);
-								System.out.println("Reversing the overshoot");
-								distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 2), true);
-								moveBackwards(robot, distanceToMove);
+								System.out.println("Move back turn right");								
+								commandList.add(turnLeftBackwards(robot, turningRadius));	
 							}
-						}
-						else //Obstacle blocking, cant overshoot
-						{
-							//cry
+							
+							System.out.println("Reversing the overshoot");							
+							distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 2), true);
+							commandList.add(moveBackwards(robot, distanceToMove));
 						}
 					}			
 				}
-				else if(checkEmptySpace(grid, turningPoint, directionList.get(i + 1)[0], directionList.get(i + 1)[1], -offset) == true) //Check in the opposite direction of the next path, if there is space
+//				else if(checkEmptySpace(grid, turningPoint, directionList.get(i + 1)[0], directionList.get(i + 1)[1], -offset) == true) //Check in the opposite direction of the next path, if there is space
+				else if(checkEmptySpace3(grid, pointList.get(i + 1), directionList.get(i + 1)[0], directionList.get(i + 1)[1], turningRadius) == true) //Check in the opposite direction of the next path, if there is space
 				{	
 					System.out.println("There is space along the next path to perform a backwards turn");
-					if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) > 0) //Turn Right Backwards
+					
+					if(checkLength(pointList.get(i), pointList.get(i + 1), true) >= turningRadius) //There is space in current path to turn
 					{
-						turnRightBackwards(robot, turningRadius);
+						System.out.println("There is space along the current path to perform a backwards turn");
+						
+						int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+						if(distanceToMove >= turningRadius) //Needs to move to reach the turning radius
+						{
+							commandList.add(moveBackwards(robot, distanceToMove - turningRadius));
+						}
+						else //Overshot the turning radius, needs to move forward
+						{
+							commandList.add(moveForwards(robot, turningRadius - distanceToMove));
+						}
+						
+						if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) > 0) //Turn Right Backwards
+						{	
+							commandList.add(turnRightBackwards(robot, turningRadius));
+							distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+							commandList.add(moveForwards(robot, distanceToMove));
+						}
+						else //Turn Left Backwards
+						{
+							commandList.add(turnLeftBackwards(robot, turningRadius));
+							distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+							commandList.add(moveForwards(robot, distanceToMove));
+						}			
 					}
-					else //Turn Left Backwards
+					else //There is no space in current path to turn
 					{
-						turnLeftBackwards(robot, turningRadius);
-					}	
+						//Check if there is space in front of the path to reverse to
+						System.out.println("First subpath no space");
+						
+						int distanceToMove = turningRadius - checkLength(pointList.get(i), pointList.get(i + 1), true); //Check the distance beyond the start of first subpath robot needs to move
+						
+						if(checkEmptySpace3(grid, pointList.get(i), directionList.get(i)[0], directionList.get(i)[1], -distanceToMove)) //No obstacle blocking start of first subpath, can move forward to make space
+						{
+							distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+							commandList.add(moveForwards(robot, turningRadius - distanceToMove));		
+							
+							if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) > 0) //Turn Right Backwards
+							{																
+								commandList.add(turnRightBackwards(robot, turningRadius));
+								distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+								commandList.add(moveForwards(robot, distanceToMove));
+							}
+							else //Turn Left Backwards
+							{								
+								commandList.add(turnLeftBackwards(robot, turningRadius));
+								distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+								commandList.add(moveForwards(robot, distanceToMove));
+							}	
+						}
+						else
+						{
+							//cry
+							System.out.println("No possible way to do this turn (Maybe three point turn?)");
+						}
+					}						
 				}
 				else //No space at all, keep moving backwards and try again when there is another turn
 				{
 					System.out.println("No space at all, check next turn");
-					if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) < 0)
+					
+					if(checkLength(pointList.get(i), pointList.get(i + 1), true) >= turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) >= turningRadius) //Enough space in both subpaths
 					{
-						turnRightBackwards(robot, turningRadius);
+						System.out.println("Enough space");
+						int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+						
+						if(distanceToMove >= turningRadius) //Needs to move to reach the turning radius
+						{
+							commandList.add(moveBackwards(robot, distanceToMove - turningRadius));	
+						}
+						else //Overshot the turning radius, needs to move forward
+						{
+							commandList.add(moveForwards(robot, turningRadius - distanceToMove));	
+						}
+						
+						if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) < 0)
+						{
+							commandList.add(turnRightBackwards(robot, turningRadius));	
+						}
+						else
+						{
+							commandList.add(turnLeftBackwards(robot, turningRadius));	
+						}
 					}
-					else //Turn Left Backwards
+					else if(checkLength(pointList.get(i), pointList.get(i + 1), true) < turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) >= turningRadius) //No space in first subpath, try and reverse to get space
 					{
-						turnLeftBackwards(robot, turningRadius);
-					}	
+						System.out.println("First subpath no space");
+						
+						int distanceToMove = turningRadius - checkLength(pointList.get(i), pointList.get(i + 1), true); //Check the distance beyond the start of first subpath robot needs to move
+						
+						if(checkEmptySpace3(grid, pointList.get(i), directionList.get(i)[0], directionList.get(i)[1], -distanceToMove)) //No obstacle blocking start of first subpath, can move forward to make space
+						{
+							distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+							commandList.add(moveForwards(robot, turningRadius - distanceToMove));	
+							
+							if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) < 0)
+							{
+								commandList.add(turnRightBackwards(robot, turningRadius));	
+							}
+							else
+							{
+								commandList.add(turnLeftBackwards(robot, turningRadius));	
+							}
+						}
+						else
+						{
+							//cry
+							System.out.println("No possible way to do this turn (Maybe three point turn?)");
+						}
+					}
+					else if(checkLength(pointList.get(i), pointList.get(i + 1), true) >= turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) < turningRadius) //No space in second subpath, check if there is obstacle in 2nd subpath, if not can overshoot and reverse
+					{
+						System.out.println("2nd subpath no space");
+						
+						int distanceToMove = turningRadius - checkLength(pointList.get(i + 1), pointList.get(i + 2), true); //Check the distance beyond the end of 2nd subpath robot needs to move
+						
+						if(checkEmptySpace3(grid, pointList.get(i + 2), directionList.get(i + 1)[0], directionList.get(i + 1)[1], distanceToMove)) //No obstacle blocking end of 2nd subpath, can overshoot
+						{
+							distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+							
+							if(distanceToMove >= turningRadius) //Needs to move to reach the turning radius
+							{
+								commandList.add(moveBackwards(robot, distanceToMove - turningRadius));
+							}
+							else //Overshot the turning radius, needs to reverse
+							{
+								commandList.add(moveForwards(robot, turningRadius - distanceToMove));
+							}	
+							
+							if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) < 0)
+							{
+								commandList.add(turnRightBackwards(robot, turningRadius));	
+							}
+							else
+							{
+								commandList.add(turnLeftBackwards(robot, turningRadius));	
+							}
+							
+							distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 2), true);
+							commandList.add(moveForwards(robot, distanceToMove));
+						}
+						else
+						{
+							//cry
+							System.out.println("No possible way to do this turn (Maybe three point turn?)");
+						}
+					}
+					else //No space in both subpaths
+					{
+						System.out.println("Both paths no space");
+						if(checkEmptySpace2(grid, pointList.get(i), directionList.get(i)[0], directionList.get(i)[1], -offset)) //No obstacle blocking start of first subpath, can reverse to make space
+						{								
+	//							if(checkEmptySpace2(grid, pointList.get(i + 2), directionList.get(i + 1)[0], directionList.get(i + 1)[1], offset)) //No obstacle blocking end of 2nd subpath, can overshoot
+	//							{						
+	//								int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+	//								commandList.add(moveForwards(robot, turningRadius - distanceToMove));		
+	//								commandList.add(turnRightBackwards(robot, turningRadius));
+	//								distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 2), true);									
+	//								commandList.add(moveForwards(robot, distanceToMove));
+	//							}
+							
+							int distanceToMove = turningRadius - checkLength(pointList.get(i), pointList.get(i + 1), true); //Check the distance beyond the start of first subpath robot needs to move
+							
+							if(checkEmptySpace3(grid, pointList.get(i), directionList.get(i)[0], directionList.get(i)[1], -distanceToMove)) //No obstacle blocking start of first subpath, can move forward to make space
+							{	
+								distanceToMove = turningRadius - checkLength(pointList.get(i + 1), pointList.get(i + 2), true);
+								
+								if(checkEmptySpace3(grid, pointList.get(i + 2), directionList.get(i + 1)[0], directionList.get(i + 1)[1], distanceToMove)) //No obstacle blocking end of 2nd subpath, can overshoot
+								{						
+									distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+									commandList.add(moveForwards(robot, turningRadius - distanceToMove));	
+	
+									if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) < 0)
+									{
+										commandList.add(turnRightBackwards(robot, turningRadius));	
+									}
+									else
+									{
+										commandList.add(turnLeftBackwards(robot, turningRadius));	
+									}							
+									
+									distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 2), true);									
+									commandList.add(moveForwards(robot, distanceToMove));
+								}
+							}
+							else
+							{
+								//cry
+								System.out.println("No possible way to do this turn (Maybe three point turn?)");
+							}
+						}
+					}						
 				}
 			}
 			else	//Correct orientation
 			{				
 				if(i != simplifiedPath.size() - 1)
-				{
-					if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) > 0) //Turn Left
+				{						
+					if(checkLength(pointList.get(i), pointList.get(i + 1), true) >= turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) >= turningRadius) //Enough space in both subpaths
 					{
-						if(checkLength(pointList.get(i), pointList.get(i + 1), true) >= turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) >= turningRadius) //Enough space in both subpaths
+						System.out.println("Enough space in both subpaths");
+						
+						int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true); //Check distance between robot and turning point
+						
+						if(distanceToMove >= turningRadius) //Needs to move to reach the turning radius
 						{
-							System.out.println("Enough space");
-							int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
-							if(distanceToMove >= turningRadius) //Needs to move to reach the turning radius
-							{
-								moveForwards(robot, distanceToMove - turningRadius);
-								turnLeft(robot, turningRadius);
-							}
-							else //Overshot the turning radius, needs to reverse
-							{
-								moveBackwards(robot, turningRadius - distanceToMove);								
-								turnLeft(robot, turningRadius);
-							}			
+							commandList.add(moveForwards(robot, distanceToMove - turningRadius));
 						}
-						else if(checkLength(pointList.get(i), pointList.get(i + 1), true) < turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) >= turningRadius) //No space in first subpath, try and reverse to get space
+						else //Overshot the turning radius, needs to reverse
 						{
-							System.out.println("First subpath no space");
-							if(checkEmptySpace2(grid, pointList.get(i), directionList.get(i)[0], directionList.get(i)[1], -offset)) //No obstacle blocking start of first subpath, can reverse to make space
-							{
-								int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
-								moveBackwards(robot, turningRadius - distanceToMove);		
-								turnLeft(robot, turningRadius);
-							}
-							else
-							{
-								//cry
-							}
+							commandList.add(moveBackwards(robot, turningRadius - distanceToMove));															
 						}
-						else if(checkLength(pointList.get(i), pointList.get(i + 1), true) >= turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) < turningRadius) //No space in second subpath, check if there is obstacle in 2nd subpath, if not can overshoot and reverse
+						
+						if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) > 0) //Turn Left
 						{
-							System.out.println("2nd subpath no space");
-							if(checkEmptySpace2(grid, pointList.get(i + 2), directionList.get(i + 1)[0], directionList.get(i + 1)[1], offset)) //No obstacle blocking end of 2nd subpath, can overshoot
-							{
-								int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
-								if(distanceToMove >= turningRadius) //Needs to move to reach the turning radius
-								{
-									moveForwards(robot, distanceToMove - turningRadius);
-									turnLeft(robot, turningRadius);
-								}
-								else //Overshot the turning radius, needs to reverse
-								{
-									moveBackwards(robot, turningRadius - distanceToMove);					
-									turnLeft(robot, turningRadius);
-								}								
-								
-								distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 2), true);
-								moveBackwards(robot, distanceToMove);
-							}
-							else
-							{
-								//cry						
-							}
+							commandList.add(turnLeft(robot, turningRadius));
 						}
-						else //No space in both subpaths
+						else //Turn right
 						{
-							System.out.println("Both paths no space");
-							if(checkEmptySpace2(grid, pointList.get(i), directionList.get(i)[0], directionList.get(i)[1], -offset)) //No obstacle blocking start of first subpath, can reverse to make space
-							{								
-								if(checkEmptySpace2(grid, pointList.get(i + 2), directionList.get(i + 1)[0], directionList.get(i + 1)[1], offset)) //No obstacle blocking end of 2nd subpath, can overshoot
-								{						
-									int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
-									moveBackwards(robot, turningRadius - distanceToMove);		
-									turnLeft(robot, turningRadius);
-									distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 2), true);									
-									moveBackwards(robot, distanceToMove);
-								}
-							}
-						}
+							commandList.add(turnRight(robot, turningRadius));
+						}					
 					}
-					else //Turn Right
+					else if(checkLength(pointList.get(i), pointList.get(i + 1), true) < turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) >= turningRadius) //No space in first subpath, try and reverse to get space
 					{
-						if(checkLength(pointList.get(i), pointList.get(i + 1), true) >= turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) >= turningRadius) //Enough space in both subpaths
+						System.out.println("First subpath no space");
+						
+						int distanceToMove = turningRadius - checkLength(pointList.get(i), pointList.get(i + 1), true); //Check the distance beyond the start of first subpath robot needs to move
+						
+						if(checkEmptySpace3(grid, pointList.get(i), directionList.get(i)[0], directionList.get(i)[1], -distanceToMove)) //No obstacle blocking start of first subpath, can reverse to make space
 						{
-							System.out.println("Enough space");
-							int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
-							if(distanceToMove >= turningRadius) //Needs to move to reach the turning radius
+							distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+							commandList.add(moveBackwards(robot, turningRadius - distanceToMove));		
+							
+							if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) > 0) //Turn Left
 							{
-								moveForwards(robot, distanceToMove - turningRadius);
-								turnRight(robot, turningRadius);
+								commandList.add(turnLeft(robot, turningRadius));
 							}
-							else //Overshot the turning radius, needs to reverse
+							else //Turn right
 							{
-								moveBackwards(robot, turningRadius - distanceToMove);					
-								turnRight(robot, turningRadius);
+								commandList.add(turnRight(robot, turningRadius));
 							}		
 						}
-						else if(checkLength(pointList.get(i), pointList.get(i + 1), true) < turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) >= turningRadius) //No space in first subpath, try and reverse to get space
+						else
 						{
-							System.out.println("1st subpath no space");
-							if(checkEmptySpace2(grid, pointList.get(i), directionList.get(i)[0], directionList.get(i)[1], -offset)) //No obstacle blocking start of first subpath, can reverse to make space
-							{
-								int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
-								moveBackwards(robot, turningRadius - distanceToMove);		
-								turnRight(robot, turningRadius);
-							}
-							else
-							{
-								//cry
-							}
-						}
-						else if(checkLength(pointList.get(i), pointList.get(i + 1), true) >= turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) < turningRadius) //No space in second subpath, check if there is obstacle in 2nd subpath, if not can overshoot and reverse
-						{
-							System.out.println("2nd subpath no space");
-							if(checkEmptySpace2(grid, pointList.get(i + 2), directionList.get(i + 1)[0], directionList.get(i + 1)[1], offset)) //No obstacle blocking end of 2nd subpath, can overshoot
-							{
-								int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
-								if(distanceToMove >= turningRadius) //Needs to move to reach the turning radius
-								{
-									moveForwards(robot, distanceToMove - turningRadius);
-									turnRight(robot, turningRadius);
-								}
-								else //Overshot the turning radius, needs to reverse
-								{
-									moveBackwards(robot, turningRadius - distanceToMove);					
-									turnRight(robot, turningRadius);
-								}
-								
-								distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 2), true);
-								moveBackwards(robot, distanceToMove);
-							}
-							else
-							{
-								//cry
-							}
-						}
-						else //No space in both subpaths
-						{
-							System.out.println("Both paths no space");
-							if(checkEmptySpace2(grid, pointList.get(i), directionList.get(i)[0], directionList.get(i)[1], -offset)) //No obstacle blocking start of first subpath, can reverse to make space
-							{								
-								if(checkEmptySpace2(grid, pointList.get(i + 2), directionList.get(i + 1)[0], directionList.get(i + 1)[1], offset)) //No obstacle blocking end of 2nd subpath, can overshoot
-								{						
-									int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
-									moveBackwards(robot, turningRadius - distanceToMove);		
-									turnRight(robot, turningRadius);
-									distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 2), true);					
-									moveBackwards(robot, distanceToMove);
-								}
-							}
+							//cry
+							System.out.println("No possible way to do this turn (Maybe three point turn?)");
 						}
 					}
+					else if(checkLength(pointList.get(i), pointList.get(i + 1), true) >= turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) < turningRadius) //No space in second subpath, check if there is obstacle in 2nd subpath, if not can overshoot and reverse
+					{
+						System.out.println("2nd subpath no space");
+						
+						int distanceToMove = turningRadius - checkLength(pointList.get(i + 1), pointList.get(i + 2), true); //Check the distance beyond the end of 2nd subpath robot needs to move
+						
+						if(checkEmptySpace3(grid, pointList.get(i + 2), directionList.get(i + 1)[0], directionList.get(i + 1)[1], distanceToMove)) //No obstacle blocking end of 2nd subpath, can overshoot
+						{
+							distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+							
+							if(distanceToMove >= turningRadius) //Needs to move to reach the turning radius
+							{
+								commandList.add(moveForwards(robot, distanceToMove - turningRadius));
+							}
+							else //Overshot the turning radius, needs to reverse
+							{
+								commandList.add(moveBackwards(robot, turningRadius - distanceToMove));
+							}
+							
+							if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) > 0) //Turn Left
+							{
+								commandList.add(turnLeft(robot, turningRadius));
+							}
+							else //Turn right
+							{
+								commandList.add(turnRight(robot, turningRadius));
+							}		
+							
+							distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 2), true);
+							commandList.add(moveBackwards(robot, distanceToMove));
+						}
+						else
+						{
+							//cry
+							System.out.println("No possible way to do this turn (Maybe three point turn?)");
+						}
+					}
+					else //No space in both subpaths
+					{
+						System.out.println("Both paths no space");
+						
+						int distanceToMove = turningRadius - checkLength(pointList.get(i), pointList.get(i + 1), true); //Check the distance beyond the start of first subpath robot needs to move
+						
+						if(checkEmptySpace3(grid, pointList.get(i), directionList.get(i)[0], directionList.get(i)[1], -distanceToMove)) //No obstacle blocking start of first subpath, can reverse to make space
+						{	
+							distanceToMove = turningRadius - checkLength(pointList.get(i + 1), pointList.get(i + 2), true);
+							
+							if(checkEmptySpace3(grid, pointList.get(i + 2), directionList.get(i + 1)[0], directionList.get(i + 1)[1], distanceToMove)) //No obstacle blocking end of 2nd subpath, can overshoot
+							{						
+								distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 1), true);
+								commandList.add(moveBackwards(robot, turningRadius - distanceToMove));	
+
+								if(crossProduct(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i + 1)[0], directionList.get(i + 1)[1]) > 0) //Turn Left
+								{
+									commandList.add(turnLeft(robot, turningRadius));
+								}
+								else //Turn right
+								{
+									commandList.add(turnRight(robot, turningRadius));
+								}									
+								
+								distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(i + 2), true);									
+								commandList.add(moveBackwards(robot, distanceToMove));
+							}
+						}
+						else
+						{
+							//cry
+							System.out.println("No possible way to do this turn (Maybe three point turn?)");
+						}
+					}					
 				}				
 			}
 		}
@@ -828,6 +970,13 @@ public class Pathing {
 		{
 			//Do emergency turning
 		}
+		else
+		{
+			int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(pointList.size() - 1), true);
+			commandList.add(moveForwards(robot, distanceToMove));
+		}		
+		
+		return commandList;
 	}
 	
 	public static int checkLength(int[] p1, int[] p2, boolean abs)
@@ -854,5 +1003,91 @@ public class Pathing {
 				return Math.abs(p1[0] - p2[0]);
 			}
 		}
+	}
+	public static List<Cell> createPathToDestination(Cell[][] grid, Cell finalCell, Obstacle obstacleDestination, int distanceFromObstacle)
+	{
+		int k;
+		List<Cell> pathToDestination = new ArrayList<Cell>();
+		
+		switch(obstacleDestination.getDirection())
+		{
+		case('N'):
+			
+			k = Math.abs(finalCell.getY() - obstacleDestination.getY());
+			while(k > distanceFromObstacle)
+			{
+				pathToDestination.add(grid[MapConstants.MAP_ROWS - 1 - obstacleDestination.getY() - k + 1][obstacleDestination.getX()]);
+				k--;
+			}
+			
+			break;
+		case('S'):
+			
+			k = Math.abs(finalCell.getY() - obstacleDestination.getY());
+			while(k > distanceFromObstacle)
+			{
+				pathToDestination.add(grid[MapConstants.MAP_ROWS - 1 - obstacleDestination.getY() + k - 1][obstacleDestination.getX()]);
+				k--;
+			}
+			break;
+		case('E'):
+			
+			k = Math.abs(finalCell.getX() - obstacleDestination.getX());
+		
+			while(k > distanceFromObstacle)
+			{
+				pathToDestination.add(grid[MapConstants.MAP_ROWS - 1 - obstacleDestination.getY()][obstacleDestination.getX() + k - 1]);
+				k--;
+			}
+			
+			break;
+		case('W'):
+			
+			k = Math.abs(finalCell.getX() - obstacleDestination.getX());
+		
+			while(k > distanceFromObstacle)
+			{
+				pathToDestination.add(grid[MapConstants.MAP_ROWS - 1 - obstacleDestination.getY()][obstacleDestination.getX() - k + 1]);
+				k--;
+			}
+			
+			break;
+		}
+		
+		return pathToDestination;
+	}
+	
+	public static List<Cell> createPathToStart(Cell[][] grid, Robot robot, List<List<Cell>> simplifiedPath) 
+	{
+		List<Cell> pathToStart = new ArrayList<Cell>();
+		
+		int _startX = (int)robot.centerX / 10;
+		int _startY = (int)robot.centerY / 10;
+		
+		int startX = simplifiedPath.get(0).get(0).getX();
+		int startY = simplifiedPath.get(0).get(0).getY();
+		
+		int directionX = startX - _startX;
+		int directionY = startY - _startY;
+		
+		int numberOfCells;
+		
+		if(directionY == 0)
+		{
+			numberOfCells = directionX;
+			directionX = directionX / Math.abs(directionX);
+		}
+		else
+		{
+			numberOfCells = directionY;
+			directionY = directionY / Math.abs(directionY);
+		}	
+		
+		for(int i = 0; i < numberOfCells; i++)
+		{
+			pathToStart.add(grid[MapConstants.MAP_ROWS - 1 - _startY - (i * directionY)][_startX + (i * directionX)]);
+		}
+		
+		return pathToStart;
 	}
 }
