@@ -3,7 +3,8 @@ package algo;
 import java.util.*;
 public class AStar {
 
-    private final ArrayList<Cell> pathList = new ArrayList<>();
+    private final ArrayList<Cell> path = new ArrayList<>();
+    private final List<List<Cell>> listOfPaths = new ArrayList<>();
     private final ArrayList<Cell> closedList = new ArrayList<>();
     private final Cell[][] grid;
     private final Robot robot;
@@ -76,15 +77,15 @@ public class AStar {
 
             if (j == 2) {
                 generateHValue(xs, ys, xd, yd, false, 3);
-                if (pathList.contains(grid[MapConstants.MAP_ROWS - yd - 1][xd])) {
-                    System.out.println("Backtracked path: ");
-                    for (Cell node : pathList) {
+                if (path.contains(grid[MapConstants.MAP_ROWS - yd - 1][xd])) {
+                    System.out.println("Path: ");
+                    for (Cell node : path) {
                         // System.out.println(node.getX() + " " + node.getY());
                         gCost += node.getGCost();
                         fCost += node.getFCost();
                     }
-                    Collections.reverse(pathList);
-                    System.out.println(pathList);
+                    Collections.reverse(path);
+                    System.out.println(path);
                     System.out.println("Manhattan Path Found");
                     System.out.println("Total Cost: " + gCost);
                     System.out.println("Total fCost: " + fCost);
@@ -93,7 +94,9 @@ public class AStar {
                 } else {
                     System.out.println("Manhattan Path Not found");
                 }
-                pathList.clear();
+                // Store the path in the list of paths.
+                listOfPaths.add(new ArrayList<>(path));
+                path.clear();
                 closedList.clear();
             }
         }
@@ -382,15 +385,24 @@ public class AStar {
         //Stores each parent Cell to the PathList so it is easier to trace back the final path
         while (endCell.parent != null) {
             Cell currentCell = endCell;
-            pathList.add(currentCell);
+            path.add(currentCell);
             endCell = endCell.parent;
         }
 
-        pathList.add(source);
+        path.add(source);
 
         openList.clear();
 
         System.out.println();
+    }
+
+    /**
+     * Get the list of paths. The first path is that from the starting position to the first obstacle.
+     * Subsequent paths are the paths from one obstacle to the next.
+     * @return the list of paths.
+     */
+    public List<List<Cell>> getListOfPaths() {
+        return listOfPaths;
     }
 
 }

@@ -1,6 +1,8 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import algo.*;
@@ -48,74 +50,91 @@ public class Simulator extends Application {
     	
     	Pane pane = new Pane();
     	
-    	Scene scene = new Scene(pane, width * scaling, height * scaling);
-    	
-    	Map testMap = new Map();
-//         Set test obstacles.
-        testMap.setObstacle(13, 14, 'E');
-        testMap.setObstacle(18, 2, 'N');
+    	Scene scene = new Scene(pane, width * scaling, height * scaling);   	
+        
+        Map testMap = new Map();
+        // Set test obstacles.
+        testMap.setObstacle(2, 16, 'E');
+        testMap.setObstacle(5, 9, 'S');
+        testMap.setObstacle(9, 12, 'W');
+        testMap.setObstacle(11, 13, 'E');
+        testMap.setObstacle(17, 2, 'N');
         testMap.assignNodeNumbers();
         testMap.printMap();
+        double[][] distances = testMap.computeDistances();
         
-    	List<Obstacle> obstacleList = new ArrayList<Obstacle>();  //Match with the obstacles in map, order matters, it is the order of the obstacles that the robot visits
-    	obstacleList.add(new Obstacle(13, 14, 'E'));
-    	obstacleList.add(new Obstacle(18, 2, 'N'));
+        List<Obstacle> obstacleList = new ArrayList<Obstacle>();  //Match with the obstacles in map, order matters, it is the order of the obstacles that the robot visits
+        
+        obstacleList.add(new Obstacle(5, 9, 'S'));
+        obstacleList.add(new Obstacle(9, 12, 'W'));
+        obstacleList.add(new Obstacle(2, 16, 'E'));
+        obstacleList.add(new Obstacle(11, 13, 'E'));
+        obstacleList.add(new Obstacle(17, 2, 'N'));
 		
 		placeObstacles(obstacleList, pane);		//Adds obstacles to the GUI
+
+        // Adding edges to the nodes.
+        List<Edge> edges = generateEdges(testMap.getNodeNumbers(), distances);
+
+        // Initialize total number of nodes in the graph.
+        int noOfNodes = testMap.getNodeNumbers().size();
+
+        // Build a graph from the given edges.
+        Graph g = new Graph(edges, noOfNodes);
+
+        // Starting node
+        int start = 0;
+
+        // Add starting node to the path.
+        List<Integer> path = new ArrayList<>();
+        path.add(start);
+
+        // Mark the start node as visited.
+        boolean[] visited = new boolean[noOfNodes];
+        visited[start] = true;
+
+        // Hamiltonian Algorithm
+        Pathfinder p = new Pathfinder();
+        System.out.println("All Hamiltonian paths and their total distance: ");
+        p.printAllHamiltonianPaths(g, start, visited, path, noOfNodes, distances);
+        // Finding the shortest Hamiltonian path.
+        List<Integer> sequence = p.findShortestPath(distances);
+        System.out.println("\nShortest path: " + sequence);
+
+        // Getting the source node and destination node to pass into A* algorithm
+        HashMap<Integer, Cell> nodeNumbers = testMap.getNodeNumbers();
+        System.out.println("Sequence of nodes to stop at: ");
+        for (Integer k : sequence) {
+            System.out.println(nodeNumbers.get(k));
+        }
+
+        // Instantiate Robot
+        Robot robot = new Robot(1, 1, 'N');
+        
+        robot.centerX = 15;               //My pathing function requires the center point of the robot which I set here as the starting point
+        robot.centerY = 15;
+        robot.setDirection('N');
+        
 		
-        List<Cell> testPath = new ArrayList<Cell>();	//Replace with A star algorithm that generates a list of list of cells
-        List<Cell> testPath2 = new ArrayList<Cell>();
+
+        // A* Algorithm
+        AStar ass = new AStar(testMap.getGrid(), robot);
+        for (int i = 0; i < sequence.size() - 1; i++) {
+            ass.menu(nodeNumbers.get(sequence.get(i)).getX(), nodeNumbers.get(sequence.get(i)).getY(),
+                    nodeNumbers.get(sequence.get(i + 1)).getX(), nodeNumbers.get(sequence.get(i + 1)).getY());
+        }
         
-        testPath.add(new Cell(5, 10));
-        testPath.add(new Cell(5, 11));
-        testPath.add(new Cell(5, 12));
-        testPath.add(new Cell(5, 13));
-        testPath.add(new Cell(5, 14));
-        testPath.add(new Cell(6, 14));
-        testPath.add(new Cell(7, 14));
-        testPath.add(new Cell(8, 14));
-        testPath.add(new Cell(9, 14));
-        testPath.add(new Cell(10, 14));
-        testPath.add(new Cell(11, 14));
-        testPath.add(new Cell(11, 15));
-        testPath.add(new Cell(11, 16));     
-        testPath.add(new Cell(12, 16));
-        testPath.add(new Cell(13, 16));
-        testPath.add(new Cell(14, 16));
-        testPath.add(new Cell(15, 16));
-        testPath.add(new Cell(16, 16));
-        testPath.add(new Cell(17, 16));
-        testPath.add(new Cell(18, 16));
-        testPath.add(new Cell(18, 15));
-        testPath.add(new Cell(18, 14));
-        
-        testPath2.add(new Cell(18, 14));
-        testPath2.add(new Cell(18, 13));
-        testPath2.add(new Cell(18, 12));
-        testPath2.add(new Cell(18, 11));
-        testPath2.add(new Cell(18, 10));
-        testPath2.add(new Cell(18, 9));
-        testPath2.add(new Cell(18, 8));
-        testPath2.add(new Cell(18, 7));
-        
-        List<List<Cell>> aPath = new ArrayList<List<Cell>>();         //This should be generated by the A star algo, for now I just hard code the path that the robot will travel
-        aPath.add(testPath);
-        aPath.add(testPath2);	
-        
-        Robot robot = new Robot(2, 10, 'W');         //Not needed by my pathing function
-        
-        robot.centerX = 25;               //My pathing function requires the center point of the robot which I set here as the starting point
-        robot.centerY = 105;
-        robot.setDirection('W');
-        
-		UIRobot uiRobot = new UIRobot(pane, height, scaling, 'W', 25, 105);      //Creates a robot version to be placed into the GUI		
-        	
+        List<List<Cell>> aPath = ass.getListOfPaths();        
+		
+        showPath(aPath, pane);      
+               
+        UIRobot uiRobot = new UIRobot(pane, height, scaling, 'N', 15, 15);      //Creates a robot version to be placed into the GUI
 		uiRobot.executeCommands(aPath, robot, testMap, obstacleList);      //Plays the animated path
 		
         primaryStage.setTitle("Simulator");
         primaryStage.setScene(scene);
         primaryStage.show();
-               
+        
         scene.setFill(createGridPattern());
     }
     
@@ -137,6 +156,31 @@ public class Simulator extends Application {
 
         return pattern;
 
+    }
+    
+    public void showPath(List<List<Cell>> aPath, Pane pane)
+    {
+    	for(List<Cell> path : aPath)
+    	{
+    		for(int i = 0; i < path.size(); i++)
+        	{
+            	Rectangle pathRect = new Rectangle();
+            	pathRect.setWidth(40);
+            	pathRect.setHeight(40);
+            	pathRect.setX(path.get(i).getX() * 40);
+            	pathRect.setY((20 - path.get(i).getY() - 1) * 40);
+            	if(i == path.size() - 1 || i == 0)
+            	{
+            		pathRect.setFill(Color.BLUE);
+            	}
+            	else
+            	{
+            		pathRect.setFill(Color.ORANGE);
+            	}
+            	
+            	pane.getChildren().add(pathRect);
+        	}
+    	}	
     }
     
     public void placeObstacles(List<Obstacle> obstacleList, Pane pane)  
@@ -194,5 +238,17 @@ public class Simulator extends Application {
     		
     		pane.getChildren().add(line);
     	}
-    }   
+    }
+    
+    private static List<Edge> generateEdges(HashMap<Integer, Cell> nodeNumbers, double[][] distances) {
+        int n = nodeNumbers.size();
+        Edge[] edges = new Edge[n * (n-1)/2];
+        int count = 0;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                edges[count++] = new Edge(i, j, distances[i][j]);
+            }
+        }
+        return Arrays.asList(edges);
+    }
 }

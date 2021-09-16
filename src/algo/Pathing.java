@@ -171,6 +171,9 @@ public class Pathing {
 		x = x/10;
 		y = y/10;		
 		
+		System.out.println("x : " + x);
+		System.out.println("y : " + y);
+		
 		if(offset < 0)
 		{
 			offset = (-offset + 10)/10;
@@ -407,8 +410,7 @@ public class Pathing {
 	
 	public static List<int[]> getPoints(List<List<Cell>> simplifiedPath)
 	{
-		List<int[]> pointList = new ArrayList<int[]>();
-		
+		List<int[]> pointList = new ArrayList<int[]>();		
 		
 		for(int i = 0; i < simplifiedPath.size(); i++)
 		{
@@ -419,13 +421,15 @@ public class Pathing {
 			if(i == 0)
 			{
 				int[] startPoint = new int[2];
+				
 				startPoint[0] = path.get(0).getX() * 10 + 5;
-				startPoint[1] = path.get(0).getY() * 10 + 5;
+				startPoint[1] = path.get(0).getY() * 10 + 5;				
 				pointList.add(startPoint);
 			}
-			
+				
 			point[0] = path.get(path.size() - 1).getX() * 10 + 5;
-			point[1] = path.get(path.size() - 1).getY() * 10 + 5;
+			point[1] = path.get(path.size() - 1).getY() * 10 + 5;		
+			
 			pointList.add(point);		
 		}
 		
@@ -441,32 +445,30 @@ public class Pathing {
 		
 		Cell[][] grid = map.getGrid();
 		
+		
 		List<int[]> directionList = new ArrayList<int[]>();
 		List<Command> commandList = new ArrayList<Command>();
 		int[] robotPos = new int[2];			
 		
-		List<Cell> pathToStart = new ArrayList<Cell>();
-		
-//		System.out.println(robot.centerX + " robot pos " + robot.centerY);
-//		System.out.println((simplifiedPath.get(0).get(0).getX() * 10 + 5) + " first cell " + (simplifiedPath.get(0).get(0).getY() * 10 + 5));
+		List<Cell> pathToStart = new ArrayList<Cell>();		
 		
 		if(robot.centerX != (simplifiedPath.get(0).get(0).getX() * 10) + 5 || robot.centerY != (simplifiedPath.get(0).get(0).getY() * 10) + 5) //If robot is not at start position, get a path to the start position
 		{
 			pathToStart = createPathToStart(grid, robot, simplifiedPath);
-			simplifiedPath.add(0, pathToStart);
+			simplifiedPath.add(0, pathToStart);			
 		}
-			
+
 		//Add a final path to the obstacle itself
 		List<Cell> finalSubPath = simplifiedPath.get(simplifiedPath.size() - 1);
 		Cell finalCell = finalSubPath.get(finalSubPath.size() - 1);
 		
-		List<Cell> pathToDestination = createPathToDestination(grid, finalCell, obstacleDestination, 3);	//Warning setting distance from obstacle to be < 2 will cause it to break	
+		List<Cell> pathToDestination = createPathToDestination(grid, finalCell, obstacleDestination, 3);	//Warning setting distance from obstacle to be < 2 will cause it to break			
 		
-		simplifiedPath.add(pathToDestination);
-	
+		simplifiedPath.add(pathToDestination);					
+		
 		for(int i = 0; i < simplifiedPath.size(); i++)
 		{
-			List<Cell> subPath = simplifiedPath.get(i);
+			List<Cell> subPath = simplifiedPath.get(i);			
 			
 			if(subPath.size() > 1)
 			{
@@ -498,26 +500,42 @@ public class Pathing {
 			if(directionX == 0 && directionY < 0)
 			{
 				directionList.add(new int[] {0, -1});
-			}
+			}		
 			
 			System.out.println("Directions: " + directionList.get(i)[0] + " , " + directionList.get(i)[1]);
 		}
 		
-//		Fuse first 2 subpath if they are the same direction
-		if(directionList.get(0)[0] == directionList.get(1)[0] && directionList.get(0)[1] == directionList.get(1)[1])
+		for(int i = 0; i < simplifiedPath.size(); i++)
 		{
-			directionList.remove(0);
-			simplifiedPath.remove(0);
-			
-			for(int i = pathToStart.size() - 1; i >= 0; i--)
+			System.out.println("Sub path : " + i);
+			for(Cell cell : simplifiedPath.get(i))
 			{
-				simplifiedPath.get(0).add(0, pathToStart.get(i));
-			}		
-		}
-		else
+				System.out.println(cell.getX() + " : " + cell.getY());
+			}
+		}	
+		
+		if(pathToStart.size() > 0)
 		{
-			simplifiedPath.get(0).add(simplifiedPath.get(1).get(0));
-			simplifiedPath.get(1).remove(0);
+			//Fuse first 2 subpath if they are the same direction
+			if(directionList.get(0)[0] == directionList.get(1)[0] && directionList.get(0)[1] == directionList.get(1)[1])
+			{
+				directionList.remove(0);
+				simplifiedPath.remove(0);
+				
+				for(int i = pathToStart.size() - 1; i >= 0; i--)
+				{
+					simplifiedPath.get(0).add(0, pathToStart.get(i));
+				}		
+			}
+			else if(directionList.get(0)[0] == -directionList.get(1)[0] && directionList.get(0)[1] == -directionList.get(1)[1]) //First 2 subpath opposite directions
+			{
+
+			}
+			else
+			{
+				simplifiedPath.get(0).add(simplifiedPath.get(1).get(0));
+				simplifiedPath.get(1).remove(0);
+			}
 		}
 		
 		//Fuse the last 2 subpath if they are the same direction
@@ -532,7 +550,7 @@ public class Pathing {
 			}
 		}				
 		
-		List<int[]> pointList = getPoints(simplifiedPath);
+		List<int[]> pointList = getPoints(simplifiedPath);			
 		
 //		if(robot.centerX != pointList.get(0)[0] && robot.centerY != pointList.get(0)[1]) //If robot is not at start position, get a path to the start position
 //		{
@@ -564,7 +582,23 @@ public class Pathing {
 
 		robot.centerX = pointList.get(0)[0];
 		robot.centerY = pointList.get(0)[1];
-		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY);	
+		System.out.println("Robot Position: " + robot.centerX + " , " + robot.centerY);
+		
+		if(directionList.get(0)[0] == -directionList.get(1)[0] && directionList.get(0)[1] == -directionList.get(1)[1]) //First 2 subpath opposite directions
+		{
+			simplifiedPath.remove(0);
+			directionList.remove(0);
+			
+			pointList = getPoints(simplifiedPath);
+			
+			int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(0), true);
+			commandList.add(moveBackwards(robot, distanceToMove));
+		}
+		
+		for(int i = 0; i < pointList.size(); i++)
+		{
+			System.out.println(pointList.get(i)[0] + " point list " + pointList.get(i)[1]);
+		}
 		
 		for(int i = 0; i < simplifiedPath.size() - 1; i++)
 		{
@@ -575,16 +609,17 @@ public class Pathing {
 			robotPos[1] = (int)robot.centerY;
 			
 			System.out.println("------------------------");
+			System.out.println(i);
 			System.out.println("Robot direction: " + robot.getDirectionX() + " , " + robot.getDirectionY());//Debugging
 			System.out.println("Path direction: " + directionList.get(i)[0] + " , " + directionList.get(i)[1]);
-			System.out.println("Turning point: " + turningPoint.getX() + " , " + turningPoint.getY()); 
+			System.out.println("Turning point: " + turningPoint.getX() + " , " + turningPoint.getY()); 						
 			
 			if(oppositeDirection(robot.getDirectionX(), robot.getDirectionY(), directionList.get(i)[0], directionList.get(i)[1])) //Robot direction opposite as path direction
 			{
 				System.out.println("Robot facing wrong way");
 				
 //				if(checkEmptySpace(grid, turningPoint, directionList.get(i)[0], directionList.get(i)[1], offset) == true) //Check along current path, if there is space
-				if(checkEmptySpace3(grid, pointList.get(i + 1), directionList.get(i)[0], directionList.get(i)[1], turningRadius) == true) //Check along current path, if there is space
+				if(checkEmptySpace3(grid, pointList.get(i + 1), directionList.get(i)[0], directionList.get(i)[1], turningRadius) == true && !oppositeDirection(directionList.get(directionList.size() - 1)[0], directionList.get(directionList.size() - 1)[1], directionList.get(directionList.size() - 2)[0], directionList.get(directionList.size() - 2)[1])) //Check along current path, if there is space
 				{	
 					System.out.println("There is space along the current path to perform a move back");
 					
@@ -637,7 +672,7 @@ public class Pathing {
 					}			
 				}
 //				else if(checkEmptySpace(grid, turningPoint, directionList.get(i + 1)[0], directionList.get(i + 1)[1], -offset) == true) //Check in the opposite direction of the next path, if there is space
-				else if(checkEmptySpace3(grid, pointList.get(i + 1), directionList.get(i + 1)[0], directionList.get(i + 1)[1], turningRadius) == true) //Check in the opposite direction of the next path, if there is space
+				else if(checkEmptySpace3(grid, pointList.get(i + 1), directionList.get(i + 1)[0], directionList.get(i + 1)[1], turningRadius) == true && !oppositeDirection(directionList.get(directionList.size() - 1)[0], directionList.get(directionList.size() - 1)[1], directionList.get(directionList.size() - 2)[0], directionList.get(directionList.size() - 2)[1])) //Check in the opposite direction of the next path, if there is space
 				{	
 					System.out.println("There is space along the next path to perform a backwards turn");
 					
@@ -699,6 +734,11 @@ public class Pathing {
 							System.out.println("No possible way to do this turn (Maybe three point turn?)");
 						}
 					}						
+				}
+				else if(i == (simplifiedPath.size() - 2) && oppositeDirection(directionList.get(directionList.size() - 1)[0], directionList.get(directionList.size() - 1)[1], directionList.get(directionList.size() - 2)[0], directionList.get(directionList.size() - 2)[1]))
+				{
+					int distanceToMove = checkLength(new int[] {(int)robot.centerX, (int)robot.centerY}, pointList.get(pointList.size() - 1), true);
+					commandList.add(moveBackwards(robot, distanceToMove));
 				}
 				else //No space at all, keep moving backwards and try again when there is another turn
 				{
@@ -891,11 +931,14 @@ public class Pathing {
 							System.out.println("No possible way to do this turn (Maybe three point turn?)");
 						}
 					}
-					else if(checkLength(pointList.get(i), pointList.get(i + 1), true) >= turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) < turningRadius) //No space in second subpath, check if there is obstacle in 2nd subpath, if not can overshoot and reverse
+					else if(checkLength(pointList.get(i), pointList.get(i + 1), true) >= turningRadius && checkLength(pointList.get(i + 1), pointList.get(i + 2), true) <= turningRadius) //No space in second subpath, check if there is obstacle in 2nd subpath, if not can overshoot and reverse
 					{
 						System.out.println("2nd subpath no space");
 						
 						int distanceToMove = turningRadius - checkLength(pointList.get(i + 1), pointList.get(i + 2), true); //Check the distance beyond the end of 2nd subpath robot needs to move
+						
+						System.out.println(distanceToMove);
+						System.out.println(pointList.get(i + 2)[0] + " " + pointList.get(i + 2)[1]);
 						
 						if(checkEmptySpace3(grid, pointList.get(i + 2), directionList.get(i + 1)[0], directionList.get(i + 1)[1], distanceToMove)) //No obstacle blocking end of 2nd subpath, can overshoot
 						{
@@ -976,6 +1019,12 @@ public class Pathing {
 			commandList.add(moveForwards(robot, distanceToMove));
 		}		
 		
+		if(robot.centerX != pointList.get(pointList.size() - 1)[0] && robot.centerY != pointList.get(pointList.size() - 1)[1])
+		{
+			System.out.println("Could not reach destination");
+		}
+		
+		System.out.println("----------------------------------------------------------------");
 		return commandList;
 	}
 	
@@ -1007,13 +1056,14 @@ public class Pathing {
 	public static List<Cell> createPathToDestination(Cell[][] grid, Cell finalCell, Obstacle obstacleDestination, int distanceFromObstacle)
 	{
 		int k;
-		List<Cell> pathToDestination = new ArrayList<Cell>();
+		List<Cell> pathToDestination = new ArrayList<Cell>();		
 		
 		switch(obstacleDestination.getDirection())
 		{
 		case('N'):
 			
-			k = Math.abs(finalCell.getY() - obstacleDestination.getY());
+			k = Math.abs(finalCell.getY() - obstacleDestination.getY());			
+		
 			while(k > distanceFromObstacle)
 			{
 				pathToDestination.add(grid[MapConstants.MAP_ROWS - 1 - obstacleDestination.getY() - k + 1][obstacleDestination.getX()]);
@@ -1023,7 +1073,8 @@ public class Pathing {
 			break;
 		case('S'):
 			
-			k = Math.abs(finalCell.getY() - obstacleDestination.getY());
+			k = Math.abs(finalCell.getY() - obstacleDestination.getY());		
+			
 			while(k > distanceFromObstacle)
 			{
 				pathToDestination.add(grid[MapConstants.MAP_ROWS - 1 - obstacleDestination.getY() + k - 1][obstacleDestination.getX()]);
@@ -1033,7 +1084,7 @@ public class Pathing {
 		case('E'):
 			
 			k = Math.abs(finalCell.getX() - obstacleDestination.getX());
-		
+				
 			while(k > distanceFromObstacle)
 			{
 				pathToDestination.add(grid[MapConstants.MAP_ROWS - 1 - obstacleDestination.getY()][obstacleDestination.getX() + k - 1]);
@@ -1043,7 +1094,7 @@ public class Pathing {
 			break;
 		case('W'):
 			
-			k = Math.abs(finalCell.getX() - obstacleDestination.getX());
+			k = Math.abs(finalCell.getX() - obstacleDestination.getX());		
 		
 			while(k > distanceFromObstacle)
 			{
@@ -1065,7 +1116,7 @@ public class Pathing {
 		int _startY = (int)robot.centerY / 10;
 		
 		int startX = simplifiedPath.get(0).get(0).getX();
-		int startY = simplifiedPath.get(0).get(0).getY();
+		int startY = simplifiedPath.get(0).get(0).getY();	
 		
 		int directionX = startX - _startX;
 		int directionY = startY - _startY;
@@ -1074,12 +1125,12 @@ public class Pathing {
 		
 		if(directionY == 0)
 		{
-			numberOfCells = directionX;
+			numberOfCells = Math.abs(directionX);
 			directionX = directionX / Math.abs(directionX);
 		}
 		else
 		{
-			numberOfCells = directionY;
+			numberOfCells = Math.abs(directionY);
 			directionY = directionY / Math.abs(directionY);
 		}	
 		
