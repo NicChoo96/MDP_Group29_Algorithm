@@ -126,7 +126,7 @@ public class Map {
         // Set the obstacle as a virtual wall if it is at the edge of the map.
         if (x == 0 || y == 0 || x == MapConstants.MAP_COLS - 1 || y == MapConstants.MAP_ROWS - 1) {
             grid[MapConstants.MAP_COLS - y - 1][x].setVirtualWall(true);
-        }
+        }       
     }
 
     public void printMap() {
