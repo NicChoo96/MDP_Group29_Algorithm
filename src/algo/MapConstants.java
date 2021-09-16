@@ -7,5 +7,5 @@ public class MapConstants {
     public static final int ROBOT_LENGTH = 30;
     public static final int ROBOT_WIDTH = 30;
     public static final double DIAGONAL = Math.sqrt(2);
-    public static final int BUFFER = 4;
+    public static final int BUFFER = 5;
 }

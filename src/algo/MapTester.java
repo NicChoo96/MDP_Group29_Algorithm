@@ -2,17 +2,20 @@ package algo;
 
 import java.util.*;
 
-import ui.Command;
-
 public class MapTester {
-    public static void main(String[] args) {
+
+    public static void run(String obstacleString) {
         Map testMap = new Map();
-        // Set test obstacles.
-        testMap.setObstacle(5, 7, 'S');
-        testMap.setObstacle(9, 10, 'W');
-        testMap.setObstacle(2, 6, 'N');
-        testMap.setObstacle(14, 14, 'E');
-        testMap.setObstacle(18, 2, 'N');
+        String[] results = splitString(obstacleString);
+        int x, y;
+        char direction;
+        // Set obstacles using obstacle string.
+        for (int n = 0; n < results.length; n += 3) {
+            x = Integer.parseInt(results[n]);
+            y = Integer.parseInt(results[n + 1]);
+            direction = results[n + 2].charAt(0);
+            testMap.setObstacle(x, y, direction);
+        }
         testMap.assignNodeNumbers();
         testMap.printMap();
         double[][] distances = testMap.computeDistances();
@@ -47,11 +50,11 @@ public class MapTester {
         visited[start] = true;
 
         // Hamiltonian Algorithm
-        Pathfinder p = new Pathfinder();
+        Pathfinder pathfinder = new Pathfinder();
         System.out.println("All Hamiltonian paths and their total distance: ");
-        p.printAllHamiltonianPaths(g, start, visited, path, noOfNodes, distances);
+        pathfinder.printAllHamiltonianPaths(g, start, visited, path, noOfNodes, distances);
         // Finding the shortest Hamiltonian path.
-        List<Integer> sequence = p.findShortestPath(distances);
+        List<Integer> sequence = pathfinder.findShortestPath(distances);
         System.out.println("\nShortest path: " + sequence);
 
         // Getting the source node and destination node to pass into A* algorithm
@@ -70,55 +73,18 @@ public class MapTester {
             ass.menu(nodeNumbers.get(sequence.get(i)).getX(), nodeNumbers.get(sequence.get(i)).getY(),
                     nodeNumbers.get(sequence.get(i + 1)).getX(), nodeNumbers.get(sequence.get(i + 1)).getY());
         }
-        
-//        List<List<Cell>> simpliedPath = new ArrayList<List<Cell>>();
-//        List<Cell> testPath = new ArrayList<Cell>();
-              
-//        testPath.add(new Cell(5, 3));
-//        testPath.add(new Cell(5, 4));
-//        testPath.add(new Cell(5, 5));
-//        testPath.add(new Cell(6, 5));
-//        testPath.add(new Cell(7, 5));
-//        testPath.add(new Cell(7, 6));
-//        testPath.add(new Cell(7, 7));
-//        testPath.add(new Cell(7, 8));
-//        testPath.add(new Cell(7, 9));
-//        testPath.add(new Cell(7, 10));
-//        testPath.add(new Cell(6, 10));
-//        testPath.add(new Cell(5, 10));
-//        testPath.add(new Cell(4, 10));
-//        testPath.add(new Cell(3, 10));
-//        testPath.add(new Cell(2, 10));
-//	
-//        
-//        robot.setDirection('N');
-//        
-//        simpliedPath = Pathing.Simplify_Path(testPath);
-//        for(List<Cell> subPath : simpliedPath)
-//        {
-//        	System.out.println("Subpath");
-//        	for(Cell cell : subPath)
-//        	{
-//        		System.out.println(cell.getX() + "," + cell.getY());
-//        	}
-//        }        
-//        
-//        List<Command> commands = Pathing.createPath(simpliedPath, robot, testMap, new Obstacle(14, 14, 'E'));
-//        
-//        for(Command command : commands)
-//        {
-//        	System.out.println(command.getForwardBack() + " , " + command.getLeftRight() + " , "  + command.getDestX() + " , " + command.getDestY());
-//        }
-//        
-//        List<int[]> pointList = Pathing.getPoints(simpliedPath);
-//        
-//        System.out.println();
-//        
-//        for(int[] point : pointList)
-//        {
-//        	System.out.println("Points to go to: " + point[0] + " , " + point[1]);
-//        }
-        
+        System.out.println("\nAll paths: ");
+        for (List<Cell> p : ass.getListOfPaths()) {
+            System.out.println(p);
+        }
+    }
+
+    private static String[] splitString(String obstacleString) {
+        // Remove "OBS:" from the obstacle string.
+        // Current string format is "OBS:X:Y:Dir:X:Y:Dir..."
+        String preSplitString = obstacleString.substring(4);
+
+        return preSplitString.split(":");
     }
 
     private static List<Edge> generateEdges(HashMap<Integer, Cell> nodeNumbers, double[][] distances) {
@@ -131,5 +97,11 @@ public class MapTester {
             }
         }
         return Arrays.asList(edges);
+    }
+
+    // For testing purposes only!
+    // Test the algo with an arbitrary obstacle string.
+    public static void main(String[] args) {
+        run("OBS:2:6:N:5:7:S:9:10:W");
     }
 }

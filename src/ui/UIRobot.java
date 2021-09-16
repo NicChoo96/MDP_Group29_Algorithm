@@ -348,11 +348,16 @@ public class UIRobot {
 	
 	public void executeCommands(List<List<Cell>> aPath, Robot robot, Map map, List<Obstacle> obstacleList)
 	{		
-		SequentialTransition finalAnimation = new SequentialTransition();
+		SequentialTransition finalAnimation = new SequentialTransition();		
 		
 		for(int i = 0; i < aPath.size(); i++)
 		{
-			finalAnimation.getChildren().add(executeCommand(Pathing.createPath(Pathing.Simplify_Path(aPath.get(i)), robot, map, obstacleList.get(i))));
+			try {
+				finalAnimation.getChildren().add(executeCommand(Pathing.createPath(Pathing.Simplify_Path(aPath.get(i)), robot, map, obstacleList.get(i))));
+			} catch (Exception e) {
+				System.out.println("Issues with path");
+				break;
+			}
 		}
 		
 		finalAnimation.play();
