@@ -3,7 +3,9 @@ package pathserver;
 import java.util.ArrayList;
 import java.util.List;
 
-import Algo.Gradle.Cell;
+import algo.Cell;
+import algo.Obstacle;
+import algoClient.AlgoClient;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import pathserver.PathServerGrpc.PathServerBlockingStub;
@@ -15,7 +17,7 @@ import pathserver.Pathserver.PlanReply.Move;
 
 public class PathserverClient {
 	
-	public static void getOMPLPaths(List<Cell> orderedDestinationCells, List<Algo.Gradle.Obstacle> obstacleList)
+	public static void getOMPLPaths(List<Cell> orderedDestinationCells, List<Obstacle> obstacleList, AlgoClient algoClient)
 	{
 		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 10003).usePlaintext().build();
 		PathServerBlockingStub userStub = PathServerGrpc.newBlockingStub(channel);
@@ -24,7 +26,7 @@ public class PathserverClient {
 		
 		List<pathserver.Pathserver.PlanRequest.Obstacle> messageObsList =  new ArrayList<pathserver.Pathserver.PlanRequest.Obstacle>();
 		
-		for(Algo.Gradle.Obstacle obstacle : obstacleList)
+		for(Obstacle obstacle : obstacleList)
 		{
 			messageObsList.add(pathserver.Pathserver.PlanRequest.Obstacle.newBuilder().setX(obstacle.getX()).setY(obstacle.getY()).build());
 		}
@@ -56,8 +58,8 @@ public class PathserverClient {
 			double endY = endCell.getY();
 			endY = (endY/10) + 0.05;
 			
-			State startState = pathserver.Pathserver.State.newBuilder().setX(startX).setY(startY).setTheta(startTheta).build();
-			State endState = pathserver.Pathserver.State.newBuilder().setX(endX).setY(endY).setTheta(endTheta).build();
+			State startState = Pathserver.State.newBuilder().setX(startX).setY(startY).setTheta(startTheta).build();
+			State endState = Pathserver.State.newBuilder().setX(endX).setY(endY).setTheta(endTheta).build();
 			
 			System.out.println("\n" + (i+1) + " Plan");
 			System.out.println("Start State: ");
@@ -74,12 +76,14 @@ public class PathserverClient {
 			{
 				System.out.println("Direction: " + move.getDirection() + " Distance: " + move.getDistance());
 			}
-			
-			System.out.println("Synchronous Messaging Complete");
+
+			System.out.println("Received moves list from OMPL.");
+			System.out.println("Sending to algo client...");
+			algoClient.formatMoves(planReply.getMovesList());
 		}		
 	}
 	
-	private static double getDestinationOrientation(Algo.Gradle.Obstacle destObstacle) {
+	private static double getDestinationOrientation(Obstacle destObstacle) {
     	
     	double destDirection;
     	
@@ -93,9 +97,6 @@ public class PathserverClient {
     		break;
     	case 'E':
     		destDirection = Math.PI - 0.00001;
-    		break;
-    	case 'W':
-    		destDirection = 0;
     		break;
     	default:
     		destDirection = 0;

@@ -1,5 +1,10 @@
 package algo;
 
+import algoClient.AlgoClient;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import pathserver.PathserverClient;
+
 import java.util.*;
 
 public class MapTester {
@@ -54,29 +59,46 @@ public class MapTester {
         System.out.println("All Hamiltonian paths and their total distance: ");
         pathfinder.printAllHamiltonianPaths(g, start, visited, path, noOfNodes, distances);
         // Finding the shortest Hamiltonian path.
-        List<Integer> sequence = pathfinder.findShortestPath(distances);
+        List<Integer> sequence = pathfinder.findShortestPath(distances, testMap.getObstacles());
         System.out.println("\nShortest path: " + sequence);
+        System.out.println("Obstacle visit order: " + pathfinder.getObstacleSequence());
 
         // Getting the source node and destination node to pass into A* algorithm
         HashMap<Integer, Cell> nodeNumbers = testMap.getNodeNumbers();
+        List<Cell> destinationList = new ArrayList<>();
         System.out.println("Sequence of nodes to stop at: ");
         for (Integer k : sequence) {
             System.out.println(nodeNumbers.get(k));
+            destinationList.add(nodeNumbers.get(k));
         }
 
         // Instantiate Robot
         Robot robot = new Robot(1, 1, 'N');
 
         // A* Algorithm
+        /*
+        System.out.println("Robot start direction: " + robot.getDirection());
+        Cell source, dest;
+        Obstacle obstacleToVisit;
         AStar ass = new AStar(testMap.getGrid(), robot);
         for (int i = 0; i < sequence.size() - 1; i++) {
-            ass.menu(nodeNumbers.get(sequence.get(i)).getX(), nodeNumbers.get(sequence.get(i)).getY(),
-                    nodeNumbers.get(sequence.get(i + 1)).getX(), nodeNumbers.get(sequence.get(i + 1)).getY());
+            source = nodeNumbers.get(sequence.get(i));
+            dest = nodeNumbers.get(sequence.get(i + 1));
+            obstacleToVisit = pathfinder.getObstacleSequence().get(i);
+            ass.menu(source.getX(), source.getY(), dest.getX(), dest.getY());
+            robot.updateDirectionAfterObstacle(obstacleToVisit);
+            System.out.println("Robot new direction: " + robot.getDirection());
         }
         System.out.println("\nAll paths: ");
         for (List<Cell> p : ass.getListOfPaths()) {
             System.out.println(p);
         }
+        */
+
+        // Send info to OMPL.
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8980).usePlaintext().build();
+        AlgoClient algoClient = new AlgoClient(channel);
+        PathserverClient.getOMPLPaths(destinationList, pathfinder.getObstacleSequence(), algoClient);
     }
 
     private static String[] splitString(String obstacleString) {
@@ -102,6 +124,7 @@ public class MapTester {
     // For testing purposes only!
     // Test the algo with an arbitrary obstacle string.
     public static void main(String[] args) {
-        run("OBS:2:6:N:5:7:S:9:10:W");
+        run("OBS:9:4:N:13:15:E");
     }
+
 }

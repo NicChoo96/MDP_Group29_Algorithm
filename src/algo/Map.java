@@ -126,7 +126,7 @@ public class Map {
         // Set the obstacle as a virtual wall if it is at the edge of the map.
         if (x == 0 || y == 0 || x == MapConstants.MAP_COLS - 1 || y == MapConstants.MAP_ROWS - 1) {
             grid[MapConstants.MAP_COLS - y - 1][x].setVirtualWall(true);
-        }       
+        }
     }
 
     public void printMap() {
@@ -143,7 +143,6 @@ public class Map {
             System.out.printf("%d. (%d, %d), %c%n", nodeNumber++, obstacle.getX(), obstacle.getY(), obstacle.getDirection());
         }
         System.out.println();
-        obstacles.clear();
     }
 
     // Use a 2D array to store the distances between nodes.
@@ -193,5 +192,9 @@ public class Map {
 
     public HashMap<Integer, Cell> getNodeNumbers() {
         return nodeNumbers;
+    }
+
+    public ArrayList<Obstacle> getObstacles() {
+        return obstacles;
     }
 }

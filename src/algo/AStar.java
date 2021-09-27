@@ -34,6 +34,8 @@ public class AStar {
                 } else if (h == 3) {
                     // Assign Manhattan H-cost
                     grid[MapConstants.MAP_ROWS - col - 1][row].updateManHCost(dest);
+                    grid[MapConstants.MAP_ROWS - col - 1][row].setGCost(0);
+                    grid[MapConstants.MAP_ROWS - col - 1][row].setFCost(0);
                 }
             }
         }
@@ -110,6 +112,7 @@ public class AStar {
      * @param additionalPath indicates whether diagonal neighbours should be explored.
      */
     private void generatePath(Cell source, Cell dest, boolean additionalPath) {
+        System.out.println("Inside generatePath(). Robot direction: " + robot.getDirection());
 
         source.setParent(null);
         // Creation of a PriorityQueue and the declaration of the Comparator
@@ -125,7 +128,7 @@ public class AStar {
             //Gets and removes the object stored on the top of the openList and saves it inside current
             Cell current = openList.poll();
 
-            //Checks if whether node is empty and f it is then breaks the while loop
+            //Checks whether node is empty and if it is then breaks the while loop
             if (current == null) {
                 break;
             }
@@ -146,30 +149,36 @@ public class AStar {
                 // OR not an obstacle, not in openList AND not in closedList AND is traversable.
                 if ((left.getIsObstacle() && left == dest)
                         || (!left.getIsObstacle()
-                            && !openList.contains(left)
-                            && !closedList.contains(left)
-                            && left.getTraversable())) {
-                    switch (robot.getDirection()) {
-                    case 'W':
-                        left.setDCost(0);
-                        break;
-                    case 'N':
-                    case 'S':
-                        left.setDCost(1);
-                        break;
-                    case 'E':
-                        left.setDCost(5);
-                        break;
-                    default:
-                        break;
+                        && !openList.contains(left)
+                        && !closedList.contains(left)
+                        && left.getTraversable())) {
+                    double dCost = 0;
+                    if (current == source) {
+                        switch (robot.getDirection()) {
+                        case 'N':
+                        case 'S':
+                            dCost = 1;
+                            break;
+                        default:
+                            break;
+                        }
+                    } else {
+                        int dx = Math.abs(left.getX() - current.parent.getX());
+                        int dy = Math.abs(left.getY() - current.parent.getY());
+                        if (dx != 0 && dy != 0) {
+                            dCost = 1;
+                        }
                     }
                     double gNew = current.getGCost() + 1;
-                    double fNew = gNew + left.getHCost() + left.getDCost();
-                    if (left.getFCost() > fNew || !openList.contains(left))
+                    double fNew = gNew + left.getHCost() + dCost;
+                    if (left.getFCost() > fNew || !openList.contains(left)) {
                         left.setFCost(fNew);
+                        left.setGCost(gNew);
+                        openList.add(left);
+                        left.parent = current;
+                    }
 
-                    openList.add(left);
-                    left.parent = current;
+
                 }
             } catch (IndexOutOfBoundsException ignored) {
             }
@@ -181,30 +190,36 @@ public class AStar {
                 // OR not an obstacle, not in openList AND not in closedList AND is traversable.
                 if ((right.getIsObstacle() && right == dest)
                         || (!right.getIsObstacle()
-                            && !openList.contains(right)
-                            && !closedList.contains(right)
-                            && right.getTraversable())) {
-                    switch (robot.getDirection()) {
-                    case 'W':
-                        right.setDCost(5);
-                        break;
-                    case 'N':
-                    case 'S':
-                        right.setDCost(1);
-                        break;
-                    case 'E':
-                        right.setDCost(0);
-                        break;
-                    default:
-                        break;
+                        && !openList.contains(right)
+                        && !closedList.contains(right)
+                        && right.getTraversable())) {
+                    double dCost = 0;
+                    if (current == source) {
+                        switch (robot.getDirection()) {
+                        case 'N':
+                        case 'S':
+                            dCost = 1;
+                            break;
+                        default:
+                            break;
+                        }
+                    } else {
+                        int dx = Math.abs(right.getX() - current.parent.getX());
+                        int dy = Math.abs(right.getY() - current.parent.getY());
+                        if (dx != 0 && dy != 0) {
+                            dCost = 1;
+                        }
                     }
                     double gNew = current.getGCost() + 1;
-                    double fNew = gNew + right.getHCost() + right.getDCost();
-                    if (right.getFCost() > fNew || !openList.contains(right))
+                    double fNew = gNew + right.getHCost() + dCost;
+                    if (right.getFCost() > fNew || !openList.contains(right)) {
                         right.setFCost(fNew);
+                        right.setGCost(gNew);
+                        openList.add(right);
+                        right.parent = current;
+                    }
 
-                    openList.add(right);
-                    right.parent = current;
+
                 }
             } catch (IndexOutOfBoundsException ignored) {
             }
@@ -216,30 +231,36 @@ public class AStar {
                 // OR not an obstacle, not in openList AND not in closedList AND is traversable.
                 if ((bottom.getIsObstacle() && bottom == dest)
                         || (!bottom.getIsObstacle()
-                            && !openList.contains(bottom)
-                            && !closedList.contains(bottom)
-                            && bottom.getTraversable())) {
-                    switch (robot.getDirection()) {
-                    case 'S':
-                        bottom.setDCost(0);
-                        break;
-                    case 'W':
-                    case 'E':
-                        bottom.setDCost(1);
-                        break;
-                    case 'N':
-                        bottom.setDCost(5);
-                        break;
-                    default:
-                        break;
+                        && !openList.contains(bottom)
+                        && !closedList.contains(bottom)
+                        && bottom.getTraversable())) {
+                    double dCost = 0;
+                    if (current == source) {
+                        switch (robot.getDirection()) {
+                        case 'W':
+                        case 'E':
+                            dCost = 1;
+                            break;
+                        default:
+                            break;
+                        }
+                    } else {
+                        int dx = Math.abs(bottom.getX() - current.parent.getX());
+                        int dy = Math.abs(bottom.getY() - current.parent.getY());
+                        if (dx != 0 && dy != 0) {
+                            dCost = 1;
+                        }
                     }
                     double gNew = current.getGCost() + 1;
-                    double fNew = gNew + bottom.getHCost() + bottom.getDCost();
-                    if (bottom.getFCost() > fNew || !openList.contains(bottom))
+                    double fNew = gNew + bottom.getHCost() + dCost;
+                    if (bottom.getFCost() > fNew || !openList.contains(bottom)) {
                         bottom.setFCost(fNew);
+                        bottom.setGCost(gNew);
+                        openList.add(bottom);
+                        bottom.parent = current;
+                    }
 
-                    openList.add(bottom);
-                    bottom.parent = current;
+
                 }
             } catch (IndexOutOfBoundsException ignored) {
             }
@@ -251,30 +272,35 @@ public class AStar {
                 // OR not an obstacle, not in openList AND not in closedList AND is traversable.
                 if ((top.getIsObstacle() && top == dest)
                         || (!top.getIsObstacle()
-                            && !openList.contains(top)
-                            && !closedList.contains(top)
-                            && top.getTraversable())) {
-                    switch (robot.getDirection()) {
-                    case 'N':
-                        top.setDCost(0);
-                        break;
-                    case 'W':
-                    case 'E':
-                        top.setDCost(1);
-                        break;
-                    case 'S':
-                        top.setDCost(5);
-                        break;
-                    default:
-                        break;
+                        && !openList.contains(top)
+                        && !closedList.contains(top)
+                        && top.getTraversable())) {
+                    double dCost = 0;
+                    if (current == source) {
+                        switch (robot.getDirection()) {
+                        case 'W':
+                        case 'E':
+                            dCost = 1;
+                            break;
+                        default:
+                            break;
+                        }
+                    } else {
+                        int dx = Math.abs(top.getX() - current.parent.getX());
+                        int dy = Math.abs(top.getY() - current.parent.getY());
+                        if (dx != 0 && dy != 0) {
+                            dCost = 1;
+                        }
                     }
                     double gNew = current.getGCost() + 1;
-                    double fNew = gNew + top.getHCost() + top.getDCost();
-                    if (top.getFCost() > fNew || !openList.contains(top))
+                    double fNew = gNew + top.getHCost() + dCost;
+                    if (top.getFCost() > fNew || !openList.contains(top)) {
                         top.setFCost(fNew);
+                        top.setGCost(gNew);
+                        openList.add(top);
+                        top.parent = current;
+                    }
 
-                    openList.add(top);
-                    top.parent = current;
                 }
             } catch (IndexOutOfBoundsException ignored) {
             }
@@ -288,9 +314,9 @@ public class AStar {
                     // OR not an obstacle, not in openList AND not in closedList AND is traversable.
                     if ((topLeft.getIsObstacle() && topLeft == dest)
                             || (!topLeft.getIsObstacle()
-                                && !openList.contains(topLeft)
-                                && !closedList.contains(topLeft)
-                                && topLeft.getTraversable())) {
+                            && !openList.contains(topLeft)
+                            && !closedList.contains(topLeft)
+                            && topLeft.getTraversable())) {
                         double tCost = current.getFCost() + MapConstants.DIAGONAL;
                         topLeft.setGCost(MapConstants.DIAGONAL);
                         double cost = topLeft.getHCost() + tCost;
@@ -310,9 +336,9 @@ public class AStar {
                     // OR not an obstacle, not in openList AND not in closedList AND is traversable.
                     if ((topRight.getIsObstacle() && topRight == dest)
                             || (!topRight.getIsObstacle()
-                                && !openList.contains(topRight)
-                                && !closedList.contains(topRight)
-                                && topRight.getTraversable())) {
+                            && !openList.contains(topRight)
+                            && !closedList.contains(topRight)
+                            && topRight.getTraversable())) {
                         double tCost = current.getFCost() + MapConstants.DIAGONAL;
                         topRight.setGCost(MapConstants.DIAGONAL);
                         double cost = topRight.getHCost() + tCost;
@@ -332,9 +358,9 @@ public class AStar {
                     // OR not an obstacle, not in openList AND not in closedList AND is traversable.
                     if ((bottomLeft.getIsObstacle() && bottomLeft == dest)
                             || (!bottomLeft.getIsObstacle()
-                                && !openList.contains(bottomLeft)
-                                && !closedList.contains(bottomLeft)
-                                && bottomLeft.getTraversable())) {
+                            && !openList.contains(bottomLeft)
+                            && !closedList.contains(bottomLeft)
+                            && bottomLeft.getTraversable())) {
                         double tCost = current.getFCost() + MapConstants.DIAGONAL;
                         bottomLeft.setGCost(MapConstants.DIAGONAL);
                         double cost = bottomLeft.getHCost() + tCost;
@@ -354,9 +380,9 @@ public class AStar {
                     // OR not an obstacle, not in openList AND not in closedList AND is traversable.
                     if ((bottomRight.getIsObstacle() && bottomRight == dest)
                             || (!bottomRight.getIsObstacle()
-                                && !openList.contains(bottomRight)
-                                && !closedList.contains(bottomRight)
-                                && bottomRight.getTraversable())) {
+                            && !openList.contains(bottomRight)
+                            && !closedList.contains(bottomRight)
+                            && bottomRight.getTraversable())) {
                         double tCost = current.getFCost() + MapConstants.DIAGONAL;
                         bottomRight.setGCost(MapConstants.DIAGONAL);
                         double cost = bottomRight.getHCost() + tCost;

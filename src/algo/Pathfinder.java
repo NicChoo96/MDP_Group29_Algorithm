@@ -6,6 +6,8 @@ import java.util.List;
 public class Pathfinder {
     // To store all possible Hamiltonian paths.
     private final List<List<Integer>> hamPaths;
+    // Store the order of obstacles to be visited.
+    private final List<Obstacle> obstacleSequence = new ArrayList<>();
 
     public Pathfinder() {
         hamPaths = new ArrayList<>();
@@ -37,10 +39,11 @@ public class Pathfinder {
         }
     }
 
-    public List<Integer> findShortestPath(double[][] distances) {
+    public List<Integer> findShortestPath(double[][] distances, ArrayList<Obstacle> obstacles) {
         int shortestPathIndex = 0;
         double shortestTotalDistance = 0;
         double tempTotalDistance;
+        List<Integer> sequence;
         // Assume first path is the shortest.
         shortestTotalDistance = computePathDistance(hamPaths.get(0), distances);
         // Check all other paths to find the shortest one.
@@ -51,7 +54,17 @@ public class Pathfinder {
                 shortestPathIndex = i;
             }
         }
+        sequence = hamPaths.get(shortestPathIndex);
+
+        // Using the node number sequence, add the obstacles to the obstacleSequence list.
+        for (Integer integer : sequence.subList(1, sequence.size())) {
+            obstacleSequence.add(obstacles.get(integer - 1));
+        }
         return hamPaths.get(shortestPathIndex);
+    }
+
+    public List<Obstacle> getObstacleSequence() {
+        return obstacleSequence;
     }
 
     private double computePathDistance(List<Integer> path, double[][] distances) {
