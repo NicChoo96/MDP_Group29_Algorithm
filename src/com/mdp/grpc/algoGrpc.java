@@ -16,6 +16,9 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
+ * <pre>
+ * TODO: proto file subject to change.
+ * </pre>
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.15.0)",
@@ -179,6 +182,9 @@ public final class algoGrpc {
   }
 
   /**
+   * <pre>
+   * TODO: proto file subject to change.
+   * </pre>
    */
   public static abstract class algoImplBase implements io.grpc.BindableService {
 
@@ -257,6 +263,9 @@ public final class algoGrpc {
   }
 
   /**
+   * <pre>
+   * TODO: proto file subject to change.
+   * </pre>
    */
   public static final class algoStub extends io.grpc.stub.AbstractStub<algoStub> {
     private algoStub(io.grpc.Channel channel) {
@@ -320,6 +329,9 @@ public final class algoGrpc {
   }
 
   /**
+   * <pre>
+   * TODO: proto file subject to change.
+   * </pre>
    */
   public static final class algoBlockingStub extends io.grpc.stub.AbstractStub<algoBlockingStub> {
     private algoBlockingStub(io.grpc.Channel channel) {
@@ -379,6 +391,9 @@ public final class algoGrpc {
   }
 
   /**
+   * <pre>
+   * TODO: proto file subject to change.
+   * </pre>
    */
   public static final class algoFutureStub extends io.grpc.stub.AbstractStub<algoFutureStub> {
     private algoFutureStub(io.grpc.Channel channel) {

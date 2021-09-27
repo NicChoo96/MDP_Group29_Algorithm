@@ -79,7 +79,7 @@ public class PathserverClient {
 
 			System.out.println("Received moves list from OMPL.");
 			System.out.println("Sending to algo client...");
-			algoClient.formatMoves(planReply.getMovesList());
+			algoClient.formatMoves(planReply.getMovesList(), startState);
 		}		
 	}
 	

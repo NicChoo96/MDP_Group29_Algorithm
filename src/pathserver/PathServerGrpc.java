@@ -1,13 +1,25 @@
 package pathserver;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncUnaryCall;
+import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
+import static io.grpc.stub.ClientCalls.futureUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.40.1)",
+    value = "by gRPC proto compiler (version 1.15.0)",
     comments = "Source: pathserver.proto")
-@io.grpc.stub.annotations.GrpcGenerated
 public final class PathServerGrpc {
 
   private PathServerGrpc() {}
@@ -29,21 +41,22 @@ public final class PathServerGrpc {
     if ((getPlanMethod = PathServerGrpc.getPlanMethod) == null) {
       synchronized (PathServerGrpc.class) {
         if ((getPlanMethod = PathServerGrpc.getPlanMethod) == null) {
-          PathServerGrpc.getPlanMethod = getPlanMethod =
+          PathServerGrpc.getPlanMethod = getPlanMethod = 
               io.grpc.MethodDescriptor.<pathserver.Pathserver.PlanRequest, pathserver.Pathserver.PlanReply>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Plan"))
+              .setFullMethodName(generateFullMethodName(
+                  "pathserver.PathServer", "Plan"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   pathserver.Pathserver.PlanRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   pathserver.Pathserver.PlanReply.getDefaultInstance()))
-              .setSchemaDescriptor(new PathServerMethodDescriptorSupplier("Plan"))
-              .build();
+                  .setSchemaDescriptor(new PathServerMethodDescriptorSupplier("Plan"))
+                  .build();
+          }
         }
-      }
-    }
-    return getPlanMethod;
+     }
+     return getPlanMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<pathserver.Pathserver.State,
@@ -60,35 +73,29 @@ public final class PathServerGrpc {
     if ((getIsValidMethod = PathServerGrpc.getIsValidMethod) == null) {
       synchronized (PathServerGrpc.class) {
         if ((getIsValidMethod = PathServerGrpc.getIsValidMethod) == null) {
-          PathServerGrpc.getIsValidMethod = getIsValidMethod =
+          PathServerGrpc.getIsValidMethod = getIsValidMethod = 
               io.grpc.MethodDescriptor.<pathserver.Pathserver.State, com.google.protobuf.BoolValue>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "IsValid"))
+              .setFullMethodName(generateFullMethodName(
+                  "pathserver.PathServer", "IsValid"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   pathserver.Pathserver.State.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.google.protobuf.BoolValue.getDefaultInstance()))
-              .setSchemaDescriptor(new PathServerMethodDescriptorSupplier("IsValid"))
-              .build();
+                  .setSchemaDescriptor(new PathServerMethodDescriptorSupplier("IsValid"))
+                  .build();
+          }
         }
-      }
-    }
-    return getIsValidMethod;
+     }
+     return getIsValidMethod;
   }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static PathServerStub newStub(io.grpc.Channel channel) {
-    io.grpc.stub.AbstractStub.StubFactory<PathServerStub> factory =
-      new io.grpc.stub.AbstractStub.StubFactory<PathServerStub>() {
-        @java.lang.Override
-        public PathServerStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-          return new PathServerStub(channel, callOptions);
-        }
-      };
-    return PathServerStub.newStub(factory, channel);
+    return new PathServerStub(channel);
   }
 
   /**
@@ -96,14 +103,7 @@ public final class PathServerGrpc {
    */
   public static PathServerBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    io.grpc.stub.AbstractStub.StubFactory<PathServerBlockingStub> factory =
-      new io.grpc.stub.AbstractStub.StubFactory<PathServerBlockingStub>() {
-        @java.lang.Override
-        public PathServerBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-          return new PathServerBlockingStub(channel, callOptions);
-        }
-      };
-    return PathServerBlockingStub.newStub(factory, channel);
+    return new PathServerBlockingStub(channel);
   }
 
   /**
@@ -111,14 +111,7 @@ public final class PathServerGrpc {
    */
   public static PathServerFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    io.grpc.stub.AbstractStub.StubFactory<PathServerFutureStub> factory =
-      new io.grpc.stub.AbstractStub.StubFactory<PathServerFutureStub>() {
-        @java.lang.Override
-        public PathServerFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-          return new PathServerFutureStub(channel, callOptions);
-        }
-      };
-    return PathServerFutureStub.newStub(factory, channel);
+    return new PathServerFutureStub(channel);
   }
 
   /**
@@ -135,7 +128,7 @@ public final class PathServerGrpc {
      */
     public void plan(pathserver.Pathserver.PlanRequest request,
         io.grpc.stub.StreamObserver<pathserver.Pathserver.PlanReply> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getPlanMethod(), responseObserver);
+      asyncUnimplementedUnaryCall(getPlanMethod(), responseObserver);
     }
 
     /**
@@ -146,21 +139,21 @@ public final class PathServerGrpc {
      */
     public void isValid(pathserver.Pathserver.State request,
         io.grpc.stub.StreamObserver<com.google.protobuf.BoolValue> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getIsValidMethod(), responseObserver);
+      asyncUnimplementedUnaryCall(getIsValidMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
             getPlanMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
+            asyncUnaryCall(
               new MethodHandlers<
                 pathserver.Pathserver.PlanRequest,
                 pathserver.Pathserver.PlanReply>(
                   this, METHODID_PLAN)))
           .addMethod(
             getIsValidMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
+            asyncUnaryCall(
               new MethodHandlers<
                 pathserver.Pathserver.State,
                 com.google.protobuf.BoolValue>(
@@ -171,15 +164,19 @@ public final class PathServerGrpc {
 
   /**
    */
-  public static final class PathServerStub extends io.grpc.stub.AbstractAsyncStub<PathServerStub> {
-    private PathServerStub(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+  public static final class PathServerStub extends io.grpc.stub.AbstractStub<PathServerStub> {
+    private PathServerStub(io.grpc.Channel channel) {
+      super(channel);
+    }
+
+    private PathServerStub(io.grpc.Channel channel,
+        io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected PathServerStub build(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+    protected PathServerStub build(io.grpc.Channel channel,
+        io.grpc.CallOptions callOptions) {
       return new PathServerStub(channel, callOptions);
     }
 
@@ -193,7 +190,7 @@ public final class PathServerGrpc {
      */
     public void plan(pathserver.Pathserver.PlanRequest request,
         io.grpc.stub.StreamObserver<pathserver.Pathserver.PlanReply> responseObserver) {
-      io.grpc.stub.ClientCalls.asyncUnaryCall(
+      asyncUnaryCall(
           getChannel().newCall(getPlanMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -205,22 +202,26 @@ public final class PathServerGrpc {
      */
     public void isValid(pathserver.Pathserver.State request,
         io.grpc.stub.StreamObserver<com.google.protobuf.BoolValue> responseObserver) {
-      io.grpc.stub.ClientCalls.asyncUnaryCall(
+      asyncUnaryCall(
           getChannel().newCall(getIsValidMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
   /**
    */
-  public static final class PathServerBlockingStub extends io.grpc.stub.AbstractBlockingStub<PathServerBlockingStub> {
-    private PathServerBlockingStub(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+  public static final class PathServerBlockingStub extends io.grpc.stub.AbstractStub<PathServerBlockingStub> {
+    private PathServerBlockingStub(io.grpc.Channel channel) {
+      super(channel);
+    }
+
+    private PathServerBlockingStub(io.grpc.Channel channel,
+        io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected PathServerBlockingStub build(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+    protected PathServerBlockingStub build(io.grpc.Channel channel,
+        io.grpc.CallOptions callOptions) {
       return new PathServerBlockingStub(channel, callOptions);
     }
 
@@ -233,7 +234,7 @@ public final class PathServerGrpc {
      * </pre>
      */
     public pathserver.Pathserver.PlanReply plan(pathserver.Pathserver.PlanRequest request) {
-      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+      return blockingUnaryCall(
           getChannel(), getPlanMethod(), getCallOptions(), request);
     }
 
@@ -244,22 +245,26 @@ public final class PathServerGrpc {
      * </pre>
      */
     public com.google.protobuf.BoolValue isValid(pathserver.Pathserver.State request) {
-      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+      return blockingUnaryCall(
           getChannel(), getIsValidMethod(), getCallOptions(), request);
     }
   }
 
   /**
    */
-  public static final class PathServerFutureStub extends io.grpc.stub.AbstractFutureStub<PathServerFutureStub> {
-    private PathServerFutureStub(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+  public static final class PathServerFutureStub extends io.grpc.stub.AbstractStub<PathServerFutureStub> {
+    private PathServerFutureStub(io.grpc.Channel channel) {
+      super(channel);
+    }
+
+    private PathServerFutureStub(io.grpc.Channel channel,
+        io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected PathServerFutureStub build(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+    protected PathServerFutureStub build(io.grpc.Channel channel,
+        io.grpc.CallOptions callOptions) {
       return new PathServerFutureStub(channel, callOptions);
     }
 
@@ -273,7 +278,7 @@ public final class PathServerGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<pathserver.Pathserver.PlanReply> plan(
         pathserver.Pathserver.PlanRequest request) {
-      return io.grpc.stub.ClientCalls.futureUnaryCall(
+      return futureUnaryCall(
           getChannel().newCall(getPlanMethod(), getCallOptions()), request);
     }
 
@@ -285,7 +290,7 @@ public final class PathServerGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<com.google.protobuf.BoolValue> isValid(
         pathserver.Pathserver.State request) {
-      return io.grpc.stub.ClientCalls.futureUnaryCall(
+      return futureUnaryCall(
           getChannel().newCall(getIsValidMethod(), getCallOptions()), request);
     }
   }

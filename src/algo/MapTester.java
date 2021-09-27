@@ -9,8 +9,9 @@ import java.util.*;
 
 public class MapTester {
 
-    public static void run(String obstacleString) {
+    public static void run(AlgoClient algoClient) {
         Map testMap = new Map();
+        String obstacleString = algoClient.receiveCoordinates();
         String[] results = splitString(obstacleString);
         int x, y;
         char direction;
@@ -24,15 +25,6 @@ public class MapTester {
         testMap.assignNodeNumbers();
         testMap.printMap();
         double[][] distances = testMap.computeDistances();
-        // For debugging purposes, print the 2D distance array.
-        /*System.out.println("Distance matrix (node to node distance): ");
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                System.out.printf("%.2f, ", distances[i][j]);
-            }
-            System.out.println();
-        }
-        System.out.println(); */
 
         // Adding edges to the nodes.
         List<Edge> edges = generateEdges(testMap.getNodeNumbers(), distances);
@@ -96,8 +88,6 @@ public class MapTester {
         */
 
         // Send info to OMPL.
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8980).usePlaintext().build();
-        AlgoClient algoClient = new AlgoClient(channel);
         PathserverClient.getOMPLPaths(destinationList, pathfinder.getObstacleSequence(), algoClient);
     }
 
@@ -121,10 +111,10 @@ public class MapTester {
         return Arrays.asList(edges);
     }
 
-    // For testing purposes only!
-    // Test the algo with an arbitrary obstacle string.
     public static void main(String[] args) {
-        run("OBS:9:4:N:13:15:E");
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8980).usePlaintext().build();
+        AlgoClient algoClient = new AlgoClient(channel);
+        run(algoClient);
     }
 
 }

@@ -10,6 +10,7 @@ package com.mdp.grpc;
  * X = 0 to 19
  * Y = 0 to 19
  * Dir = N, S, E, or W
+ * TODO: robotCoordinates may need to be repeated i.e., repeated string robotCoordinates = 1;
  * </pre>
  *
  * Protobuf type {@code RobotPosition}
@@ -285,6 +286,7 @@ private static final long serialVersionUID = 0L;
    * X = 0 to 19
    * Y = 0 to 19
    * Dir = N, S, E, or W
+   * TODO: robotCoordinates may need to be repeated i.e., repeated string robotCoordinates = 1;
    * </pre>
    *
    * Protobuf type {@code RobotPosition}

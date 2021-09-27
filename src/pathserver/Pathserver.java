@@ -24,7 +24,7 @@ public final class Pathserver {
      * x-coordinate of the robot.
      * </pre>
      *
-     * <code>optional double x = 1;</code>
+     * <code>double x = 1;</code>
      */
     double getX();
 
@@ -34,7 +34,7 @@ public final class Pathserver {
      * y-coordinate of the robot.
      * </pre>
      *
-     * <code>optional double y = 2;</code>
+     * <code>double y = 2;</code>
      */
     double getY();
 
@@ -45,7 +45,7 @@ public final class Pathserver {
      * In radians. Measured counter-clockwise from the x-axis.
      * </pre>
      *
-     * <code>optional double theta = 3;</code>
+     * <code>double theta = 3;</code>
      */
     double getTheta();
   }
@@ -61,6 +61,7 @@ public final class Pathserver {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:pathserver.State)
       StateOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use State.newBuilder() to construct.
     private State(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -74,14 +75,19 @@ public final class Pathserver {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+      return this.unknownFields;
     }
     private State(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -90,12 +96,6 @@ public final class Pathserver {
             case 0:
               done = true;
               break;
-            default: {
-              if (!input.skipField(tag)) {
-                done = true;
-              }
-              break;
-            }
             case 9: {
 
               x_ = input.readDouble();
@@ -111,6 +111,13 @@ public final class Pathserver {
               theta_ = input.readDouble();
               break;
             }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -119,6 +126,7 @@ public final class Pathserver {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -127,6 +135,7 @@ public final class Pathserver {
       return pathserver.Pathserver.internal_static_pathserver_State_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return pathserver.Pathserver.internal_static_pathserver_State_fieldAccessorTable
@@ -142,7 +151,7 @@ public final class Pathserver {
      * x-coordinate of the robot.
      * </pre>
      *
-     * <code>optional double x = 1;</code>
+     * <code>double x = 1;</code>
      */
     public double getX() {
       return x_;
@@ -156,7 +165,7 @@ public final class Pathserver {
      * y-coordinate of the robot.
      * </pre>
      *
-     * <code>optional double y = 2;</code>
+     * <code>double y = 2;</code>
      */
     public double getY() {
       return y_;
@@ -171,13 +180,14 @@ public final class Pathserver {
      * In radians. Measured counter-clockwise from the x-axis.
      * </pre>
      *
-     * <code>optional double theta = 3;</code>
+     * <code>double theta = 3;</code>
      */
     public double getTheta() {
       return theta_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -187,6 +197,7 @@ public final class Pathserver {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (x_ != 0D) {
@@ -198,8 +209,10 @@ public final class Pathserver {
       if (theta_ != 0D) {
         output.writeDouble(3, theta_);
       }
+      unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -217,11 +230,11 @@ public final class Pathserver {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(3, theta_);
       }
+      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -245,6 +258,7 @@ public final class Pathserver {
           java.lang.Double.doubleToLongBits(getTheta())
           == java.lang.Double.doubleToLongBits(
               other.getTheta()));
+      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -254,7 +268,7 @@ public final class Pathserver {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + X_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getX()));
@@ -269,6 +283,17 @@ public final class Pathserver {
       return hash;
     }
 
+    public static pathserver.Pathserver.State parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pathserver.Pathserver.State parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static pathserver.Pathserver.State parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -328,6 +353,7 @@ public final class Pathserver {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -335,6 +361,7 @@ public final class Pathserver {
     public static Builder newBuilder(pathserver.Pathserver.State prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -363,6 +390,7 @@ public final class Pathserver {
         return pathserver.Pathserver.internal_static_pathserver_State_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return pathserver.Pathserver.internal_static_pathserver_State_fieldAccessorTable
@@ -385,6 +413,7 @@ public final class Pathserver {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         x_ = 0D;
@@ -396,15 +425,18 @@ public final class Pathserver {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return pathserver.Pathserver.internal_static_pathserver_State_descriptor;
       }
 
+      @java.lang.Override
       public pathserver.Pathserver.State getDefaultInstanceForType() {
         return pathserver.Pathserver.State.getDefaultInstance();
       }
 
+      @java.lang.Override
       public pathserver.Pathserver.State build() {
         pathserver.Pathserver.State result = buildPartial();
         if (!result.isInitialized()) {
@@ -413,6 +445,7 @@ public final class Pathserver {
         return result;
       }
 
+      @java.lang.Override
       public pathserver.Pathserver.State buildPartial() {
         pathserver.Pathserver.State result = new pathserver.Pathserver.State(this);
         result.x_ = x_;
@@ -422,32 +455,39 @@ public final class Pathserver {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
+          java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
+          int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
+          java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof pathserver.Pathserver.State) {
           return mergeFrom((pathserver.Pathserver.State)other);
@@ -468,14 +508,17 @@ public final class Pathserver {
         if (other.getTheta() != 0D) {
           setTheta(other.getTheta());
         }
+        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -501,7 +544,7 @@ public final class Pathserver {
        * x-coordinate of the robot.
        * </pre>
        *
-       * <code>optional double x = 1;</code>
+       * <code>double x = 1;</code>
        */
       public double getX() {
         return x_;
@@ -512,7 +555,7 @@ public final class Pathserver {
        * x-coordinate of the robot.
        * </pre>
        *
-       * <code>optional double x = 1;</code>
+       * <code>double x = 1;</code>
        */
       public Builder setX(double value) {
         
@@ -526,7 +569,7 @@ public final class Pathserver {
        * x-coordinate of the robot.
        * </pre>
        *
-       * <code>optional double x = 1;</code>
+       * <code>double x = 1;</code>
        */
       public Builder clearX() {
         
@@ -542,7 +585,7 @@ public final class Pathserver {
        * y-coordinate of the robot.
        * </pre>
        *
-       * <code>optional double y = 2;</code>
+       * <code>double y = 2;</code>
        */
       public double getY() {
         return y_;
@@ -553,7 +596,7 @@ public final class Pathserver {
        * y-coordinate of the robot.
        * </pre>
        *
-       * <code>optional double y = 2;</code>
+       * <code>double y = 2;</code>
        */
       public Builder setY(double value) {
         
@@ -567,7 +610,7 @@ public final class Pathserver {
        * y-coordinate of the robot.
        * </pre>
        *
-       * <code>optional double y = 2;</code>
+       * <code>double y = 2;</code>
        */
       public Builder clearY() {
         
@@ -584,7 +627,7 @@ public final class Pathserver {
        * In radians. Measured counter-clockwise from the x-axis.
        * </pre>
        *
-       * <code>optional double theta = 3;</code>
+       * <code>double theta = 3;</code>
        */
       public double getTheta() {
         return theta_;
@@ -596,7 +639,7 @@ public final class Pathserver {
        * In radians. Measured counter-clockwise from the x-axis.
        * </pre>
        *
-       * <code>optional double theta = 3;</code>
+       * <code>double theta = 3;</code>
        */
       public Builder setTheta(double value) {
         
@@ -611,7 +654,7 @@ public final class Pathserver {
        * In radians. Measured counter-clockwise from the x-axis.
        * </pre>
        *
-       * <code>optional double theta = 3;</code>
+       * <code>double theta = 3;</code>
        */
       public Builder clearTheta() {
         
@@ -619,14 +662,16 @@ public final class Pathserver {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
+        return super.mergeUnknownFields(unknownFields);
       }
 
 
@@ -645,11 +690,12 @@ public final class Pathserver {
 
     private static final com.google.protobuf.Parser<State>
         PARSER = new com.google.protobuf.AbstractParser<State>() {
+      @java.lang.Override
       public State parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new State(input, extensionRegistry);
+        return new State(input, extensionRegistry);
       }
     };
 
@@ -662,6 +708,7 @@ public final class Pathserver {
       return PARSER;
     }
 
+    @java.lang.Override
     public pathserver.Pathserver.State getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -727,7 +774,7 @@ public final class Pathserver {
      * Current state.
      * </pre>
      *
-     * <code>optional .pathserver.State current = 2;</code>
+     * <code>.pathserver.State current = 2;</code>
      */
     boolean hasCurrent();
     /**
@@ -736,7 +783,7 @@ public final class Pathserver {
      * Current state.
      * </pre>
      *
-     * <code>optional .pathserver.State current = 2;</code>
+     * <code>.pathserver.State current = 2;</code>
      */
     pathserver.Pathserver.State getCurrent();
     /**
@@ -745,7 +792,7 @@ public final class Pathserver {
      * Current state.
      * </pre>
      *
-     * <code>optional .pathserver.State current = 2;</code>
+     * <code>.pathserver.State current = 2;</code>
      */
     pathserver.Pathserver.StateOrBuilder getCurrentOrBuilder();
 
@@ -755,7 +802,7 @@ public final class Pathserver {
      * Target state.
      * </pre>
      *
-     * <code>optional .pathserver.State target = 3;</code>
+     * <code>.pathserver.State target = 3;</code>
      */
     boolean hasTarget();
     /**
@@ -764,7 +811,7 @@ public final class Pathserver {
      * Target state.
      * </pre>
      *
-     * <code>optional .pathserver.State target = 3;</code>
+     * <code>.pathserver.State target = 3;</code>
      */
     pathserver.Pathserver.State getTarget();
     /**
@@ -773,7 +820,7 @@ public final class Pathserver {
      * Target state.
      * </pre>
      *
-     * <code>optional .pathserver.State target = 3;</code>
+     * <code>.pathserver.State target = 3;</code>
      */
     pathserver.Pathserver.StateOrBuilder getTargetOrBuilder();
   }
@@ -784,6 +831,7 @@ public final class Pathserver {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:pathserver.PlanRequest)
       PlanRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use PlanRequest.newBuilder() to construct.
     private PlanRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -795,14 +843,19 @@ public final class Pathserver {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+      return this.unknownFields;
     }
     private PlanRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -811,12 +864,6 @@ public final class Pathserver {
             case 0:
               done = true;
               break;
-            default: {
-              if (!input.skipField(tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
                 obstacles_ = new java.util.ArrayList<pathserver.Pathserver.PlanRequest.Obstacle>();
@@ -852,6 +899,13 @@ public final class Pathserver {
 
               break;
             }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -863,6 +917,7 @@ public final class Pathserver {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           obstacles_ = java.util.Collections.unmodifiableList(obstacles_);
         }
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -871,6 +926,7 @@ public final class Pathserver {
       return pathserver.Pathserver.internal_static_pathserver_PlanRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return pathserver.Pathserver.internal_static_pathserver_PlanRequest_fieldAccessorTable
@@ -888,7 +944,7 @@ public final class Pathserver {
        * x grid-position of obstacle.
        * </pre>
        *
-       * <code>optional int32 x = 1;</code>
+       * <code>int32 x = 1;</code>
        */
       int getX();
 
@@ -898,7 +954,7 @@ public final class Pathserver {
        * y grid-position of obstacle.
        * </pre>
        *
-       * <code>optional int32 y = 2;</code>
+       * <code>int32 y = 2;</code>
        */
       int getY();
     }
@@ -914,6 +970,7 @@ public final class Pathserver {
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:pathserver.PlanRequest.Obstacle)
         ObstacleOrBuilder {
+    private static final long serialVersionUID = 0L;
       // Use Obstacle.newBuilder() to construct.
       private Obstacle(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
         super(builder);
@@ -926,14 +983,19 @@ public final class Pathserver {
       @java.lang.Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
-        return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+        return this.unknownFields;
       }
       private Obstacle(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
           boolean done = false;
           while (!done) {
@@ -942,12 +1004,6 @@ public final class Pathserver {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!input.skipField(tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
 
                 x_ = input.readInt32();
@@ -958,6 +1014,13 @@ public final class Pathserver {
                 y_ = input.readInt32();
                 break;
               }
+              default: {
+                if (!parseUnknownFieldProto3(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -966,6 +1029,7 @@ public final class Pathserver {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
+          this.unknownFields = unknownFields.build();
           makeExtensionsImmutable();
         }
       }
@@ -974,6 +1038,7 @@ public final class Pathserver {
         return pathserver.Pathserver.internal_static_pathserver_PlanRequest_Obstacle_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return pathserver.Pathserver.internal_static_pathserver_PlanRequest_Obstacle_fieldAccessorTable
@@ -989,7 +1054,7 @@ public final class Pathserver {
        * x grid-position of obstacle.
        * </pre>
        *
-       * <code>optional int32 x = 1;</code>
+       * <code>int32 x = 1;</code>
        */
       public int getX() {
         return x_;
@@ -1003,13 +1068,14 @@ public final class Pathserver {
        * y grid-position of obstacle.
        * </pre>
        *
-       * <code>optional int32 y = 2;</code>
+       * <code>int32 y = 2;</code>
        */
       public int getY() {
         return y_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -1019,6 +1085,7 @@ public final class Pathserver {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (x_ != 0) {
@@ -1027,8 +1094,10 @@ public final class Pathserver {
         if (y_ != 0) {
           output.writeInt32(2, y_);
         }
+        unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -1042,11 +1111,11 @@ public final class Pathserver {
           size += com.google.protobuf.CodedOutputStream
             .computeInt32Size(2, y_);
         }
+        size += unknownFields.getSerializedSize();
         memoizedSize = size;
         return size;
       }
 
-      private static final long serialVersionUID = 0L;
       @java.lang.Override
       public boolean equals(final java.lang.Object obj) {
         if (obj == this) {
@@ -1062,6 +1131,7 @@ public final class Pathserver {
             == other.getX());
         result = result && (getY()
             == other.getY());
+        result = result && unknownFields.equals(other.unknownFields);
         return result;
       }
 
@@ -1071,7 +1141,7 @@ public final class Pathserver {
           return memoizedHashCode;
         }
         int hash = 41;
-        hash = (19 * hash) + getDescriptorForType().hashCode();
+        hash = (19 * hash) + getDescriptor().hashCode();
         hash = (37 * hash) + X_FIELD_NUMBER;
         hash = (53 * hash) + getX();
         hash = (37 * hash) + Y_FIELD_NUMBER;
@@ -1081,6 +1151,17 @@ public final class Pathserver {
         return hash;
       }
 
+      public static pathserver.Pathserver.PlanRequest.Obstacle parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static pathserver.Pathserver.PlanRequest.Obstacle parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
       public static pathserver.Pathserver.PlanRequest.Obstacle parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1140,6 +1221,7 @@ public final class Pathserver {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -1147,6 +1229,7 @@ public final class Pathserver {
       public static Builder newBuilder(pathserver.Pathserver.PlanRequest.Obstacle prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -1175,6 +1258,7 @@ public final class Pathserver {
           return pathserver.Pathserver.internal_static_pathserver_PlanRequest_Obstacle_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return pathserver.Pathserver.internal_static_pathserver_PlanRequest_Obstacle_fieldAccessorTable
@@ -1197,6 +1281,7 @@ public final class Pathserver {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           x_ = 0;
@@ -1206,15 +1291,18 @@ public final class Pathserver {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return pathserver.Pathserver.internal_static_pathserver_PlanRequest_Obstacle_descriptor;
         }
 
+        @java.lang.Override
         public pathserver.Pathserver.PlanRequest.Obstacle getDefaultInstanceForType() {
           return pathserver.Pathserver.PlanRequest.Obstacle.getDefaultInstance();
         }
 
+        @java.lang.Override
         public pathserver.Pathserver.PlanRequest.Obstacle build() {
           pathserver.Pathserver.PlanRequest.Obstacle result = buildPartial();
           if (!result.isInitialized()) {
@@ -1223,6 +1311,7 @@ public final class Pathserver {
           return result;
         }
 
+        @java.lang.Override
         public pathserver.Pathserver.PlanRequest.Obstacle buildPartial() {
           pathserver.Pathserver.PlanRequest.Obstacle result = new pathserver.Pathserver.PlanRequest.Obstacle(this);
           result.x_ = x_;
@@ -1231,32 +1320,39 @@ public final class Pathserver {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
           return (Builder) super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            Object value) {
+            java.lang.Object value) {
           return (Builder) super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
           return (Builder) super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
           return (Builder) super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            int index, Object value) {
+            int index, java.lang.Object value) {
           return (Builder) super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            Object value) {
+            java.lang.Object value) {
           return (Builder) super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof pathserver.Pathserver.PlanRequest.Obstacle) {
             return mergeFrom((pathserver.Pathserver.PlanRequest.Obstacle)other);
@@ -1274,14 +1370,17 @@ public final class Pathserver {
           if (other.getY() != 0) {
             setY(other.getY());
           }
+          this.mergeUnknownFields(other.unknownFields);
           onChanged();
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1307,7 +1406,7 @@ public final class Pathserver {
          * x grid-position of obstacle.
          * </pre>
          *
-         * <code>optional int32 x = 1;</code>
+         * <code>int32 x = 1;</code>
          */
         public int getX() {
           return x_;
@@ -1318,7 +1417,7 @@ public final class Pathserver {
          * x grid-position of obstacle.
          * </pre>
          *
-         * <code>optional int32 x = 1;</code>
+         * <code>int32 x = 1;</code>
          */
         public Builder setX(int value) {
           
@@ -1332,7 +1431,7 @@ public final class Pathserver {
          * x grid-position of obstacle.
          * </pre>
          *
-         * <code>optional int32 x = 1;</code>
+         * <code>int32 x = 1;</code>
          */
         public Builder clearX() {
           
@@ -1348,7 +1447,7 @@ public final class Pathserver {
          * y grid-position of obstacle.
          * </pre>
          *
-         * <code>optional int32 y = 2;</code>
+         * <code>int32 y = 2;</code>
          */
         public int getY() {
           return y_;
@@ -1359,7 +1458,7 @@ public final class Pathserver {
          * y grid-position of obstacle.
          * </pre>
          *
-         * <code>optional int32 y = 2;</code>
+         * <code>int32 y = 2;</code>
          */
         public Builder setY(int value) {
           
@@ -1373,7 +1472,7 @@ public final class Pathserver {
          * y grid-position of obstacle.
          * </pre>
          *
-         * <code>optional int32 y = 2;</code>
+         * <code>int32 y = 2;</code>
          */
         public Builder clearY() {
           
@@ -1381,14 +1480,16 @@ public final class Pathserver {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return this;
+          return super.setUnknownFieldsProto3(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return this;
+          return super.mergeUnknownFields(unknownFields);
         }
 
 
@@ -1407,11 +1508,12 @@ public final class Pathserver {
 
       private static final com.google.protobuf.Parser<Obstacle>
           PARSER = new com.google.protobuf.AbstractParser<Obstacle>() {
+        @java.lang.Override
         public Obstacle parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Obstacle(input, extensionRegistry);
+          return new Obstacle(input, extensionRegistry);
         }
       };
 
@@ -1424,6 +1526,7 @@ public final class Pathserver {
         return PARSER;
       }
 
+      @java.lang.Override
       public pathserver.Pathserver.PlanRequest.Obstacle getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -1499,7 +1602,7 @@ public final class Pathserver {
      * Current state.
      * </pre>
      *
-     * <code>optional .pathserver.State current = 2;</code>
+     * <code>.pathserver.State current = 2;</code>
      */
     public boolean hasCurrent() {
       return current_ != null;
@@ -1510,7 +1613,7 @@ public final class Pathserver {
      * Current state.
      * </pre>
      *
-     * <code>optional .pathserver.State current = 2;</code>
+     * <code>.pathserver.State current = 2;</code>
      */
     public pathserver.Pathserver.State getCurrent() {
       return current_ == null ? pathserver.Pathserver.State.getDefaultInstance() : current_;
@@ -1521,7 +1624,7 @@ public final class Pathserver {
      * Current state.
      * </pre>
      *
-     * <code>optional .pathserver.State current = 2;</code>
+     * <code>.pathserver.State current = 2;</code>
      */
     public pathserver.Pathserver.StateOrBuilder getCurrentOrBuilder() {
       return getCurrent();
@@ -1535,7 +1638,7 @@ public final class Pathserver {
      * Target state.
      * </pre>
      *
-     * <code>optional .pathserver.State target = 3;</code>
+     * <code>.pathserver.State target = 3;</code>
      */
     public boolean hasTarget() {
       return target_ != null;
@@ -1546,7 +1649,7 @@ public final class Pathserver {
      * Target state.
      * </pre>
      *
-     * <code>optional .pathserver.State target = 3;</code>
+     * <code>.pathserver.State target = 3;</code>
      */
     public pathserver.Pathserver.State getTarget() {
       return target_ == null ? pathserver.Pathserver.State.getDefaultInstance() : target_;
@@ -1557,13 +1660,14 @@ public final class Pathserver {
      * Target state.
      * </pre>
      *
-     * <code>optional .pathserver.State target = 3;</code>
+     * <code>.pathserver.State target = 3;</code>
      */
     public pathserver.Pathserver.StateOrBuilder getTargetOrBuilder() {
       return getTarget();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1573,6 +1677,7 @@ public final class Pathserver {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < obstacles_.size(); i++) {
@@ -1584,8 +1689,10 @@ public final class Pathserver {
       if (target_ != null) {
         output.writeMessage(3, getTarget());
       }
+      unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1603,11 +1710,11 @@ public final class Pathserver {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getTarget());
       }
+      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -1631,6 +1738,7 @@ public final class Pathserver {
         result = result && getTarget()
             .equals(other.getTarget());
       }
+      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -1640,7 +1748,7 @@ public final class Pathserver {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (19 * hash) + getDescriptor().hashCode();
       if (getObstaclesCount() > 0) {
         hash = (37 * hash) + OBSTACLES_FIELD_NUMBER;
         hash = (53 * hash) + getObstaclesList().hashCode();
@@ -1658,6 +1766,17 @@ public final class Pathserver {
       return hash;
     }
 
+    public static pathserver.Pathserver.PlanRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pathserver.Pathserver.PlanRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static pathserver.Pathserver.PlanRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1717,6 +1836,7 @@ public final class Pathserver {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1724,6 +1844,7 @@ public final class Pathserver {
     public static Builder newBuilder(pathserver.Pathserver.PlanRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1747,6 +1868,7 @@ public final class Pathserver {
         return pathserver.Pathserver.internal_static_pathserver_PlanRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return pathserver.Pathserver.internal_static_pathserver_PlanRequest_fieldAccessorTable
@@ -1770,6 +1892,7 @@ public final class Pathserver {
           getObstaclesFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (obstaclesBuilder_ == null) {
@@ -1793,15 +1916,18 @@ public final class Pathserver {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return pathserver.Pathserver.internal_static_pathserver_PlanRequest_descriptor;
       }
 
+      @java.lang.Override
       public pathserver.Pathserver.PlanRequest getDefaultInstanceForType() {
         return pathserver.Pathserver.PlanRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public pathserver.Pathserver.PlanRequest build() {
         pathserver.Pathserver.PlanRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -1810,6 +1936,7 @@ public final class Pathserver {
         return result;
       }
 
+      @java.lang.Override
       public pathserver.Pathserver.PlanRequest buildPartial() {
         pathserver.Pathserver.PlanRequest result = new pathserver.Pathserver.PlanRequest(this);
         int from_bitField0_ = bitField0_;
@@ -1838,32 +1965,39 @@ public final class Pathserver {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
+          java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
+          int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
+          java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof pathserver.Pathserver.PlanRequest) {
           return mergeFrom((pathserver.Pathserver.PlanRequest)other);
@@ -1907,14 +2041,17 @@ public final class Pathserver {
         if (other.hasTarget()) {
           mergeTarget(other.getTarget());
         }
+        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2273,7 +2410,7 @@ public final class Pathserver {
        * Current state.
        * </pre>
        *
-       * <code>optional .pathserver.State current = 2;</code>
+       * <code>.pathserver.State current = 2;</code>
        */
       public boolean hasCurrent() {
         return currentBuilder_ != null || current_ != null;
@@ -2284,7 +2421,7 @@ public final class Pathserver {
        * Current state.
        * </pre>
        *
-       * <code>optional .pathserver.State current = 2;</code>
+       * <code>.pathserver.State current = 2;</code>
        */
       public pathserver.Pathserver.State getCurrent() {
         if (currentBuilder_ == null) {
@@ -2299,7 +2436,7 @@ public final class Pathserver {
        * Current state.
        * </pre>
        *
-       * <code>optional .pathserver.State current = 2;</code>
+       * <code>.pathserver.State current = 2;</code>
        */
       public Builder setCurrent(pathserver.Pathserver.State value) {
         if (currentBuilder_ == null) {
@@ -2320,7 +2457,7 @@ public final class Pathserver {
        * Current state.
        * </pre>
        *
-       * <code>optional .pathserver.State current = 2;</code>
+       * <code>.pathserver.State current = 2;</code>
        */
       public Builder setCurrent(
           pathserver.Pathserver.State.Builder builderForValue) {
@@ -2339,7 +2476,7 @@ public final class Pathserver {
        * Current state.
        * </pre>
        *
-       * <code>optional .pathserver.State current = 2;</code>
+       * <code>.pathserver.State current = 2;</code>
        */
       public Builder mergeCurrent(pathserver.Pathserver.State value) {
         if (currentBuilder_ == null) {
@@ -2362,7 +2499,7 @@ public final class Pathserver {
        * Current state.
        * </pre>
        *
-       * <code>optional .pathserver.State current = 2;</code>
+       * <code>.pathserver.State current = 2;</code>
        */
       public Builder clearCurrent() {
         if (currentBuilder_ == null) {
@@ -2381,7 +2518,7 @@ public final class Pathserver {
        * Current state.
        * </pre>
        *
-       * <code>optional .pathserver.State current = 2;</code>
+       * <code>.pathserver.State current = 2;</code>
        */
       public pathserver.Pathserver.State.Builder getCurrentBuilder() {
         
@@ -2394,7 +2531,7 @@ public final class Pathserver {
        * Current state.
        * </pre>
        *
-       * <code>optional .pathserver.State current = 2;</code>
+       * <code>.pathserver.State current = 2;</code>
        */
       public pathserver.Pathserver.StateOrBuilder getCurrentOrBuilder() {
         if (currentBuilder_ != null) {
@@ -2410,7 +2547,7 @@ public final class Pathserver {
        * Current state.
        * </pre>
        *
-       * <code>optional .pathserver.State current = 2;</code>
+       * <code>.pathserver.State current = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           pathserver.Pathserver.State, pathserver.Pathserver.State.Builder, pathserver.Pathserver.StateOrBuilder> 
@@ -2435,7 +2572,7 @@ public final class Pathserver {
        * Target state.
        * </pre>
        *
-       * <code>optional .pathserver.State target = 3;</code>
+       * <code>.pathserver.State target = 3;</code>
        */
       public boolean hasTarget() {
         return targetBuilder_ != null || target_ != null;
@@ -2446,7 +2583,7 @@ public final class Pathserver {
        * Target state.
        * </pre>
        *
-       * <code>optional .pathserver.State target = 3;</code>
+       * <code>.pathserver.State target = 3;</code>
        */
       public pathserver.Pathserver.State getTarget() {
         if (targetBuilder_ == null) {
@@ -2461,7 +2598,7 @@ public final class Pathserver {
        * Target state.
        * </pre>
        *
-       * <code>optional .pathserver.State target = 3;</code>
+       * <code>.pathserver.State target = 3;</code>
        */
       public Builder setTarget(pathserver.Pathserver.State value) {
         if (targetBuilder_ == null) {
@@ -2482,7 +2619,7 @@ public final class Pathserver {
        * Target state.
        * </pre>
        *
-       * <code>optional .pathserver.State target = 3;</code>
+       * <code>.pathserver.State target = 3;</code>
        */
       public Builder setTarget(
           pathserver.Pathserver.State.Builder builderForValue) {
@@ -2501,7 +2638,7 @@ public final class Pathserver {
        * Target state.
        * </pre>
        *
-       * <code>optional .pathserver.State target = 3;</code>
+       * <code>.pathserver.State target = 3;</code>
        */
       public Builder mergeTarget(pathserver.Pathserver.State value) {
         if (targetBuilder_ == null) {
@@ -2524,7 +2661,7 @@ public final class Pathserver {
        * Target state.
        * </pre>
        *
-       * <code>optional .pathserver.State target = 3;</code>
+       * <code>.pathserver.State target = 3;</code>
        */
       public Builder clearTarget() {
         if (targetBuilder_ == null) {
@@ -2543,7 +2680,7 @@ public final class Pathserver {
        * Target state.
        * </pre>
        *
-       * <code>optional .pathserver.State target = 3;</code>
+       * <code>.pathserver.State target = 3;</code>
        */
       public pathserver.Pathserver.State.Builder getTargetBuilder() {
         
@@ -2556,7 +2693,7 @@ public final class Pathserver {
        * Target state.
        * </pre>
        *
-       * <code>optional .pathserver.State target = 3;</code>
+       * <code>.pathserver.State target = 3;</code>
        */
       public pathserver.Pathserver.StateOrBuilder getTargetOrBuilder() {
         if (targetBuilder_ != null) {
@@ -2572,7 +2709,7 @@ public final class Pathserver {
        * Target state.
        * </pre>
        *
-       * <code>optional .pathserver.State target = 3;</code>
+       * <code>.pathserver.State target = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           pathserver.Pathserver.State, pathserver.Pathserver.State.Builder, pathserver.Pathserver.StateOrBuilder> 
@@ -2587,14 +2724,16 @@ public final class Pathserver {
         }
         return targetBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
+        return super.mergeUnknownFields(unknownFields);
       }
 
 
@@ -2613,11 +2752,12 @@ public final class Pathserver {
 
     private static final com.google.protobuf.Parser<PlanRequest>
         PARSER = new com.google.protobuf.AbstractParser<PlanRequest>() {
+      @java.lang.Override
       public PlanRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new PlanRequest(input, extensionRegistry);
+        return new PlanRequest(input, extensionRegistry);
       }
     };
 
@@ -2630,6 +2770,7 @@ public final class Pathserver {
       return PARSER;
     }
 
+    @java.lang.Override
     public pathserver.Pathserver.PlanRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2775,6 +2916,7 @@ public final class Pathserver {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:pathserver.PlanReply)
       PlanReplyOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use PlanReply.newBuilder() to construct.
     private PlanReply(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -2787,14 +2929,19 @@ public final class Pathserver {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+      return this.unknownFields;
     }
     private PlanReply(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -2803,12 +2950,6 @@ public final class Pathserver {
             case 0:
               done = true;
               break;
-            default: {
-              if (!input.skipField(tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
                 moves_ = new java.util.ArrayList<pathserver.Pathserver.PlanReply.Move>();
@@ -2827,6 +2968,13 @@ public final class Pathserver {
                   input.readMessage(pathserver.Pathserver.State.parser(), extensionRegistry));
               break;
             }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2841,6 +2989,7 @@ public final class Pathserver {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           waypoints_ = java.util.Collections.unmodifiableList(waypoints_);
         }
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -2849,6 +2998,7 @@ public final class Pathserver {
       return pathserver.Pathserver.internal_static_pathserver_PlanReply_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return pathserver.Pathserver.internal_static_pathserver_PlanReply_fieldAccessorTable
@@ -2861,11 +3011,11 @@ public final class Pathserver {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>optional .pathserver.PlanReply.Move.Direction direction = 1;</code>
+       * <code>.pathserver.PlanReply.Move.Direction direction = 1;</code>
        */
       int getDirectionValue();
       /**
-       * <code>optional .pathserver.PlanReply.Move.Direction direction = 1;</code>
+       * <code>.pathserver.PlanReply.Move.Direction direction = 1;</code>
        */
       pathserver.Pathserver.PlanReply.Move.Direction getDirection();
 
@@ -2878,7 +3028,7 @@ public final class Pathserver {
        * the robot should reverse.
        * </pre>
        *
-       * <code>optional double distance = 2;</code>
+       * <code>double distance = 2;</code>
        */
       double getDistance();
     }
@@ -2894,6 +3044,7 @@ public final class Pathserver {
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:pathserver.PlanReply.Move)
         MoveOrBuilder {
+    private static final long serialVersionUID = 0L;
       // Use Move.newBuilder() to construct.
       private Move(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
         super(builder);
@@ -2906,14 +3057,19 @@ public final class Pathserver {
       @java.lang.Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
-        return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+        return this.unknownFields;
       }
       private Move(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
           boolean done = false;
           while (!done) {
@@ -2922,12 +3078,6 @@ public final class Pathserver {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!input.skipField(tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
                 int rawValue = input.readEnum();
 
@@ -2939,6 +3089,13 @@ public final class Pathserver {
                 distance_ = input.readDouble();
                 break;
               }
+              default: {
+                if (!parseUnknownFieldProto3(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2947,6 +3104,7 @@ public final class Pathserver {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
+          this.unknownFields = unknownFields.build();
           makeExtensionsImmutable();
         }
       }
@@ -2955,6 +3113,7 @@ public final class Pathserver {
         return pathserver.Pathserver.internal_static_pathserver_PlanReply_Move_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return pathserver.Pathserver.internal_static_pathserver_PlanReply_Move_fieldAccessorTable
@@ -3101,15 +3260,16 @@ public final class Pathserver {
       public static final int DIRECTION_FIELD_NUMBER = 1;
       private int direction_;
       /**
-       * <code>optional .pathserver.PlanReply.Move.Direction direction = 1;</code>
+       * <code>.pathserver.PlanReply.Move.Direction direction = 1;</code>
        */
       public int getDirectionValue() {
         return direction_;
       }
       /**
-       * <code>optional .pathserver.PlanReply.Move.Direction direction = 1;</code>
+       * <code>.pathserver.PlanReply.Move.Direction direction = 1;</code>
        */
       public pathserver.Pathserver.PlanReply.Move.Direction getDirection() {
+        @SuppressWarnings("deprecation")
         pathserver.Pathserver.PlanReply.Move.Direction result = pathserver.Pathserver.PlanReply.Move.Direction.valueOf(direction_);
         return result == null ? pathserver.Pathserver.PlanReply.Move.Direction.UNRECOGNIZED : result;
       }
@@ -3125,13 +3285,14 @@ public final class Pathserver {
        * the robot should reverse.
        * </pre>
        *
-       * <code>optional double distance = 2;</code>
+       * <code>double distance = 2;</code>
        */
       public double getDistance() {
         return distance_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -3141,6 +3302,7 @@ public final class Pathserver {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (direction_ != pathserver.Pathserver.PlanReply.Move.Direction.LEFT.getNumber()) {
@@ -3149,8 +3311,10 @@ public final class Pathserver {
         if (distance_ != 0D) {
           output.writeDouble(2, distance_);
         }
+        unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -3164,11 +3328,11 @@ public final class Pathserver {
           size += com.google.protobuf.CodedOutputStream
             .computeDoubleSize(2, distance_);
         }
+        size += unknownFields.getSerializedSize();
         memoizedSize = size;
         return size;
       }
 
-      private static final long serialVersionUID = 0L;
       @java.lang.Override
       public boolean equals(final java.lang.Object obj) {
         if (obj == this) {
@@ -3185,6 +3349,7 @@ public final class Pathserver {
             java.lang.Double.doubleToLongBits(getDistance())
             == java.lang.Double.doubleToLongBits(
                 other.getDistance()));
+        result = result && unknownFields.equals(other.unknownFields);
         return result;
       }
 
@@ -3194,7 +3359,7 @@ public final class Pathserver {
           return memoizedHashCode;
         }
         int hash = 41;
-        hash = (19 * hash) + getDescriptorForType().hashCode();
+        hash = (19 * hash) + getDescriptor().hashCode();
         hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
         hash = (53 * hash) + direction_;
         hash = (37 * hash) + DISTANCE_FIELD_NUMBER;
@@ -3205,6 +3370,17 @@ public final class Pathserver {
         return hash;
       }
 
+      public static pathserver.Pathserver.PlanReply.Move parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static pathserver.Pathserver.PlanReply.Move parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
       public static pathserver.Pathserver.PlanReply.Move parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3264,6 +3440,7 @@ public final class Pathserver {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -3271,6 +3448,7 @@ public final class Pathserver {
       public static Builder newBuilder(pathserver.Pathserver.PlanReply.Move prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -3299,6 +3477,7 @@ public final class Pathserver {
           return pathserver.Pathserver.internal_static_pathserver_PlanReply_Move_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return pathserver.Pathserver.internal_static_pathserver_PlanReply_Move_fieldAccessorTable
@@ -3321,6 +3500,7 @@ public final class Pathserver {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           direction_ = 0;
@@ -3330,15 +3510,18 @@ public final class Pathserver {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return pathserver.Pathserver.internal_static_pathserver_PlanReply_Move_descriptor;
         }
 
+        @java.lang.Override
         public pathserver.Pathserver.PlanReply.Move getDefaultInstanceForType() {
           return pathserver.Pathserver.PlanReply.Move.getDefaultInstance();
         }
 
+        @java.lang.Override
         public pathserver.Pathserver.PlanReply.Move build() {
           pathserver.Pathserver.PlanReply.Move result = buildPartial();
           if (!result.isInitialized()) {
@@ -3347,6 +3530,7 @@ public final class Pathserver {
           return result;
         }
 
+        @java.lang.Override
         public pathserver.Pathserver.PlanReply.Move buildPartial() {
           pathserver.Pathserver.PlanReply.Move result = new pathserver.Pathserver.PlanReply.Move(this);
           result.direction_ = direction_;
@@ -3355,32 +3539,39 @@ public final class Pathserver {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
           return (Builder) super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            Object value) {
+            java.lang.Object value) {
           return (Builder) super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
           return (Builder) super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
           return (Builder) super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            int index, Object value) {
+            int index, java.lang.Object value) {
           return (Builder) super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            Object value) {
+            java.lang.Object value) {
           return (Builder) super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof pathserver.Pathserver.PlanReply.Move) {
             return mergeFrom((pathserver.Pathserver.PlanReply.Move)other);
@@ -3398,14 +3589,17 @@ public final class Pathserver {
           if (other.getDistance() != 0D) {
             setDistance(other.getDistance());
           }
+          this.mergeUnknownFields(other.unknownFields);
           onChanged();
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3426,13 +3620,13 @@ public final class Pathserver {
 
         private int direction_ = 0;
         /**
-         * <code>optional .pathserver.PlanReply.Move.Direction direction = 1;</code>
+         * <code>.pathserver.PlanReply.Move.Direction direction = 1;</code>
          */
         public int getDirectionValue() {
           return direction_;
         }
         /**
-         * <code>optional .pathserver.PlanReply.Move.Direction direction = 1;</code>
+         * <code>.pathserver.PlanReply.Move.Direction direction = 1;</code>
          */
         public Builder setDirectionValue(int value) {
           direction_ = value;
@@ -3440,14 +3634,15 @@ public final class Pathserver {
           return this;
         }
         /**
-         * <code>optional .pathserver.PlanReply.Move.Direction direction = 1;</code>
+         * <code>.pathserver.PlanReply.Move.Direction direction = 1;</code>
          */
         public pathserver.Pathserver.PlanReply.Move.Direction getDirection() {
+          @SuppressWarnings("deprecation")
           pathserver.Pathserver.PlanReply.Move.Direction result = pathserver.Pathserver.PlanReply.Move.Direction.valueOf(direction_);
           return result == null ? pathserver.Pathserver.PlanReply.Move.Direction.UNRECOGNIZED : result;
         }
         /**
-         * <code>optional .pathserver.PlanReply.Move.Direction direction = 1;</code>
+         * <code>.pathserver.PlanReply.Move.Direction direction = 1;</code>
          */
         public Builder setDirection(pathserver.Pathserver.PlanReply.Move.Direction value) {
           if (value == null) {
@@ -3459,7 +3654,7 @@ public final class Pathserver {
           return this;
         }
         /**
-         * <code>optional .pathserver.PlanReply.Move.Direction direction = 1;</code>
+         * <code>.pathserver.PlanReply.Move.Direction direction = 1;</code>
          */
         public Builder clearDirection() {
           
@@ -3478,7 +3673,7 @@ public final class Pathserver {
          * the robot should reverse.
          * </pre>
          *
-         * <code>optional double distance = 2;</code>
+         * <code>double distance = 2;</code>
          */
         public double getDistance() {
           return distance_;
@@ -3492,7 +3687,7 @@ public final class Pathserver {
          * the robot should reverse.
          * </pre>
          *
-         * <code>optional double distance = 2;</code>
+         * <code>double distance = 2;</code>
          */
         public Builder setDistance(double value) {
           
@@ -3509,7 +3704,7 @@ public final class Pathserver {
          * the robot should reverse.
          * </pre>
          *
-         * <code>optional double distance = 2;</code>
+         * <code>double distance = 2;</code>
          */
         public Builder clearDistance() {
           
@@ -3517,14 +3712,16 @@ public final class Pathserver {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return this;
+          return super.setUnknownFieldsProto3(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return this;
+          return super.mergeUnknownFields(unknownFields);
         }
 
 
@@ -3543,11 +3740,12 @@ public final class Pathserver {
 
       private static final com.google.protobuf.Parser<Move>
           PARSER = new com.google.protobuf.AbstractParser<Move>() {
+        @java.lang.Override
         public Move parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Move(input, extensionRegistry);
+          return new Move(input, extensionRegistry);
         }
       };
 
@@ -3560,6 +3758,7 @@ public final class Pathserver {
         return PARSER;
       }
 
+      @java.lang.Override
       public pathserver.Pathserver.PlanReply.Move getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -3712,6 +3911,7 @@ public final class Pathserver {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3721,6 +3921,7 @@ public final class Pathserver {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < moves_.size(); i++) {
@@ -3729,8 +3930,10 @@ public final class Pathserver {
       for (int i = 0; i < waypoints_.size(); i++) {
         output.writeMessage(2, waypoints_.get(i));
       }
+      unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3744,11 +3947,11 @@ public final class Pathserver {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, waypoints_.get(i));
       }
+      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -3764,6 +3967,7 @@ public final class Pathserver {
           .equals(other.getMovesList());
       result = result && getWaypointsList()
           .equals(other.getWaypointsList());
+      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -3773,7 +3977,7 @@ public final class Pathserver {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (19 * hash) + getDescriptor().hashCode();
       if (getMovesCount() > 0) {
         hash = (37 * hash) + MOVES_FIELD_NUMBER;
         hash = (53 * hash) + getMovesList().hashCode();
@@ -3787,6 +3991,17 @@ public final class Pathserver {
       return hash;
     }
 
+    public static pathserver.Pathserver.PlanReply parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pathserver.Pathserver.PlanReply parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static pathserver.Pathserver.PlanReply parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3846,6 +4061,7 @@ public final class Pathserver {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3853,6 +4069,7 @@ public final class Pathserver {
     public static Builder newBuilder(pathserver.Pathserver.PlanReply prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3881,6 +4098,7 @@ public final class Pathserver {
         return pathserver.Pathserver.internal_static_pathserver_PlanReply_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return pathserver.Pathserver.internal_static_pathserver_PlanReply_fieldAccessorTable
@@ -3905,6 +4123,7 @@ public final class Pathserver {
           getWaypointsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (movesBuilder_ == null) {
@@ -3922,15 +4141,18 @@ public final class Pathserver {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return pathserver.Pathserver.internal_static_pathserver_PlanReply_descriptor;
       }
 
+      @java.lang.Override
       public pathserver.Pathserver.PlanReply getDefaultInstanceForType() {
         return pathserver.Pathserver.PlanReply.getDefaultInstance();
       }
 
+      @java.lang.Override
       public pathserver.Pathserver.PlanReply build() {
         pathserver.Pathserver.PlanReply result = buildPartial();
         if (!result.isInitialized()) {
@@ -3939,6 +4161,7 @@ public final class Pathserver {
         return result;
       }
 
+      @java.lang.Override
       public pathserver.Pathserver.PlanReply buildPartial() {
         pathserver.Pathserver.PlanReply result = new pathserver.Pathserver.PlanReply(this);
         int from_bitField0_ = bitField0_;
@@ -3964,32 +4187,39 @@ public final class Pathserver {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
+          java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
+          int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
+          java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof pathserver.Pathserver.PlanReply) {
           return mergeFrom((pathserver.Pathserver.PlanReply)other);
@@ -4053,14 +4283,17 @@ public final class Pathserver {
             }
           }
         }
+        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4829,14 +5062,16 @@ public final class Pathserver {
         }
         return waypointsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
+        return super.mergeUnknownFields(unknownFields);
       }
 
 
@@ -4855,11 +5090,12 @@ public final class Pathserver {
 
     private static final com.google.protobuf.Parser<PlanReply>
         PARSER = new com.google.protobuf.AbstractParser<PlanReply>() {
+      @java.lang.Override
       public PlanReply parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new PlanReply(input, extensionRegistry);
+        return new PlanReply(input, extensionRegistry);
       }
     };
 
@@ -4872,6 +5108,7 @@ public final class Pathserver {
       return PARSER;
     }
 
+    @java.lang.Override
     public pathserver.Pathserver.PlanReply getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4921,7 +5158,7 @@ public final class Pathserver {
       "er.State\032 \n\010Obstacle\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001" +
       "(\005\"\340\001\n\tPlanReply\022)\n\005moves\030\001 \003(\0132\032.pathse" +
       "rver.PlanReply.Move\022$\n\twaypoints\030\002 \003(\0132\021" +
-      ".pathserver.State\032\201\001\n\004Move\0227\n\tdirection\030",
+      ".pathserver.State\032\201\001\n\004Move\0227\n\tdirection\030" +
       "\001 \001(\0162$.pathserver.PlanReply.Move.Direct" +
       "ion\022\020\n\010distance\030\002 \001(\001\".\n\tDirection\022\010\n\004LE" +
       "FT\020\000\022\014\n\010STRAIGHT\020\001\022\t\n\005RIGHT\020\0022\202\001\n\nPathSe" +
