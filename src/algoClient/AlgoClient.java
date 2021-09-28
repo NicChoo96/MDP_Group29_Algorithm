@@ -188,7 +188,7 @@ public class AlgoClient {
     /**
      * Sends a command to the server to take a picture of the image.
      */
-    private void takePicture() {
+    public void takePicture() {
         updateStatus(Status.STOPPED);
         Empty emptyRequest = Empty.newBuilder().build();
         try {
