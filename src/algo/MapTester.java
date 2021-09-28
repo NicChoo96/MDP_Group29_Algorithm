@@ -65,7 +65,7 @@ public class MapTester {
         }
 
         // Instantiate Robot
-        Robot robot = new Robot(1, 1, 'N');
+        // Robot robot = new Robot(1, 1, 'N');
 
         // A* Algorithm
         /*

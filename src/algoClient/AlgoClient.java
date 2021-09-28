@@ -49,9 +49,6 @@ public class AlgoClient {
         double[] srcPts = new double[] {x, y};
         double[] destPts = new double[2];
         double theta = startState.getTheta();
-        double xNew = 0;
-        double yNew = 0;
-        double thetaNew = 0;
         AffineTransform affine;
         double[] anchorPoints;
         List<double[]> movePoints = new ArrayList<>();
@@ -62,36 +59,42 @@ public class AlgoClient {
                 case LEFT:
                     radiusIndex = 1;
                     anchorPoints = getAnchorPoint(x, y, theta, 1);
+                    System.out.println("Anchor point: x = " + anchorPoints[0] + " , y = " + anchorPoints[1]);
+                    System.out.println("Arc length: " + command.getDistance());
                     affine = AffineTransform.getRotateInstance(command.getDistance()/0.337, anchorPoints[0], anchorPoints[1]);
                     affine.transform(srcPts, 0, destPts, 0, 1);
-                    xNew = round(destPts[0]);
-                    yNew = round(destPts[1]);
-                    thetaNew = round(theta + command.getDistance()/0.337);
+                    x = round(destPts[0]);
+                    y = round(destPts[1]);
+                    theta = round(theta + command.getDistance()/0.337);
                     break;
                 case RIGHT:
                     radiusIndex = -1;
                     anchorPoints = getAnchorPoint(x, y, theta, -1);
-                    affine = AffineTransform.getRotateInstance(command.getDistance()/0.337, anchorPoints[0], anchorPoints[1]);
+                    System.out.println("Anchor point: x = " + anchorPoints[0] + " , y = " + anchorPoints[1]);
+                    System.out.println("Arc length: " + command.getDistance());
+                    affine = AffineTransform.getRotateInstance(-command.getDistance()/0.337, anchorPoints[0], anchorPoints[1]);
                     affine.transform(srcPts, 0, destPts, 0, 1);
-                    xNew = round(destPts[0]);
-                    yNew = round(destPts[1]);
-                    thetaNew = round(theta - command.getDistance()/0.337);
+                    x = round(destPts[0]);
+                    y = round(destPts[1]);
+                    theta = round(theta - command.getDistance()/0.337);
                     break;
                 case STRAIGHT:
                     radiusIndex = 0;
-                    xNew = round(x + (command.getDistance() * Math.cos(theta)));
-                    yNew = round(y + (command.getDistance() * Math.sin(theta)));
-                    thetaNew = round(theta);
+                    x = round(x + (command.getDistance() * Math.cos(theta)));
+                    y = round(y + (command.getDistance() * Math.sin(theta)));
+                    theta = round(theta);
                     break;
                 default:
                     break;
                 }
+                srcPts[0] = x;
+                srcPts[1] = y;
                 try {
                     logger.info("Move command sent.");
-                    //TimeUnit.SECONDS.sleep((long) move(radiusIndex, command.getDistance()));
+                    TimeUnit.SECONDS.sleep((long) move(radiusIndex, command.getDistance()));
                     logger.info("Robot moved.");
-                    movePoints.add(new double[]{xNew, yNew, thetaNew});
-                    //moveVirtual(xNew, yNew, thetaNew);
+                    movePoints.add(new double[]{x, y, theta});
+                    moveVirtual(x, y, theta);
                 } catch (Exception ignored) {
                 }
             }
@@ -159,21 +162,6 @@ public class AlgoClient {
         Empty empty = blockingStub.moveVirtual(robotPosition);
     }
 
-    public static void main(String[] args) {
-        List<Pathserver.PlanReply.Move> moveList = new ArrayList<>();
-        Pathserver.PlanReply.Move.Builder builder = Pathserver.PlanReply.Move.newBuilder();
-        Pathserver.PlanReply.Move move1 = builder.setDistance(1).setDirection(Pathserver.PlanReply.Move.Direction.STRAIGHT).build();
-        builder = Pathserver.PlanReply.Move.newBuilder();
-        Pathserver.PlanReply.Move move2 = builder.setDistance(0.6).setDirection(Pathserver.PlanReply.Move.Direction.RIGHT).build();
-        builder = Pathserver.PlanReply.Move.newBuilder();
-        Pathserver.PlanReply.Move move3 = builder.setDistance(-0.5).setDirection(Pathserver.PlanReply.Move.Direction.LEFT).build();
-        moveList.add(move1);
-        moveList.add(move2);
-        moveList.add(move3);
-        AlgoClient algoClient = new AlgoClient(ManagedChannelBuilder.forAddress("localhost", 8980).usePlaintext().build());
-        Pathserver.State startState = Pathserver.State.newBuilder().setX(1).setY(1).setTheta(Math.PI/2).build();
-        algoClient.formatMoves(moveList, startState);
-    }
 /*
     public static void main(String[] args) {
         // TODO: connect to rPi.
