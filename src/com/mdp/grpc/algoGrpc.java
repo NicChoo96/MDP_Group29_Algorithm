@@ -16,18 +16,15 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
- * <pre>
- * TODO: proto file subject to change.
- * </pre>
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.15.0)",
-    comments = "Source: user.proto")
+    comments = "Source: algocomm.proto")
 public final class algoGrpc {
 
   private algoGrpc() {}
 
-  public static final String SERVICE_NAME = "algo";
+  public static final String SERVICE_NAME = "algo.algo";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<com.mdp.grpc.Empty,
@@ -48,7 +45,7 @@ public final class algoGrpc {
               io.grpc.MethodDescriptor.<com.mdp.grpc.Empty, com.mdp.grpc.ObstacleString>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "algo", "ReceiveCoordinates"))
+                  "algo.algo", "ReceiveCoordinates"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.mdp.grpc.Empty.getDefaultInstance()))
@@ -80,7 +77,7 @@ public final class algoGrpc {
               io.grpc.MethodDescriptor.<com.mdp.grpc.MoveRequest, com.mdp.grpc.MoveResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "algo", "Move"))
+                  "algo.algo", "Move"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.mdp.grpc.MoveRequest.getDefaultInstance()))
@@ -112,7 +109,7 @@ public final class algoGrpc {
               io.grpc.MethodDescriptor.<com.mdp.grpc.Empty, com.mdp.grpc.RadiiResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "algo", "GetRadii"))
+                  "algo.algo", "GetRadii"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.mdp.grpc.Empty.getDefaultInstance()))
@@ -144,7 +141,7 @@ public final class algoGrpc {
               io.grpc.MethodDescriptor.<com.mdp.grpc.RobotPosition, com.mdp.grpc.Empty>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "algo", "MoveVirtual"))
+                  "algo.algo", "MoveVirtual"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.mdp.grpc.RobotPosition.getDefaultInstance()))
@@ -156,6 +153,102 @@ public final class algoGrpc {
         }
      }
      return getMoveVirtualMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.mdp.grpc.ImageID,
+      com.mdp.grpc.Empty> getTakePictureMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "TakePicture",
+      requestType = com.mdp.grpc.ImageID.class,
+      responseType = com.mdp.grpc.Empty.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.mdp.grpc.ImageID,
+      com.mdp.grpc.Empty> getTakePictureMethod() {
+    io.grpc.MethodDescriptor<com.mdp.grpc.ImageID, com.mdp.grpc.Empty> getTakePictureMethod;
+    if ((getTakePictureMethod = algoGrpc.getTakePictureMethod) == null) {
+      synchronized (algoGrpc.class) {
+        if ((getTakePictureMethod = algoGrpc.getTakePictureMethod) == null) {
+          algoGrpc.getTakePictureMethod = getTakePictureMethod = 
+              io.grpc.MethodDescriptor.<com.mdp.grpc.ImageID, com.mdp.grpc.Empty>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "algo.algo", "TakePicture"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.mdp.grpc.ImageID.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.mdp.grpc.Empty.getDefaultInstance()))
+                  .setSchemaDescriptor(new algoMethodDescriptorSupplier("TakePicture"))
+                  .build();
+          }
+        }
+     }
+     return getTakePictureMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.mdp.grpc.StatusString,
+      com.mdp.grpc.Empty> getUpdateStatusMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "UpdateStatus",
+      requestType = com.mdp.grpc.StatusString.class,
+      responseType = com.mdp.grpc.Empty.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.mdp.grpc.StatusString,
+      com.mdp.grpc.Empty> getUpdateStatusMethod() {
+    io.grpc.MethodDescriptor<com.mdp.grpc.StatusString, com.mdp.grpc.Empty> getUpdateStatusMethod;
+    if ((getUpdateStatusMethod = algoGrpc.getUpdateStatusMethod) == null) {
+      synchronized (algoGrpc.class) {
+        if ((getUpdateStatusMethod = algoGrpc.getUpdateStatusMethod) == null) {
+          algoGrpc.getUpdateStatusMethod = getUpdateStatusMethod = 
+              io.grpc.MethodDescriptor.<com.mdp.grpc.StatusString, com.mdp.grpc.Empty>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "algo.algo", "UpdateStatus"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.mdp.grpc.StatusString.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.mdp.grpc.Empty.getDefaultInstance()))
+                  .setSchemaDescriptor(new algoMethodDescriptorSupplier("UpdateStatus"))
+                  .build();
+          }
+        }
+     }
+     return getUpdateStatusMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.mdp.grpc.Empty,
+      com.mdp.grpc.StartResponse> getCheckStartMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CheckStart",
+      requestType = com.mdp.grpc.Empty.class,
+      responseType = com.mdp.grpc.StartResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.mdp.grpc.Empty,
+      com.mdp.grpc.StartResponse> getCheckStartMethod() {
+    io.grpc.MethodDescriptor<com.mdp.grpc.Empty, com.mdp.grpc.StartResponse> getCheckStartMethod;
+    if ((getCheckStartMethod = algoGrpc.getCheckStartMethod) == null) {
+      synchronized (algoGrpc.class) {
+        if ((getCheckStartMethod = algoGrpc.getCheckStartMethod) == null) {
+          algoGrpc.getCheckStartMethod = getCheckStartMethod = 
+              io.grpc.MethodDescriptor.<com.mdp.grpc.Empty, com.mdp.grpc.StartResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "algo.algo", "CheckStart"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.mdp.grpc.Empty.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.mdp.grpc.StartResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new algoMethodDescriptorSupplier("CheckStart"))
+                  .build();
+          }
+        }
+     }
+     return getCheckStartMethod;
   }
 
   /**
@@ -182,9 +275,6 @@ public final class algoGrpc {
   }
 
   /**
-   * <pre>
-   * TODO: proto file subject to change.
-   * </pre>
    */
   public static abstract class algoImplBase implements io.grpc.BindableService {
 
@@ -228,6 +318,36 @@ public final class algoGrpc {
       asyncUnimplementedUnaryCall(getMoveVirtualMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     * Client sends a request to take picture
+     * </pre>
+     */
+    public void takePicture(com.mdp.grpc.ImageID request,
+        io.grpc.stub.StreamObserver<com.mdp.grpc.Empty> responseObserver) {
+      asyncUnimplementedUnaryCall(getTakePictureMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Client updates the current status
+     * </pre>
+     */
+    public void updateStatus(com.mdp.grpc.StatusString request,
+        io.grpc.stub.StreamObserver<com.mdp.grpc.Empty> responseObserver) {
+      asyncUnimplementedUnaryCall(getUpdateStatusMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Check if the Android has sent the start command
+     * </pre>
+     */
+    public void checkStart(com.mdp.grpc.Empty request,
+        io.grpc.stub.StreamObserver<com.mdp.grpc.StartResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getCheckStartMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -258,14 +378,32 @@ public final class algoGrpc {
                 com.mdp.grpc.RobotPosition,
                 com.mdp.grpc.Empty>(
                   this, METHODID_MOVE_VIRTUAL)))
+          .addMethod(
+            getTakePictureMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.mdp.grpc.ImageID,
+                com.mdp.grpc.Empty>(
+                  this, METHODID_TAKE_PICTURE)))
+          .addMethod(
+            getUpdateStatusMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.mdp.grpc.StatusString,
+                com.mdp.grpc.Empty>(
+                  this, METHODID_UPDATE_STATUS)))
+          .addMethod(
+            getCheckStartMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.mdp.grpc.Empty,
+                com.mdp.grpc.StartResponse>(
+                  this, METHODID_CHECK_START)))
           .build();
     }
   }
 
   /**
-   * <pre>
-   * TODO: proto file subject to change.
-   * </pre>
    */
   public static final class algoStub extends io.grpc.stub.AbstractStub<algoStub> {
     private algoStub(io.grpc.Channel channel) {
@@ -326,12 +464,42 @@ public final class algoGrpc {
       asyncUnaryCall(
           getChannel().newCall(getMoveVirtualMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * Client sends a request to take picture
+     * </pre>
+     */
+    public void takePicture(com.mdp.grpc.ImageID request,
+        io.grpc.stub.StreamObserver<com.mdp.grpc.Empty> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getTakePictureMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Client updates the current status
+     * </pre>
+     */
+    public void updateStatus(com.mdp.grpc.StatusString request,
+        io.grpc.stub.StreamObserver<com.mdp.grpc.Empty> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getUpdateStatusMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Check if the Android has sent the start command
+     * </pre>
+     */
+    public void checkStart(com.mdp.grpc.Empty request,
+        io.grpc.stub.StreamObserver<com.mdp.grpc.StartResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getCheckStartMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
-   * <pre>
-   * TODO: proto file subject to change.
-   * </pre>
    */
   public static final class algoBlockingStub extends io.grpc.stub.AbstractStub<algoBlockingStub> {
     private algoBlockingStub(io.grpc.Channel channel) {
@@ -388,12 +556,39 @@ public final class algoGrpc {
       return blockingUnaryCall(
           getChannel(), getMoveVirtualMethod(), getCallOptions(), request);
     }
+
+    /**
+     * <pre>
+     * Client sends a request to take picture
+     * </pre>
+     */
+    public com.mdp.grpc.Empty takePicture(com.mdp.grpc.ImageID request) {
+      return blockingUnaryCall(
+          getChannel(), getTakePictureMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Client updates the current status
+     * </pre>
+     */
+    public com.mdp.grpc.Empty updateStatus(com.mdp.grpc.StatusString request) {
+      return blockingUnaryCall(
+          getChannel(), getUpdateStatusMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Check if the Android has sent the start command
+     * </pre>
+     */
+    public com.mdp.grpc.StartResponse checkStart(com.mdp.grpc.Empty request) {
+      return blockingUnaryCall(
+          getChannel(), getCheckStartMethod(), getCallOptions(), request);
+    }
   }
 
   /**
-   * <pre>
-   * TODO: proto file subject to change.
-   * </pre>
    */
   public static final class algoFutureStub extends io.grpc.stub.AbstractStub<algoFutureStub> {
     private algoFutureStub(io.grpc.Channel channel) {
@@ -454,12 +649,48 @@ public final class algoGrpc {
       return futureUnaryCall(
           getChannel().newCall(getMoveVirtualMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * Client sends a request to take picture
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.mdp.grpc.Empty> takePicture(
+        com.mdp.grpc.ImageID request) {
+      return futureUnaryCall(
+          getChannel().newCall(getTakePictureMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     * Client updates the current status
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.mdp.grpc.Empty> updateStatus(
+        com.mdp.grpc.StatusString request) {
+      return futureUnaryCall(
+          getChannel().newCall(getUpdateStatusMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     * Check if the Android has sent the start command
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.mdp.grpc.StartResponse> checkStart(
+        com.mdp.grpc.Empty request) {
+      return futureUnaryCall(
+          getChannel().newCall(getCheckStartMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_RECEIVE_COORDINATES = 0;
   private static final int METHODID_MOVE = 1;
   private static final int METHODID_GET_RADII = 2;
   private static final int METHODID_MOVE_VIRTUAL = 3;
+  private static final int METHODID_TAKE_PICTURE = 4;
+  private static final int METHODID_UPDATE_STATUS = 5;
+  private static final int METHODID_CHECK_START = 6;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -494,6 +725,18 @@ public final class algoGrpc {
           serviceImpl.moveVirtual((com.mdp.grpc.RobotPosition) request,
               (io.grpc.stub.StreamObserver<com.mdp.grpc.Empty>) responseObserver);
           break;
+        case METHODID_TAKE_PICTURE:
+          serviceImpl.takePicture((com.mdp.grpc.ImageID) request,
+              (io.grpc.stub.StreamObserver<com.mdp.grpc.Empty>) responseObserver);
+          break;
+        case METHODID_UPDATE_STATUS:
+          serviceImpl.updateStatus((com.mdp.grpc.StatusString) request,
+              (io.grpc.stub.StreamObserver<com.mdp.grpc.Empty>) responseObserver);
+          break;
+        case METHODID_CHECK_START:
+          serviceImpl.checkStart((com.mdp.grpc.Empty) request,
+              (io.grpc.stub.StreamObserver<com.mdp.grpc.StartResponse>) responseObserver);
+          break;
         default:
           throw new AssertionError();
       }
@@ -516,7 +759,7 @@ public final class algoGrpc {
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return com.mdp.grpc.User.getDescriptor();
+      return com.mdp.grpc.Algocomm.getDescriptor();
     }
 
     @java.lang.Override
@@ -559,6 +802,9 @@ public final class algoGrpc {
               .addMethod(getMoveMethod())
               .addMethod(getGetRadiiMethod())
               .addMethod(getMoveVirtualMethod())
+              .addMethod(getTakePictureMethod())
+              .addMethod(getUpdateStatusMethod())
+              .addMethod(getCheckStartMethod())
               .build();
         }
       }

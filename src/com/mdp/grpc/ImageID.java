@@ -4,19 +4,23 @@
 package com.mdp.grpc;
 
 /**
- * Protobuf type {@code algo.RadiiResponse}
+ * <pre>
+ * Image/obstacle ID number, starting from 1.
+ * </pre>
+ *
+ * Protobuf type {@code algo.ImageID}
  */
-public  final class RadiiResponse extends
+public  final class ImageID extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:algo.RadiiResponse)
-    RadiiResponseOrBuilder {
+    // @@protoc_insertion_point(message_implements:algo.ImageID)
+    ImageIDOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use RadiiResponse.newBuilder() to construct.
-  private RadiiResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use ImageID.newBuilder() to construct.
+  private ImageID(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private RadiiResponse() {
-    radii_ = java.util.Collections.emptyList();
+  private ImageID() {
+    id_ = "";
   }
 
   @java.lang.Override
@@ -24,7 +28,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private RadiiResponse(
+  private ImageID(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -43,25 +47,10 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 9: {
-            if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-              radii_ = new java.util.ArrayList<java.lang.Double>();
-              mutable_bitField0_ |= 0x00000001;
-            }
-            radii_.add(input.readDouble());
-            break;
-          }
           case 10: {
-            int length = input.readRawVarint32();
-            int limit = input.pushLimit(length);
-            if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
-              radii_ = new java.util.ArrayList<java.lang.Double>();
-              mutable_bitField0_ |= 0x00000001;
-            }
-            while (input.getBytesUntilLimit() > 0) {
-              radii_.add(input.readDouble());
-            }
-            input.popLimit(limit);
+            java.lang.String s = input.readStringRequireUtf8();
+
+            id_ = s;
             break;
           }
           default: {
@@ -79,63 +68,56 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-        radii_ = java.util.Collections.unmodifiableList(radii_);
-      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.mdp.grpc.Algocomm.internal_static_algo_RadiiResponse_descriptor;
+    return com.mdp.grpc.Algocomm.internal_static_algo_ImageID_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.mdp.grpc.Algocomm.internal_static_algo_RadiiResponse_fieldAccessorTable
+    return com.mdp.grpc.Algocomm.internal_static_algo_ImageID_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.mdp.grpc.RadiiResponse.class, com.mdp.grpc.RadiiResponse.Builder.class);
+            com.mdp.grpc.ImageID.class, com.mdp.grpc.ImageID.Builder.class);
   }
 
-  public static final int RADII_FIELD_NUMBER = 1;
-  private java.util.List<java.lang.Double> radii_;
+  public static final int ID_FIELD_NUMBER = 1;
+  private volatile java.lang.Object id_;
   /**
-   * <pre>
-   * Array of available turn radii.
-   * The first value is +inf for straight line motion.
-   * </pre>
-   *
-   * <code>repeated double radii = 1;</code>
+   * <code>string id = 1;</code>
    */
-  public java.util.List<java.lang.Double>
-      getRadiiList() {
-    return radii_;
+  public java.lang.String getId() {
+    java.lang.Object ref = id_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      id_ = s;
+      return s;
+    }
   }
   /**
-   * <pre>
-   * Array of available turn radii.
-   * The first value is +inf for straight line motion.
-   * </pre>
-   *
-   * <code>repeated double radii = 1;</code>
+   * <code>string id = 1;</code>
    */
-  public int getRadiiCount() {
-    return radii_.size();
+  public com.google.protobuf.ByteString
+      getIdBytes() {
+    java.lang.Object ref = id_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      id_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
   }
-  /**
-   * <pre>
-   * Array of available turn radii.
-   * The first value is +inf for straight line motion.
-   * </pre>
-   *
-   * <code>repeated double radii = 1;</code>
-   */
-  public double getRadii(int index) {
-    return radii_.get(index);
-  }
-  private int radiiMemoizedSerializedSize = -1;
 
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
@@ -151,13 +133,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    getSerializedSize();
-    if (getRadiiList().size() > 0) {
-      output.writeUInt32NoTag(10);
-      output.writeUInt32NoTag(radiiMemoizedSerializedSize);
-    }
-    for (int i = 0; i < radii_.size(); i++) {
-      output.writeDoubleNoTag(radii_.get(i));
+    if (!getIdBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
     }
     unknownFields.writeTo(output);
   }
@@ -168,16 +145,8 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    {
-      int dataSize = 0;
-      dataSize = 8 * getRadiiList().size();
-      size += dataSize;
-      if (!getRadiiList().isEmpty()) {
-        size += 1;
-        size += com.google.protobuf.CodedOutputStream
-            .computeInt32SizeNoTag(dataSize);
-      }
-      radiiMemoizedSerializedSize = dataSize;
+    if (!getIdBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -189,14 +158,14 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof com.mdp.grpc.RadiiResponse)) {
+    if (!(obj instanceof com.mdp.grpc.ImageID)) {
       return super.equals(obj);
     }
-    com.mdp.grpc.RadiiResponse other = (com.mdp.grpc.RadiiResponse) obj;
+    com.mdp.grpc.ImageID other = (com.mdp.grpc.ImageID) obj;
 
     boolean result = true;
-    result = result && getRadiiList()
-        .equals(other.getRadiiList());
+    result = result && getId()
+        .equals(other.getId());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -208,78 +177,76 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    if (getRadiiCount() > 0) {
-      hash = (37 * hash) + RADII_FIELD_NUMBER;
-      hash = (53 * hash) + getRadiiList().hashCode();
-    }
+    hash = (37 * hash) + ID_FIELD_NUMBER;
+    hash = (53 * hash) + getId().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static com.mdp.grpc.RadiiResponse parseFrom(
+  public static com.mdp.grpc.ImageID parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.mdp.grpc.RadiiResponse parseFrom(
+  public static com.mdp.grpc.ImageID parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.mdp.grpc.RadiiResponse parseFrom(
+  public static com.mdp.grpc.ImageID parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.mdp.grpc.RadiiResponse parseFrom(
+  public static com.mdp.grpc.ImageID parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.mdp.grpc.RadiiResponse parseFrom(byte[] data)
+  public static com.mdp.grpc.ImageID parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.mdp.grpc.RadiiResponse parseFrom(
+  public static com.mdp.grpc.ImageID parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.mdp.grpc.RadiiResponse parseFrom(java.io.InputStream input)
+  public static com.mdp.grpc.ImageID parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.mdp.grpc.RadiiResponse parseFrom(
+  public static com.mdp.grpc.ImageID parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.mdp.grpc.RadiiResponse parseDelimitedFrom(java.io.InputStream input)
+  public static com.mdp.grpc.ImageID parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static com.mdp.grpc.RadiiResponse parseDelimitedFrom(
+  public static com.mdp.grpc.ImageID parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.mdp.grpc.RadiiResponse parseFrom(
+  public static com.mdp.grpc.ImageID parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.mdp.grpc.RadiiResponse parseFrom(
+  public static com.mdp.grpc.ImageID parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -292,7 +259,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(com.mdp.grpc.RadiiResponse prototype) {
+  public static Builder newBuilder(com.mdp.grpc.ImageID prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -308,26 +275,30 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code algo.RadiiResponse}
+   * <pre>
+   * Image/obstacle ID number, starting from 1.
+   * </pre>
+   *
+   * Protobuf type {@code algo.ImageID}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:algo.RadiiResponse)
-      com.mdp.grpc.RadiiResponseOrBuilder {
+      // @@protoc_insertion_point(builder_implements:algo.ImageID)
+      com.mdp.grpc.ImageIDOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.mdp.grpc.Algocomm.internal_static_algo_RadiiResponse_descriptor;
+      return com.mdp.grpc.Algocomm.internal_static_algo_ImageID_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.mdp.grpc.Algocomm.internal_static_algo_RadiiResponse_fieldAccessorTable
+      return com.mdp.grpc.Algocomm.internal_static_algo_ImageID_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.mdp.grpc.RadiiResponse.class, com.mdp.grpc.RadiiResponse.Builder.class);
+              com.mdp.grpc.ImageID.class, com.mdp.grpc.ImageID.Builder.class);
     }
 
-    // Construct using com.mdp.grpc.RadiiResponse.newBuilder()
+    // Construct using com.mdp.grpc.ImageID.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -345,25 +316,25 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      radii_ = java.util.Collections.emptyList();
-      bitField0_ = (bitField0_ & ~0x00000001);
+      id_ = "";
+
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.mdp.grpc.Algocomm.internal_static_algo_RadiiResponse_descriptor;
+      return com.mdp.grpc.Algocomm.internal_static_algo_ImageID_descriptor;
     }
 
     @java.lang.Override
-    public com.mdp.grpc.RadiiResponse getDefaultInstanceForType() {
-      return com.mdp.grpc.RadiiResponse.getDefaultInstance();
+    public com.mdp.grpc.ImageID getDefaultInstanceForType() {
+      return com.mdp.grpc.ImageID.getDefaultInstance();
     }
 
     @java.lang.Override
-    public com.mdp.grpc.RadiiResponse build() {
-      com.mdp.grpc.RadiiResponse result = buildPartial();
+    public com.mdp.grpc.ImageID build() {
+      com.mdp.grpc.ImageID result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -371,14 +342,9 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public com.mdp.grpc.RadiiResponse buildPartial() {
-      com.mdp.grpc.RadiiResponse result = new com.mdp.grpc.RadiiResponse(this);
-      int from_bitField0_ = bitField0_;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        radii_ = java.util.Collections.unmodifiableList(radii_);
-        bitField0_ = (bitField0_ & ~0x00000001);
-      }
-      result.radii_ = radii_;
+    public com.mdp.grpc.ImageID buildPartial() {
+      com.mdp.grpc.ImageID result = new com.mdp.grpc.ImageID(this);
+      result.id_ = id_;
       onBuilt();
       return result;
     }
@@ -417,24 +383,18 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.mdp.grpc.RadiiResponse) {
-        return mergeFrom((com.mdp.grpc.RadiiResponse)other);
+      if (other instanceof com.mdp.grpc.ImageID) {
+        return mergeFrom((com.mdp.grpc.ImageID)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(com.mdp.grpc.RadiiResponse other) {
-      if (other == com.mdp.grpc.RadiiResponse.getDefaultInstance()) return this;
-      if (!other.radii_.isEmpty()) {
-        if (radii_.isEmpty()) {
-          radii_ = other.radii_;
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          ensureRadiiIsMutable();
-          radii_.addAll(other.radii_);
-        }
+    public Builder mergeFrom(com.mdp.grpc.ImageID other) {
+      if (other == com.mdp.grpc.ImageID.getDefaultInstance()) return this;
+      if (!other.getId().isEmpty()) {
+        id_ = other.id_;
         onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
@@ -452,11 +412,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.mdp.grpc.RadiiResponse parsedMessage = null;
+      com.mdp.grpc.ImageID parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.mdp.grpc.RadiiResponse) e.getUnfinishedMessage();
+        parsedMessage = (com.mdp.grpc.ImageID) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -465,105 +425,72 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
-    private int bitField0_;
 
-    private java.util.List<java.lang.Double> radii_ = java.util.Collections.emptyList();
-    private void ensureRadiiIsMutable() {
-      if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-        radii_ = new java.util.ArrayList<java.lang.Double>(radii_);
-        bitField0_ |= 0x00000001;
-       }
+    private java.lang.Object id_ = "";
+    /**
+     * <code>string id = 1;</code>
+     */
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        id_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
     }
     /**
-     * <pre>
-     * Array of available turn radii.
-     * The first value is +inf for straight line motion.
-     * </pre>
-     *
-     * <code>repeated double radii = 1;</code>
+     * <code>string id = 1;</code>
      */
-    public java.util.List<java.lang.Double>
-        getRadiiList() {
-      return java.util.Collections.unmodifiableList(radii_);
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
     /**
-     * <pre>
-     * Array of available turn radii.
-     * The first value is +inf for straight line motion.
-     * </pre>
-     *
-     * <code>repeated double radii = 1;</code>
+     * <code>string id = 1;</code>
      */
-    public int getRadiiCount() {
-      return radii_.size();
-    }
-    /**
-     * <pre>
-     * Array of available turn radii.
-     * The first value is +inf for straight line motion.
-     * </pre>
-     *
-     * <code>repeated double radii = 1;</code>
-     */
-    public double getRadii(int index) {
-      return radii_.get(index);
-    }
-    /**
-     * <pre>
-     * Array of available turn radii.
-     * The first value is +inf for straight line motion.
-     * </pre>
-     *
-     * <code>repeated double radii = 1;</code>
-     */
-    public Builder setRadii(
-        int index, double value) {
-      ensureRadiiIsMutable();
-      radii_.set(index, value);
+    public Builder setId(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      id_ = value;
       onChanged();
       return this;
     }
     /**
-     * <pre>
-     * Array of available turn radii.
-     * The first value is +inf for straight line motion.
-     * </pre>
-     *
-     * <code>repeated double radii = 1;</code>
+     * <code>string id = 1;</code>
      */
-    public Builder addRadii(double value) {
-      ensureRadiiIsMutable();
-      radii_.add(value);
+    public Builder clearId() {
+      
+      id_ = getDefaultInstance().getId();
       onChanged();
       return this;
     }
     /**
-     * <pre>
-     * Array of available turn radii.
-     * The first value is +inf for straight line motion.
-     * </pre>
-     *
-     * <code>repeated double radii = 1;</code>
+     * <code>string id = 1;</code>
      */
-    public Builder addAllRadii(
-        java.lang.Iterable<? extends java.lang.Double> values) {
-      ensureRadiiIsMutable();
-      com.google.protobuf.AbstractMessageLite.Builder.addAll(
-          values, radii_);
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Array of available turn radii.
-     * The first value is +inf for straight line motion.
-     * </pre>
-     *
-     * <code>repeated double radii = 1;</code>
-     */
-    public Builder clearRadii() {
-      radii_ = java.util.Collections.emptyList();
-      bitField0_ = (bitField0_ & ~0x00000001);
+    public Builder setIdBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      id_ = value;
       onChanged();
       return this;
     }
@@ -580,41 +507,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:algo.RadiiResponse)
+    // @@protoc_insertion_point(builder_scope:algo.ImageID)
   }
 
-  // @@protoc_insertion_point(class_scope:algo.RadiiResponse)
-  private static final com.mdp.grpc.RadiiResponse DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:algo.ImageID)
+  private static final com.mdp.grpc.ImageID DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new com.mdp.grpc.RadiiResponse();
+    DEFAULT_INSTANCE = new com.mdp.grpc.ImageID();
   }
 
-  public static com.mdp.grpc.RadiiResponse getDefaultInstance() {
+  public static com.mdp.grpc.ImageID getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<RadiiResponse>
-      PARSER = new com.google.protobuf.AbstractParser<RadiiResponse>() {
+  private static final com.google.protobuf.Parser<ImageID>
+      PARSER = new com.google.protobuf.AbstractParser<ImageID>() {
     @java.lang.Override
-    public RadiiResponse parsePartialFrom(
+    public ImageID parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new RadiiResponse(input, extensionRegistry);
+      return new ImageID(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<RadiiResponse> parser() {
+  public static com.google.protobuf.Parser<ImageID> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<RadiiResponse> getParserForType() {
+  public com.google.protobuf.Parser<ImageID> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.mdp.grpc.RadiiResponse getDefaultInstanceForType() {
+  public com.mdp.grpc.ImageID getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

@@ -1,9 +1,8 @@
 package algoClient;
 
+import algo.Obstacle;
 import com.mdp.grpc.*;
 import io.grpc.Channel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import pathserver.Pathserver;
 
@@ -12,18 +11,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class AlgoClient {
     private static final Logger logger = Logger.getLogger(AlgoClient.class.getName());
     private final algoGrpc.algoBlockingStub blockingStub;
-
-    enum Status {
-        MOVING,
-        STOPPED,
-        TAKING_PICTURE
-    }
 
     public AlgoClient(Channel channel) {
         blockingStub = algoGrpc.newBlockingStub(channel);
@@ -33,7 +25,7 @@ public class AlgoClient {
      * Convert the list of moves from PathserverClient for sending to rPi.
      * @param movesList list of moves.
      */
-    public void formatMoves(List<Pathserver.PlanReply.Move> movesList, Pathserver.State startState) {
+    public void formatMoves(List<Pathserver.PlanReply.Move> movesList, Pathserver.State startState, Obstacle currentGoal) {
         int radiusIndex = 0;
         double x = startState.getX();
         double y = startState.getY();
@@ -44,14 +36,13 @@ public class AlgoClient {
         double[] anchorPoints;
         List<double[]> movePoints = new ArrayList<>();
         movePoints.add(new double[] {x, y, theta});
+        updateStatus(RobotStatus.MOV);
         for (Pathserver.PlanReply.Move command : movesList) {
             if (Math.abs(command.getDistance()) > 0.000001) {
                 switch (command.getDirection()) {
                 case LEFT:
                     radiusIndex = 1;
                     anchorPoints = getAnchorPoint(x, y, theta, 1);
-                    System.out.println("Anchor point: x = " + anchorPoints[0] + " , y = " + anchorPoints[1]);
-                    System.out.println("Arc length: " + command.getDistance());
                     affine = AffineTransform.getRotateInstance(command.getDistance()/0.337, anchorPoints[0], anchorPoints[1]);
                     affine.transform(srcPts, 0, destPts, 0, 1);
                     x = round(destPts[0]);
@@ -61,8 +52,6 @@ public class AlgoClient {
                 case RIGHT:
                     radiusIndex = -1;
                     anchorPoints = getAnchorPoint(x, y, theta, -1);
-                    System.out.println("Anchor point: x = " + anchorPoints[0] + " , y = " + anchorPoints[1]);
-                    System.out.println("Arc length: " + command.getDistance());
                     affine = AffineTransform.getRotateInstance(-command.getDistance()/0.337, anchorPoints[0], anchorPoints[1]);
                     affine.transform(srcPts, 0, destPts, 0, 1);
                     x = round(destPts[0]);
@@ -82,8 +71,8 @@ public class AlgoClient {
                 srcPts[1] = y;
                 try {
                     logger.info("Move command sent.");
-                    long timeToSleep = (long) move(radiusIndex, command.getDistance());
-                    TimeUnit.SECONDS.sleep(timeToSleep);
+                    long timeToSleep = (long) (move(radiusIndex, command.getDistance()) * 1.1e3);
+                    Thread.sleep(timeToSleep);
                     movePoints.add(new double[]{x, y, theta});
                     moveVirtual(x, y, theta);
                 } catch (Exception ignored) {
@@ -94,7 +83,9 @@ public class AlgoClient {
         for (double[] points : movePoints) {
             System.out.println("x: " + points[0] + ", y: " + points[1] + ", theta: " + points[2]);
         }*/
-        takePicture();
+        updateStatus(RobotStatus.STCI);
+        takePicture(currentGoal);
+        updateStatus(RobotStatus.IC);
     }
 
     private double[] getAnchorPoint(double x, double y, double theta, double direction) {
@@ -123,6 +114,7 @@ public class AlgoClient {
     public String receiveCoordinates() {
         Empty empty = Empty.newBuilder().build();
         try {
+            logger.info("Requesting obstacle string...");
             ObstacleString obstaclesString = blockingStub.receiveCoordinates(empty);
             logger.info("Obstacle string received: \n" + obstaclesString.getObstacles() + "\n");
             return obstaclesString.getObstacles();
@@ -136,12 +128,12 @@ public class AlgoClient {
      * Sends move command to the server.
      * @return the time required to complete the movement.
      */
-    public double move(int radiusIndex, double distance) {
+    private double move(int radiusIndex, double distance) {
         MoveRequest moveRequest = MoveRequest.newBuilder().setRadiusIndexed(radiusIndex).setDistance(distance).build();
         try {
+            logger.info("Sending move command...");
             MoveResponse moveResponse = blockingStub.move(moveRequest);
-            logger.info("Move response received: " + moveResponse + "seconds\n");
-            updateStatus(Status.MOVING);
+            logger.info("Move response received: " + moveResponse.getTimeRequired() + " seconds\n");
             return moveResponse.getTimeRequired();
         } catch (StatusRuntimeException e) {
             logger.warning("rpc move failed: " + e.getStatus());
@@ -166,20 +158,32 @@ public class AlgoClient {
     }
 
     /**
-     * Send the robot's position to the server.
-     * @param robotX robot's x-coordinate.
-     * @param robotY robot's y-coordinate.
-     * @param robotDirection angle robot is facing.
+     * Send the robot's position to the server. Converts the robot's coordinates into grid positions before sending.
+     * Format of message is "RP:X:Y:Dir", where X and Y indicate the grid cell, and Dir is N, S, E, or W.
+     * @param robotX robot's x-coordinate in metres.
+     * @param robotY robot's y-coordinate in metres.
+     * @param robotTheta angle robot is facing.
      */
-    public void moveVirtual(double robotX, double robotY, double robotDirection) {
-        RobotPosition.Builder robotPositionBuilder = RobotPosition.newBuilder();
-        String positionString = "RP:" + robotX + ":" +
-                robotY + ":" +
-                robotDirection;
-        RobotPosition robotPosition = robotPositionBuilder.setRobotCoordinates(positionString).build();
+    private void moveVirtual(double robotX, double robotY, double robotTheta) {
+        int gridX = (int) (robotX * 10);
+        int gridY = (int) (robotY * 10);
+        char direction;
+        if (robotTheta >= 0.25f * Math.PI && robotTheta < 0.75f * Math.PI) {
+            direction = 'N';
+        } else if (robotTheta >= -0.25f * Math.PI && robotTheta < 0.25f * Math.PI) {
+            direction = 'E';
+        } else if (robotTheta >= -0.75f * Math.PI && robotTheta < -0.25f * Math.PI) {
+            direction = 'S';
+        } else {
+            direction = 'W';
+        }
+
+        String positionString = "RP:" + gridX + ":" + gridY + ":" + direction;
+        RobotPosition robotPosition = RobotPosition.newBuilder().setRobotCoordinates(positionString).build();
         try {
+            logger.info("Sending robot coordinates...");
             Empty empty = blockingStub.moveVirtual(robotPosition);
-            logger.info("Sent robot coordinates to server.");
+            logger.info("Successfully sent robot coordinates.");
         } catch (StatusRuntimeException e) {
             logger.warning("rpc moveVirtual failed: " + e.getStatus());
         }
@@ -187,14 +191,14 @@ public class AlgoClient {
 
     /**
      * Sends a command to the server to take a picture of the image.
+     * @param goal the obstacle whose picture is to be taken.
      */
-    public void takePicture() {
-        updateStatus(Status.STOPPED);
-        Empty emptyRequest = Empty.newBuilder().build();
+    private void takePicture(Obstacle goal) {
+        ImageID imageID = ImageID.newBuilder().setId(String.valueOf(goal.getId())).build();
         try {
-            Empty emptyResponse = blockingStub.takePicture(emptyRequest);
-            logger.info("Take picture command sent.");
-            updateStatus(Status.TAKING_PICTURE);
+            logger.info("Sending command to take picture...");
+            Empty emptyResponse = blockingStub.takePicture(imageID);
+            logger.info("Took picture of obstacle " + goal.getId());
         } catch (StatusRuntimeException e) {
             logger.warning("rpc takePicture failed: " + e.getStatus());
         }
@@ -204,11 +208,12 @@ public class AlgoClient {
      * Sends the status of the robot to the server.
      * @param status the status of the robot (e.g., moving, stopped, taking picture).
      */
-    private void updateStatus(Status status) {
+    public void updateStatus(RobotStatus status) {
         StatusString statusString = StatusString.newBuilder().setStatus(status.toString()).build();
         try {
+            logger.info("Sending " + status +  " status...");
             Empty emptyResponse = blockingStub.updateStatus(statusString);
-            logger.info("Sent robot status.");
+            logger.info("Robot status sent successfully.");
         } catch (StatusRuntimeException e) {
             logger.warning("rpc updateStatus failed: " + e.getStatus());
         }
@@ -222,7 +227,6 @@ public class AlgoClient {
         Empty emptyRequest = Empty.newBuilder().build();
         try {
             StartResponse hasStarted = blockingStub.checkStart(emptyRequest);
-            logger.info("Received start boolean.");
             return hasStarted.getStart();
         } catch (StatusRuntimeException e) {
             logger.warning("rpc checkStart failed: " + e.getStatus());

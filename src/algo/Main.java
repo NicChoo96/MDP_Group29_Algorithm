@@ -1,6 +1,7 @@
 package algo;
 
 import algoClient.AlgoClient;
+import algoClient.RobotStatus;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import pathserver.PathserverClient;
@@ -12,19 +13,18 @@ public class Main {
     public static void run(AlgoClient algoClient) {
         Map testMap = new Map();
         String obstacleString = algoClient.receiveCoordinates();
-        while (!obstacleString.startsWith("OBS")) {
-            obstacleString = algoClient.receiveCoordinates();
-        }
         String[] results = splitString(obstacleString);
         System.out.println(Arrays.toString(results));
         int x, y;
         char direction;
+        int count = 1;
         // Set obstacles using obstacle string.
         for (int n = 0; n < results.length; n += 3) {
             x = Integer.parseInt(results[n]);
             y = Integer.parseInt(results[n + 1]);
             direction = results[n + 2].charAt(0);
-            testMap.setObstacle(x, y, direction);
+            testMap.setObstacle(count, x, y, direction);
+            count++;
         }
         testMap.assignNodeNumbers();
         testMap.printMap();
@@ -118,7 +118,15 @@ public class Main {
     public static void main(String[] args) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("192.168.29.29", 9999).usePlaintext().build();
         AlgoClient algoClient = new AlgoClient(channel);
+        algoClient.updateStatus(RobotStatus.RTS);
+        boolean hasStarted = algoClient.checkStart();
+        while (!hasStarted) {
+            hasStarted = algoClient.checkStart();
+        }
+        algoClient.updateStatus(RobotStatus.RS);
         run(algoClient);
+        algoClient.updateStatus(RobotStatus.C);
+        channel.shutdown();
     }
 
 }

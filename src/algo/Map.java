@@ -115,8 +115,8 @@ public class Map {
         }
     }
 
-    public void setObstacle(int x, int y, char c) {
-        Obstacle newObstacle = new Obstacle(x, y, c);
+    public void setObstacle(int id, int x, int y, char c) {
+        Obstacle newObstacle = new Obstacle(id, x, y, c);
         // Change Cells to Obstacles.
         grid[MapConstants.MAP_ROWS - y - 1][x] = newObstacle;
         gridDisplay[MapConstants.MAP_ROWS - y - 1][x] = "\u2612";

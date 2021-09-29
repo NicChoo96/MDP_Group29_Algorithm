@@ -6,6 +6,7 @@ import java.util.List;
 import algo.Cell;
 import algo.Obstacle;
 import algoClient.AlgoClient;
+import algoClient.RobotStatus;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import pathserver.PathServerGrpc.PathServerBlockingStub;
@@ -19,7 +20,7 @@ public class PathserverClient {
 	
 	public static void getOMPLPaths(List<Cell> orderedDestinationCells, List<Obstacle> obstacleList, AlgoClient algoClient)
 	{
-		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 10003).usePlaintext().build();
+		ManagedChannel channel = ManagedChannelBuilder.forAddress("192.168.29.29", 10003).usePlaintext().build();
 		PathServerBlockingStub userStub = PathServerGrpc.newBlockingStub(channel);
 		
         orderedDestinationCells.remove(0);
@@ -40,7 +41,7 @@ public class PathserverClient {
 			
 			if(i == 0)
 			{
-				startCell = new Cell(1, 1);
+				startCell = new Cell(1, 0);
 				startTheta = Math.PI/2;				
 			}
 			else
@@ -68,6 +69,8 @@ public class PathserverClient {
 			System.out.println(endState);
 			System.out.println("Obstacle: " + obstacleList.get(i));
 			System.out.println("Destination: " + orderedDestinationCells.get(i));
+
+			algoClient.updateStatus(RobotStatus.PLAN);
 			
 			PlanRequest planRequest = PlanRequest.newBuilder().addAllObstacles(messageObsList).setCurrent(startState).setTarget(endState).build();
 			PlanReply planReply = userStub.plan(planRequest);
@@ -79,8 +82,8 @@ public class PathserverClient {
 
 			System.out.println("Received moves list from OMPL.");
 			System.out.println("Sending to algo client...");
-			algoClient.formatMoves(planReply.getMovesList(), startState);
-		}		
+			algoClient.formatMoves(planReply.getMovesList(), startState, obstacleList.get(i));
+		}
 	}
 	
 	private static double getDestinationOrientation(Obstacle destObstacle) {
