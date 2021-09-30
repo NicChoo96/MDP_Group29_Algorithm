@@ -31,34 +31,49 @@ public class PathserverClient {
 		{
 			messageObsList.add(pathserver.Pathserver.PlanRequest.Obstacle.newBuilder().setX(obstacle.getX()).setY(obstacle.getY()).build());
 		}
-		
+
+		double startX = 0;
+		double startY = 0;
+		double startTheta = 0;
+		double endX = 0;
+		double endY = 0;
+		double endTheta = 0;
+
 		for(int i = 0; i < obstacleList.size(); i++)
 		{
-			double endTheta = getDestinationOrientation(obstacleList.get(i));
+			endTheta = getDestinationOrientation(obstacleList.get(i));
 			Cell endCell = orderedDestinationCells.get(i);
 			Cell startCell = null;
-			double startTheta = 0;		
-			
+
 			if(i == 0)
 			{
 				startCell = new Cell(1, 0);
-				startTheta = Math.PI/2;				
+				startTheta = Math.PI/2;
+				startX = startCell.getX();
+				startX = (startX/10) + 0.05;
+				startY = startCell.getY();
+				startY = (startY/10) + 0.05;
 			}
-			else
+			/*else
 			{
 				startCell = orderedDestinationCells.get(i - 1);
-				startTheta = getDestinationOrientation(obstacleList.get(i - 1));	
-			}
-			
-			double startX = startCell.getX();
-			startX = (startX/10) + 0.05;
-			double startY = startCell.getY();
-			startY = (startY/10) + 0.05;
-			double endX = endCell.getX();
+				startTheta = getDestinationOrientation(obstacleList.get(i - 1));
+			}*/
+
+			//startX = startCell.getX();
+			//startX = (startX/10) + 0.05;
+			//startY = startCell.getY();
+			//startY = (startY/10) + 0.05;
+			//endX = endCell.getX();
+			//endX = (endX/10) + 0.05;
+			//endY = endCell.getY();
+			//endY = (endY/10) + 0.05;
+
+			endX = endCell.getX();
 			endX = (endX/10) + 0.05;
-			double endY = endCell.getY();
+			endY = endCell.getY();
 			endY = (endY/10) + 0.05;
-			
+
 			State startState = Pathserver.State.newBuilder().setX(startX).setY(startY).setTheta(startTheta).build();
 			State endState = Pathserver.State.newBuilder().setX(endX).setY(endY).setTheta(endTheta).build();
 			
@@ -71,17 +86,23 @@ public class PathserverClient {
 			System.out.println("Destination: " + orderedDestinationCells.get(i));
 
 			algoClient.updateStatus(RobotStatus.PLAN);
-			
+
 			PlanRequest planRequest = PlanRequest.newBuilder().addAllObstacles(messageObsList).setCurrent(startState).setTarget(endState).build();
 			PlanReply planReply = userStub.plan(planRequest);
-			
+
 			for(Move move : planReply.getMovesList())
 			{
 				System.out.println("Direction: " + move.getDirection() + " Distance: " + move.getDistance());
 			}
 
+			// Set the end state of this plan as the start state of the next plan.
+			startX = planReply.getWaypoints(planReply.getWaypointsList().size() - 1).getX();
+			startY = planReply.getWaypoints(planReply.getWaypointsList().size() - 1).getY();
+			startTheta = planReply.getWaypoints(planReply.getWaypointsList().size() - 1).getTheta();
+
 			System.out.println("Received moves list from OMPL.");
 			System.out.println("Sending to algo client...");
+
 			algoClient.formatMoves(planReply.getMovesList(), startState, obstacleList.get(i));
 		}
 	}

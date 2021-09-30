@@ -74,9 +74,9 @@ public class AlgoClient {
                     long timeToSleep = (long) (move(radiusIndex, command.getDistance()) * 1.1e3);
                     Thread.sleep(timeToSleep);
                     movePoints.add(new double[]{x, y, theta});
-                    moveVirtual(x, y, theta);
                 } catch (Exception ignored) {
                 }
+                moveVirtual(x, y, theta);
             }
         }
         /*logger.info("Move Points: ");
@@ -213,7 +213,7 @@ public class AlgoClient {
         try {
             logger.info("Sending " + status +  " status...");
             Empty emptyResponse = blockingStub.updateStatus(statusString);
-            logger.info("Robot status sent successfully.");
+            logger.info("Robot status " + status + " sent successfully.");
         } catch (StatusRuntimeException e) {
             logger.warning("rpc updateStatus failed: " + e.getStatus());
         }
