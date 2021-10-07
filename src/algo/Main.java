@@ -134,6 +134,8 @@ public class Main {
         algoClient.updateStatus(RobotStatus.RS);
         try {
             run(algoClient, end);
+            algoClient.updateStatus(RobotStatus.C);
+            channel.shutdown();
         } catch (TimeoutException t) {
             System.out.println(t.getMessage());
             algoClient.updateStatus(RobotStatus.C);
