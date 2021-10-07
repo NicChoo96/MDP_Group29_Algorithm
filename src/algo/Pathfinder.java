@@ -16,8 +16,8 @@ public class Pathfinder {
     public void printAllHamiltonianPaths(Graph g, int v, boolean[] visited, List<Integer> path, int noOfNodes, double[][] distances) {
         // If all the vertices are visited, then the Hamiltonian path exists.
         if (path.size() == noOfNodes) {
-            System.out.print(path + ", ");
-            System.out.printf("%.2f%n", computePathDistance(path, distances));
+            // System.out.print(path + ", ");
+            // System.out.printf("%.2f%n", computePathDistance(path, distances));
             hamPaths.add(new ArrayList<>(path));
             return;
         }

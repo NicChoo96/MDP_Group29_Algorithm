@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
 public class AlgoClient {
@@ -25,7 +26,7 @@ public class AlgoClient {
      * Convert the list of moves from PathserverClient for sending to rPi.
      * @param movesList list of moves.
      */
-    public void formatMoves(List<Pathserver.PlanReply.Move> movesList, Pathserver.State startState, Obstacle currentGoal) {
+    public void formatMoves(List<Pathserver.PlanReply.Move> movesList, Pathserver.State startState, Obstacle currentGoal, long end) throws TimeoutException {
         int radiusIndex = 0;
         double x = startState.getX();
         double y = startState.getY();
@@ -38,7 +39,7 @@ public class AlgoClient {
         movePoints.add(new double[] {x, y, theta});
         updateStatus(RobotStatus.MOV);
         for (Pathserver.PlanReply.Move command : movesList) {
-            if (Math.abs(command.getDistance()) > 0.000001) {
+            if (Math.abs(command.getDistance()) > 0.0001) {
                 switch (command.getDirection()) {
                 case LEFT:
                     radiusIndex = 1;
@@ -70,11 +71,14 @@ public class AlgoClient {
                 srcPts[0] = x;
                 srcPts[1] = y;
                 try {
+                    if (System.currentTimeMillis() >= end) {
+                        throw new TimeoutException("Time is up! Ending program...");
+                    }
                     logger.info("Move command sent.");
                     long timeToSleep = (long) (move(radiusIndex, command.getDistance()) * 1.1e3);
                     Thread.sleep(timeToSleep);
                     movePoints.add(new double[]{x, y, theta});
-                } catch (Exception ignored) {
+                } catch (InterruptedException ignored) {
                 }
                 moveVirtual(x, y, theta);
             }

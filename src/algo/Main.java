@@ -6,15 +6,16 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import pathserver.PathserverClient;
 
+import java.net.SocketException;
 import java.util.*;
+import java.util.concurrent.TimeoutException;
 
 public class Main {
 
-    public static void run(AlgoClient algoClient) {
+    public static void run(AlgoClient algoClient, long end) throws TimeoutException {
         Map testMap = new Map();
         String obstacleString = algoClient.receiveCoordinates();
         String[] results = splitString(obstacleString);
-        System.out.println(Arrays.toString(results));
         int x, y;
         char direction;
         int count = 1;
@@ -27,7 +28,6 @@ public class Main {
             count++;
         }
         testMap.assignNodeNumbers();
-        testMap.printMap();
         double[][] distances = testMap.computeDistances();
 
         // Adding edges to the nodes.
@@ -92,15 +92,22 @@ public class Main {
         */
 
         // Send info to OMPL.
-        PathserverClient.getOMPLPaths(destinationList, pathfinder.getObstacleSequence(), algoClient);
+        PathserverClient.getOMPLPaths(destinationList, pathfinder.getObstacleSequence(), algoClient, end);
     }
 
     private static String[] splitString(String obstacleString) {
         // Remove "OBS:" from the obstacle string.
         // Current string format is "OBS:X:Y:Dir:X:Y:Dir..."
         String preSplitString = obstacleString.substring(4);
-
-        return preSplitString.split(":");
+        String[] result = preSplitString.split(":");
+        String[] result2;
+        for (int i = 0; i < result.length; i++) {
+            if (result[i].equalsIgnoreCase("-1")) {
+                result2 = Arrays.copyOfRange(result, 0, i);
+                return result2;
+            }
+        }
+        return result;
     }
 
     private static List<Edge> generateEdges(HashMap<Integer, Cell> nodeNumbers, double[][] distances) {
@@ -123,10 +130,14 @@ public class Main {
         while (!hasStarted) {
             hasStarted = algoClient.checkStart();
         }
+        long end = System.currentTimeMillis() + 360000;
         algoClient.updateStatus(RobotStatus.RS);
-        run(algoClient);
-        algoClient.updateStatus(RobotStatus.C);
-        channel.shutdown();
+        try {
+            run(algoClient, end);
+        } catch (TimeoutException t) {
+            System.out.println(t.getMessage());
+            algoClient.updateStatus(RobotStatus.C);
+            channel.shutdown();
+        }
     }
-
 }

@@ -2,6 +2,7 @@ package pathserver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import algo.Cell;
 import algo.Obstacle;
@@ -18,7 +19,7 @@ import pathserver.Pathserver.PlanReply.Move;
 
 public class PathserverClient {
 	
-	public static void getOMPLPaths(List<Cell> orderedDestinationCells, List<Obstacle> obstacleList, AlgoClient algoClient)
+	public static void getOMPLPaths(List<Cell> orderedDestinationCells, List<Obstacle> obstacleList, AlgoClient algoClient, long end) throws TimeoutException
 	{
 		ManagedChannel channel = ManagedChannelBuilder.forAddress("192.168.29.29", 10003).usePlaintext().build();
 		PathServerBlockingStub userStub = PathServerGrpc.newBlockingStub(channel);
@@ -47,7 +48,7 @@ public class PathserverClient {
 
 			if(i == 0)
 			{
-				startCell = new Cell(1, 0);
+				startCell = new Cell(1, 1);
 				startTheta = Math.PI/2;
 				startX = startCell.getX();
 				startX = (startX/10) + 0.05;
@@ -103,7 +104,7 @@ public class PathserverClient {
 			System.out.println("Received moves list from OMPL.");
 			System.out.println("Sending to algo client...");
 
-			algoClient.formatMoves(planReply.getMovesList(), startState, obstacleList.get(i));
+			algoClient.formatMoves(planReply.getMovesList(), startState, obstacleList.get(i), end);
 		}
 	}
 	
@@ -129,5 +130,9 @@ public class PathserverClient {
     	
     	return destDirection;
     }
-	
+
+//	private static obstacleOffset(List<Obstacle> obstacleList, double offset)
+//	{
+//
+//	}
 }
